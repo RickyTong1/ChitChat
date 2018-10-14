@@ -1,11 +1,13 @@
 package Constants;
 
+import java.awt.Color;
+
 public interface Constants {
 	public static final int USER_PROFILE_IMAGE_WIDTH = 40;//主页面用户的头像直径
 	public static final int MAIN_WINDOW_USER_BLOCK_HEIGHT = 100;//主页面用户信息块高度
 	public static final int MAIN_WINDOW_USER_BLOCK_WIDTH = 300;//主页面用户信息块宽度	
-	public static final int MAIN_WINDOW_HEIGHT = 600;//主页面高度
-	public static final int MAIN_WINDOW_WIDTH = 600;//主页面宽度
+	public static final int MAIN_WINDOW_HEIGHT = 602;//主页面高度
+	public static final int MAIN_WINDOW_WIDTH = 635;//主页面宽度
 	
 	public static final int CONTACTS_PROFILE_IMAFE_WIDTH = 60;//联系人的头像直径
 	public static final int CONTACTS_PANEL_HEIGHT = 50;//联系人框的高度
