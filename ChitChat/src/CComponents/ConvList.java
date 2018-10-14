@@ -11,20 +11,18 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import Exceptions.*;
-import Client.Contacts;
-import Client.MainWindow;
-import Client.Message;
 import Constants.Constants;
-import CComponents.Conts;
+
 
 public class ConvList<T> implements List<T> {
 
 	List<T> convs;
 	int model;
 
+	
 	@SuppressWarnings("unchecked")
 	public ConvList(int modelChoose) throws ConvListModelChooseException {
-		convs = (List<T>) new Vector<Conts>();
+		convs = (List<T>) new Vector<Convasation>();
 		switch (modelChoose) {
 		case Constants.CONTACTS:
 			model = Constants.CONTACTS;
@@ -37,6 +35,16 @@ public class ConvList<T> implements List<T> {
 		}
 	}
 
+	public T find(int ID)
+	{
+		for(T i : convs)
+		{
+			if(((Convasation)i).equals(ID))
+				return i;
+		}
+		return null;
+	}
+	
 	@Override
 	public boolean add(T arg0) {
 		if (convs.add(arg0))
@@ -74,6 +82,10 @@ public class ConvList<T> implements List<T> {
 			return true;
 		return false;
 	}
+	public boolean contains(int ID) {
+		if(this.find(ID)!=null)return true;
+		return false;
+	}
 
 	@Override
 	public boolean containsAll(Collection<?> arg0) {
@@ -83,13 +95,16 @@ public class ConvList<T> implements List<T> {
 	}
 
 	@Override
-	public T get(int arg0) {
-		return convs.get(arg0);
+	public T get(int ID) {
+		return this.find(ID);
 	}
 
 	@Override
 	public int indexOf(Object arg0) {
 		return convs.indexOf(arg0);
+	}
+	public int indefOf(int ID) {
+		return this.indexOf(this.find(ID));
 	}
 
 	@Override
@@ -130,8 +145,8 @@ public class ConvList<T> implements List<T> {
 	}
 
 	@Override
-	public T remove(int arg0) {
-		return convs.remove(arg0);
+	public T remove(int ID) {
+		return convs.remove(this.indefOf(ID));
 	}
 
 	@Override
@@ -178,8 +193,8 @@ public class ConvList<T> implements List<T> {
 		Collections.sort(convs, new Comparator<T>() {
 			@Override
 			public int compare(Object e1, Object e2) {
-				Conts arg0 = (Conts) e1;
-				Conts arg1 = (Conts) e2;
+				Convasation arg0 = (Convasation) e1;
+				Convasation arg1 = (Convasation) e2;
 				switch (model) {
 				case Constants.CONTACTS:
 					return arg0.onlineState - arg1.onlineState;
@@ -191,9 +206,9 @@ public class ConvList<T> implements List<T> {
 					} catch (ConvListCompareException e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"",JOptionPane.PLAIN_MESSAGE);
 						return 0;
-					}
-				}
-			}
-		});
-	}
+					}//catch
+				}//switch
+			}//Comparator<T>
+		});//Collections.sort()
+	}//sort()
 }
