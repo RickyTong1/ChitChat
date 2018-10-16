@@ -18,7 +18,7 @@ public interface Constants {
 	public static final int MESSAGE_PANEL_WIDTH = 300;//消息框宽度
 	public static final int MESSAGE_PROFILE_IMAGE_WIDTH = 20;//消息框头像直径
 	
-	public static final int CONTACTS = 1;//联系人标识
-	public static final int MESSAGE = 2;//消息标识
+	public static final int CONVLIST_CONTACTS = 1;//联系人标识
+	public static final int CONVLIST_MESSAGE = 2;//消息标识
 	
 }
