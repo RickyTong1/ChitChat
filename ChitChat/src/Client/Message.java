@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Date;
@@ -14,6 +14,9 @@ import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import CComponents.Convasation;
 import Constants.*;
 
@@ -32,6 +35,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 	Box elem = Box.createVerticalBox();
 	
 	final int L = Constants.MESSAGE_PANEL_WIDTH/2;//昵稱與時間戳的間距
+	
 	final int LAST_SPOKE_WORD_SIZE = 12;//上次发言字体大小
 	final int TIMESTICK_WORD_SIZE = 10;
 	@Override
@@ -45,10 +49,10 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		case Internet.UNREAD:this.isRead = false;break;
 		}
 		
+		//判断并给出时间戳
 		long time = new Date().getTime() - lastTimeSpeak;
 		time /= 1000;// 秒
 		time /= 60;// 分
-
 		switch ((int) time / 60)// 小时
 		{
 		case 0: {
@@ -71,21 +75,31 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		}
 		
 		timeStick = new JLabel(String.valueOf(latestSpeak));
+		//设置字体
+		lastSpoke.setFont(Fonts.MESSAGE_LASTSPEAK);
+		timeStick.setFont(Fonts.MESSAGE_TIMESTICK);//字体
 		
-		lastSpoke.setFont(new Font("宋体",Font.PLAIN,LAST_SPOKE_WORD_SIZE));
-		
+		//根据是否已读设置字体颜色
+		if(isRead)
+			lastSpoke.setForeground(Colors.MESSAGE_READ);
+		else
+			lastSpoke.setForeground(Colors.MESSAGE_UNREAD);
+		//设置标签大小
 		nicknameLabel.setPreferredSize(new Dimension(Constants.MESSAGE_PANEL_WIDTH-L/2
 			,TIMESTICK_WORD_SIZE ));
 		timeStick.setPreferredSize(new Dimension(Constants.MESSAGE_PANEL_WIDTH-L/2
 				,TIMESTICK_WORD_SIZE));
 		lastSpoke.setPreferredSize(new Dimension(Constants.MESSAGE_PANEL_WIDTH,LAST_SPOKE_WORD_SIZE));
 
+		//设置对齐
 		nicknameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);//设置左对齐
 		timeStick.setAlignmentX(Component.RIGHT_ALIGNMENT);//时间靠右对齐
 		lastSpoke.setAlignmentX(Component.LEFT_ALIGNMENT);
-		timeStick.setFont(Fonts.MESSAGE_TIMESTICK);//字体
 		
-		
+		/*
+		 * all装第一行的文字
+		 * elem为总成的大盒子.
+		 * */
 		all.setAlignmentX(Component.LEFT_ALIGNMENT);
 		all.add(nicknameLabel);
 		all.add(Box.createHorizontalStrut(L));
@@ -100,6 +114,45 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 				,Constants.MESSAGE_PANEL_HEIGHT));
 		elem.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
 		elem.validate();
+		
+		
+		/*
+		 * 为elem添加监听器以及popupmenu.
+		 * */
+		JPopupMenu operator = new JPopupMenu();
+		JMenuItem deleteThis = new JMenuItem("清除这条");
+		JMenuItem readThis = new JMenuItem("设为已读");
+		
+		operator.add(deleteThis);
+		operator.add(readThis);
+		elem.add(operator);
+		
+		deleteThis.addActionListener(e->{
+			MainWindow.deleteMessage(ID,elem);
+		});
+		readThis.addActionListener(e->{
+			isRead = true;
+			lastSpoke.setForeground(Colors.MESSAGE_READ);
+			MainWindow.readMessage(ID);
+		});
+		
+		elem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				 if (e.isMetaDown()) {
+	                    operator.show(e.getComponent(), e.getX(), e.getY());
+	                }
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				elem.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_CHOSED));
+			}
+			@Override 
+			public void mouseExited(MouseEvent e) {
+				elem.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
+			}
+			
+		});
 		return elem;
 	}
 

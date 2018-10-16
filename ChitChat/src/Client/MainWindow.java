@@ -58,6 +58,9 @@ public class MainWindow extends JFrame {
 	JScrollPane right;// 主页面右侧框
 	JSplitPane left;// 主页面左侧的框
 	JScrollPane messages;// 消息列表容器
+	
+	static JPanel msgPanel = new JPanel();
+	static JPanel ctsPanel = new JPanel();
 
 	MainWindow() {
 		setLayout(new FlowLayout());
@@ -69,11 +72,12 @@ public class MainWindow extends JFrame {
 	/*
 	 * init()函数调用persInfoInit(),messageInit()和ContactsInit()方法初始化主页面的基本信息
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void init() {
 			try {
 				
-				msgList = new ConvList(Constants.MESSAGE);
-				ctsList = new ConvList(Constants.CONTACTS);
+				msgList = new ConvList(Constants.CONVLIST_MESSAGE);
+				ctsList = new ConvList(Constants.CONVLIST_CONTACTS);
 						} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e.getMessage(),"",JOptionPane.PLAIN_MESSAGE);
 			}
@@ -140,23 +144,29 @@ public class MainWindow extends JFrame {
 		
 		//TODO 拉取消息列表
 		//以下为测试用例.
-		int s = 8;
+		int s = 9;
 		Message[] mes = new Message[s];
+		msgList.add(new Message(1234566, Internet.ONLINE
+				,new Date().getTime(),Internet.UNREAD,"无论这个句子有多长长长长长长长长长长长长长长都不会影响","赫魯曉夫愛玉米"
+				,"苟利國家生死以"));
 		for(int i = 0; i < s; i++)
 		{
 			mes[i] = new Message(1234566, Internet.ONLINE
 					,new Date().getTime(),Internet.READ,"无论这个句子有多长长长长长长长长长长长长长长都不会影响","赫魯曉夫愛玉米"
 					,"苟利國家生死以");
+			msgList.add(new Message(1234566, Internet.ONLINE
+					,new Date().getTime(),Internet.UNREAD,"无论这个句子有多长长长长长长长长长长长长长长都不会影响","赫魯曉夫愛玉米"
+					,"苟利國家生死以"));
 			msgList.add(mes[i]);
 		}
 		//這是測試用例.
+		
 		msgList.sort();
-		JPanel msgPanel = new JPanel();//.createVerticalBox();
 		
 		GridBagLayout mS = new GridBagLayout();
 		GridBagConstraints mSCstrs = new GridBagConstraints();
-	//	mSCstrs.fill = GridBagConstraints.HORIZONTAL;//GirdBag布局
-		mSCstrs.gridheight = GridBagConstraints.PAGE_START;
+		mSCstrs.fill = GridBagConstraints.HORIZONTAL;//GirdBag布局
+		mSCstrs.anchor = GridBagConstraints.NORTH;
 		mSCstrs.gridwidth = GridBagConstraints.REMAINDER;
 		
 		for(Convasation i: msgList)
@@ -169,20 +179,21 @@ public class MainWindow extends JFrame {
 		
 		msgPanel.setLayout(mS);
 		//msgL.setPreferredSize(getMinimumSize());
-		JScrollPane msgScroll = new JScrollPane();
+		messages = new JScrollPane();
 		JLabel msgHead = new JLabel("消息");
 		msgHead.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
 		msgHead.setFont(Fonts.MESSAGE_HEADER);
 		
-		msgScroll.setColumnHeaderView(msgHead);//设置标题
-		msgScroll.setViewportView(msgPanel);//设置Viewport
+		messages.setAlignmentY(Component.TOP_ALIGNMENT);
+		messages.setColumnHeaderView(msgHead);//设置标题
+		messages.setViewportView(msgPanel);//设置Viewport
 		
-		JScrollBar msgScrollBar = msgScroll.getVerticalScrollBar();
-		msgScrollBar.setValue(msgScrollBar.getMaximum());//设置该scrollpane的滚动条
+//		JScrollBar msgScrollBar = messages.getVerticalScrollBar();
+//		msgScrollBar.setValue(msgScrollBar.getMaximum());//设置该scrollpane的滚动条
 		
-		msgScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		msgScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		left.setBottomComponent(msgScroll);
+		messages.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		messages.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		left.setBottomComponent(messages);
 		
 	}
 
@@ -199,7 +210,6 @@ public class MainWindow extends JFrame {
 			ctsList.add(cts[i]);
 		}
 		msgList.sort();
-		JPanel ctsPanel = new JPanel();//.createVerticalBox();
 		
 		GridBagLayout LS = new GridBagLayout();
 		GridBagConstraints LSCstrs = new GridBagConstraints();
@@ -245,19 +255,42 @@ public class MainWindow extends JFrame {
 		right.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);		
 	}
 
-	public int deleteContacts() {// TODO:删除联系人
-		return 0;
+	public static void deleteMessage(int ID,Box elem) {
+		msgList.remove(ID);
+		msgList.sort();
+		msgPanel.remove(elem);
+		MainWindow.msgPanel.repaint();
+		MainWindow.msgPanel.revalidate();//重新显示
+		//MainWindow.messages.repaint();
+	}
+	public static void readMessage(int ID) {
+		
+		MainWindow.msgList.sort();
+		MainWindow.msgPanel.repaint();
+		MainWindow.msgPanel.revalidate();
+	}
+	public static boolean deleteContacts(int ID,Box elem) {// TODO:删除联系人
+		
+		ctsList.remove(ID);
+		ctsList.sort();
+		MainWindow.ctsPanel.remove(elem);
+		MainWindow.ctsPanel.revalidate();
+		MainWindow.ctsPanel.repaint();
+		MainWindow.ctsPanel.revalidate();//重新显示
+		return true;
+		
+		
 	}
 
-	public int addContacts() {// TODO: 添加联系人
-		return 0;
+	public static boolean addContacts(int ID) {// TODO: 添加联系人
+		return true;
 	}
 
-	public int changeContactsRemark() {// TODO:更改联系人备注
-		return 0;
+	public boolean changeContactsRemark(int ID) {// TODO:更改联系人备注
+		return true;
 	}
 
-	public int preferenceSet(int statement) {// TODO:个性设置,参数:在线状态
-		return 0;
+	public static boolean preferenceSet(int statement) {// TODO:个性设置,参数:在线状态
+		return true;
 	}
 }
