@@ -1,11 +1,11 @@
 package Constants;
 
 public interface Internet {//網絡狀態碼
-
-	public static final int ONLINE = 1;//在綫
-	public static final int OFFLINE = 2;//離綫
 	
-	public static final int READ = 2;//已讀
-	public static final int UNREAD = 1;//未讀
+	public static final int ONLINE = 1;//在綫
+	public static final int OFFLINE = 0;//離綫
+	
+	public static final int READ = 1;//已讀
+	public static final int UNREAD = 0;//未讀
 	
 }

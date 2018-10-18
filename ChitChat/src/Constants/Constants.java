@@ -1,7 +1,5 @@
 package Constants;
 
-import java.awt.Color;
-
 public interface Constants {
 	public static final int USER_PROFILE_IMAGE_WIDTH = 40;//主页面用户的头像直径
 	public static final int MAIN_WINDOW_USER_BLOCK_HEIGHT = 100;//主页面用户信息块高度
