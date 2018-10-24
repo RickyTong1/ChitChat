@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import Constants.Window;
 /*找回密码界面*/
 public class FindPasswordWindow extends JFrame implements ActionListener{
 	JTextField userID;					//用户账号
@@ -35,8 +37,8 @@ public class FindPasswordWindow extends JFrame implements ActionListener{
 		addListener();					//调用添加监视器方法
 		setLayout(new FlowLayout());
 		setVisible(true);
-		setTitle("修改密码");		
-		setLocation(200,200);
+		setTitle("找回密码");		
+		setLocation(Window.getMiddleWidth(300),Window.getMiddleHeight(350));
 		setSize(300,350);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
@@ -52,7 +54,7 @@ public class FindPasswordWindow extends JFrame implements ActionListener{
 		exitButton = new JButton("退出");
 		send = new JButton("发送");
 		userID_label = new JLabel("账号：");
-		password_label = new JLabel("原密码：");
+		password_label = new JLabel("原密码：");//TODO ????
 		passwordConfirm_label = new JLabel("确认密码：");
 		emailLabel = new JLabel("邮箱：");
 		codeLabel = new JLabel("验证码：");
@@ -142,7 +144,7 @@ public class FindPasswordWindow extends JFrame implements ActionListener{
 			dispose();
 		}
 		if(e.getSource()==send) {					//发送按钮
-			
+			//TODO
 		}
 	}
 }

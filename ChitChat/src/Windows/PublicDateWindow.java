@@ -21,7 +21,8 @@ public class PublicDateWindow extends JFrame{
 	JTextField signature;				//个性签名文本框
 	Box bigBox;							//水平盒子
 	Box labelBox,textFieldBox;			//竖直盒子
-	PublicDateWindow(){						//构造方法
+	int id;
+	PublicDateWindow(int ID){						//构造方法
 		init();							//调用初始化方法
 		setLayout(new FlowLayout());
 		setLabelLocation();

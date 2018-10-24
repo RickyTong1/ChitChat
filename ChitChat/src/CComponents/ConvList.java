@@ -24,11 +24,11 @@ public class ConvList<T> implements List<T> {
 	public ConvList(int modelChoose) throws ConvListModelChooseException {
 		convs = (List<T>) new Vector<Convasation>();
 		switch (modelChoose) {
-		case Constants.CONTACTS:
-			model = Constants.CONTACTS;
+		case Constants.CONVLIST_CONTACTS:
+			model = Constants.CONVLIST_CONTACTS;
 			break;
-		case Constants.MESSAGE:
-			model = Constants.MESSAGE;
+		case Constants.CONVLIST_MESSAGE:
+			model = Constants.CONVLIST_MESSAGE;
 			break;
 		default:
 			throw new ConvListModelChooseException();
@@ -196,10 +196,10 @@ public class ConvList<T> implements List<T> {
 				Convasation arg0 = (Convasation) e1;
 				Convasation arg1 = (Convasation) e2;
 				switch (model) {
-				case Constants.CONTACTS:
-					return arg0.onlineState - arg1.onlineState;
-				case Constants.MESSAGE:
-					return arg0.isRead - arg1.isRead;
+				case Constants.CONVLIST_CONTACTS:
+					return arg1.onlineState - arg0.onlineState;//在线在前(online = 1)
+				case Constants.CONVLIST_MESSAGE:
+					return arg0.isRead - arg1.isRead;//未读在前(read = 1)
 				default:
 					try {
 						throw new ConvListCompareException();

@@ -1,18 +1,13 @@
 package Client;
 
-import java.util.Date;
-
-import javax.swing.JFrame;
-
-import CComponents.ConvList;
-import Constants.Constants;
-import Constants.Internet;
-import Exceptions.ConvListModelChooseException;
+import Windows.FriendWindow;
+import Windows.LoginWindow;
 
 public class Main {
 
 	public static void main(String args[]) {
-		new MainWindow();
+		new LoginWindow();
+		//new FriendWindow(37,38);
 	}
 
 }

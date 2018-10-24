@@ -2,8 +2,13 @@ package Windows;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.*;
+
+import Constants.Window;
+import DataBaseOperation.OperateSQLServer;
 
 /*修改密码界面*/
 public class PasswordEdit extends JFrame implements ActionListener{
@@ -20,6 +25,10 @@ public class PasswordEdit extends JFrame implements ActionListener{
 	JLabel pswdConfirm_label;			//确认新密码标签
 	Box hbox1,hbox2;					//水平布局的盒子
 	Box vbox_label,vbox_textField,vbox_buttom;		//竖直布局的盒子
+	String tempID;						//临时保存账号
+	String tempOriginalPswd;			//临时保存原始密码
+	String tempNewPswd;					//临时保存新密码
+	String tempPswdConfirm;				//临时保存确认密码
 	PasswordEdit(){
 		init();
 		addComponent();
@@ -27,7 +36,7 @@ public class PasswordEdit extends JFrame implements ActionListener{
 		setLayout(new FlowLayout());
 		setVisible(true);
 		setTitle("修改密码");		
-		setLocation(200,200);
+		setLocation(Window.getMiddleWidth(300),Window.getMiddleHeight(350));
 		setSize(300,350);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
@@ -93,22 +102,69 @@ public class PasswordEdit extends JFrame implements ActionListener{
 		exitButton.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==userID) {
+		tempID = userID.getText();
+		tempOriginalPswd = originalPswd.getText();
+		tempNewPswd = newPswd.getText();
+		tempPswdConfirm = pswdConfirm.getText();
+		if(tempID.equals("")) {
+			userID.requestFocus();
+			JOptionPane.showMessageDialog(null,"账号不能为空!");	
+		}
+		else if(e.getSource()==userID) {
 			originalPswd.requestFocus();
 		}
-		if(e.getSource()==originalPswd) {
+		else if(tempOriginalPswd.equals("")) {
+			originalPswd.requestFocus();
+			JOptionPane.showMessageDialog(null,"原始密码不能为空!");	
+		}
+		else if(e.getSource()==originalPswd) {
 			newPswd.requestFocus();
 		}
-		if(e.getSource()==newPswd) {
-			pswdConfirm.requestFocus();
+		else if(tempNewPswd.equals("")) {
+			newPswd.requestFocus();
+			JOptionPane.showMessageDialog(null,"新密码不能为空!");	
 		}
-		if(e.getSource()==pswdConfirm) {
-			if(!pswdConfirm.equals(newPswd)) {
-				JOptionPane.showMessageDialog(null,"两次密码输入不一致，请重新输入密码");
+		else if(e.getSource()==newPswd) {
+			if(!tempNewPswd.equals(tempOriginalPswd))
+				pswdConfirm.requestFocus();
+			else {
+				JOptionPane.showMessageDialog(null,"新密码不能和原密码一样!");
 			}
 		}
-		if(e.getSource()==okButton) {
-			
+		else if(tempPswdConfirm.equals("")) {
+			pswdConfirm.requestFocus();
+			JOptionPane.showMessageDialog(null,"确认密码不能为空!");	
+		}
+		else if(e.getSource()==pswdConfirm) {
+			if(!tempPswdConfirm.equals(tempNewPswd)) {
+				JOptionPane.showMessageDialog(null,"两次密码输入不一致，请重新输入密码");
+			}
+			else {
+				okButton.doClick();
+			}
+		}
+		if(e.getSource()==okButton) {					
+			OperateSQLServer oss = new OperateSQLServer();
+			oss.connectToDatabase();
+			ResultSet rs = oss.getPersonalInformation(Integer.parseInt(tempID));
+			try {
+				if(rs.next()) {
+					if(rs.getString(3).equals(tempOriginalPswd)) {
+						oss.updateUserPassword(Integer.parseInt(tempID), tempNewPswd);
+					}
+					else{
+						originalPswd.requestFocus();
+						JOptionPane.showMessageDialog(null,"原密码错误,请重新输入!");
+					}
+				}
+				else {
+					userID.requestFocus();
+					JOptionPane.showMessageDialog(null,"用户不存在,请重新输入!");
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			oss.closeDatabase();
 		}
 		if(e.getSource()==exitButton) {
 			dispose();
