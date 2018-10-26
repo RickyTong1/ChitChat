@@ -24,7 +24,7 @@ public class OperateSQLServer {
 		     connection = DriverManager.getConnection(dbURL, userName, userPwd);
 		     System.out.println("Connection Successful!");  //如果连接成功 控制台输出Connection Successful!
 	    } catch (Exception e) {
-	    	e.printStackTrace();
+	    	System.out.println("通过端口 1433 连接到主机 192.168.43.37 的 TCP/IP 连接失败。错误:“connect timed out。");
 	    }
 	}
 	//关闭数据库

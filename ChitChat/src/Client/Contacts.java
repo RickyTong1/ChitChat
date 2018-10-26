@@ -112,7 +112,8 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			if (choose == 0/* 选是 */) {
 				MainWindow.deleteContacts(ID,MainWindow.ID, thisBx);// 发送删除指令
 				if(hasChatWin)
-					chatwindow.dispose();
+					chatWindow.dispose();
+					
 			}
 		});
 		showProfile.addActionListener(e->{
@@ -158,7 +159,7 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 					if(!hasChatWin)
 					{
 						hasChatWin = true;
-						chatwindow = new ChatWindow(ID,MainWindow.ID,"");
+						chatWindow = new ChatWindow(ID,MainWindow.ID,"");
 					}
 					//TODO request Focus
 				}

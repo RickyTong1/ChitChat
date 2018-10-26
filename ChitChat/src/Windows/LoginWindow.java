@@ -158,7 +158,13 @@ public class LoginWindow extends JFrame {
 			else return -1;
 			
 		}
-		boolean warning() {
+		boolean checkRepetitive(String id) {//检查输入的id是否已经存在于keys中.
+			for(KeyKeep i : keys) {
+				if(i.id.equals(id))return true;
+			}
+			return false;
+		}
+		boolean warning() {//账号格式以及密码是否为空检查
 			if(!ID.getText().matches("[0-9]+"))
 			{
 				JOptionPane.showMessageDialog(null, "请注意账号的格式(全由数字组成,不能为空)!","",JOptionPane.PLAIN_MESSAGE);
@@ -202,7 +208,7 @@ public class LoginWindow extends JFrame {
 				}
 			}//没有break
 			case 3:{//loginButton
-				if(warning())return;
+				if(warning())return;//账号格式以及密码是否为空检查
 				OperateSQLServer oprt = new OperateSQLServer();
 				oprt.connectToDatabase();
 				ResultSet result = oprt.getPersonalInformation(Integer.parseInt(ID.getText()));
@@ -244,7 +250,8 @@ public class LoginWindow extends JFrame {
 				new FindPasswordWindow();
 			}break;
 			case 7:{//keepMyKeyCheckBox
-				if(warning())return ;
+				if(warning())return ;//账号格式以及密码是否为空检查				
+				if(checkRepetitive(ID.getText()))return;//检查输入的id是否已经存在于keys中.
 				if(keepMyKeyCheckBox.isSelected())
 				{
 					KeyKeep myKey = KeyKeepOperate.pack(ID.getText(), key.getText());

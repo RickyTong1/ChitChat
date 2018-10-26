@@ -158,7 +158,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					MainWindow.readMessage(ID, elem);
 					if (!hasChatWin) {
 						hasChatWin = true;
-						chatwindow = new ChatWindow(ID, MainWindow.ID, lastSpoke.getText());
+						chatWindow = new ChatWindow(ID, MainWindow.ID, lastSpoke.getText());
 					}
 				}
 			}

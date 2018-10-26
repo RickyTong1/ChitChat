@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 public abstract class Convasation{
 	public boolean hasMessage = false;
 	public boolean hasChatWin = false;
-	public ChatWindow chatwindow = null;
+	public ChatWindow chatWindow = null;
 	public Message message = null;
 	
 	protected Image image;//Í·Ïñ

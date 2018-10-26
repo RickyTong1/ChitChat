@@ -42,15 +42,15 @@ public class ChatWindow extends JFrame implements ActionListener {
 		this.userID = userID;
 		spoke = lastSpoke;
 		OperateSQLServer oprt = new OperateSQLServer();
-		oprt.connectToDatabase();
-		ResultSet rs = oprt.getPersonalInformation(contactID);
-		try {
-			rs.next();
-			nick = rs.getString(2);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		oprt.connectToDatabase();
+//		ResultSet rs = oprt.getPersonalInformation(contactID);
+//		try {
+//			rs.next();
+//			nick = rs.getString(2);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		init();
 		setLayout(null);
@@ -94,7 +94,9 @@ public class ChatWindow extends JFrame implements ActionListener {
 		this.addWindowListener(new WindowAdapter(){
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				MainWindow.ctsList.get(contactID).hasChatWin = false;
+	//TODO 		//	MainWindow.ctsList.get(contactID).hasChatWin = false;
+			//	MainWindow.ctsList.get(contactID).chatWindow = null;
+				dispose();
 			}
 		});
 	}
@@ -131,13 +133,12 @@ public class ChatWindow extends JFrame implements ActionListener {
 		chatContent.validate();// 刷新面板组件
 		//send
 		byte[] info = (sendField.getText()).getBytes();
-		OperateSQLServer oss = new OperateSQLServer();
-		oss.connectToDatabase();
+
 		try {
-			SendThread sd = new SendThread("192.168.43.29",23333,info);
+			///SendThread sd = new SendThread("192.168.43.29",23333,info);
+		SendThread sd = new SendThread("192.168.43.37",23333,info);
 			new Thread(sd).start();
 		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		//reseive
@@ -171,7 +172,6 @@ public class ChatWindow extends JFrame implements ActionListener {
 		chatContent.add(chatBox);
 		chatContent.repaint();
 		chatContent.revalidate();// 刷新面板组件
-		add(chatContent);
 	}
 	public class Data implements Runnable {
 		@Override
@@ -193,8 +193,10 @@ public class ChatWindow extends JFrame implements ActionListener {
 					System.out.println("信息接收错误!");
 				}
 				if (recvPacket != null) {
+					System.out.println("111");
 					information = recvPacket.getData();
-					String info = new String(information);
+					String info = new String(information).trim();//注意
+					System.out.println(info);
 					int maxSplit = 4;
 					String[] sourceStrArray = info.split("#", maxSplit);
 					info = sourceStrArray[3];
@@ -203,23 +205,26 @@ public class ChatWindow extends JFrame implements ActionListener {
 						addNewMsg(sourceStrArray[1]);
 					}
 				
-//					int statement = Integer.parseInt(sourceStrArray[0]);
-//					info = sourceStrArray[1].trim();
+					int statement = Integer.parseInt(sourceStrArray[0]);
+					info = sourceStrArray[1].trim();
+					info = "Hello world!";
+					addNewMsg(info);
+					recvSocket.close();
 //					if (statement == 1) {// 收到文本
 //						maxSplit = 4;
 //						sourceStrArray = info.split("#", maxSplit);// ID
 //						String id = sourceStrArray[0];
 //						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasChatWin) {
 //							sourceStrArray = info.split("#", maxSplit);
-//							MainWindow.ctsList.get(Integer.parseInt(id)).chatwindow.addNewMsg(sourceStrArray[1]);
+//							MainWindow.ctsList.get(Integer.parseInt(id)).chatWindow.addNewMsg(sourceStrArray[1]);
 //						}
 //						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasMessage) {
 //							sourceStrArray = info.split("#", maxSplit);
 //							MainWindow.ctsList.get(Integer.parseInt(id)).message.refreshMsg(sourceStrArray[1]);
 //						}
-						
-
-					}
+//						
+//
+//					}
 //					if (statement == 4) {// 状态
 //						sourceStrArray = info.split("#", maxSplit);// ID
 //						if (sourceStrArray[0].equals("1"))// Internet.ONLINE
@@ -234,7 +239,7 @@ public class ChatWindow extends JFrame implements ActionListener {
 //						}
 //					}
 
-//				}
+				}
 			}
 		}
 	}

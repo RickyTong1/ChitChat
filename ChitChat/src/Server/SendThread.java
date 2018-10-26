@@ -35,6 +35,7 @@ public class SendThread implements Runnable {
 			sendSocket = new DatagramSocket();
 			sendSocket.send(sendPacket);
 			sendSocket.close();
+			System.out.println("SendThread OK");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

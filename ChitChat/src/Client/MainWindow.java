@@ -142,22 +142,31 @@ public class MainWindow extends JFrame {
 
 	}
 
-	public void persInfoInit() {// TODO:用户信息初始化
+	public void persInfoInit() {
 		String nickname = null;
 		String style = null;
-		OperateSQLServer oprt = new OperateSQLServer();
-		oprt.connectToDatabase();
-		ResultSet rs = oprt.getPersonalInformation(ID);
-
-		try {
-			rs.next();
-			nickname = rs.getString(2);// nickname
-			style = rs.getString(10);// 个性签名
-		} catch (SQLException e1) {
-			JOptionPane.showMessageDialog(null, "网络连接异常.\n错误码:127", "", JOptionPane.PLAIN_MESSAGE);
-		}
-
-		oprt.closeDatabase();
+//		OperateSQLServer oprt = new OperateSQLServer();
+//		oprt.connectToDatabase();
+//		ResultSet rs = oprt.getPersonalInformation(ID);
+//
+//		try {
+//			rs.next();
+//			nickname = rs.getString(2);// nickname
+//			style = rs.getString(10);// 个性签名
+//		} catch (SQLException e1) {
+//			JOptionPane.showMessageDialog(null, "网络连接异常.\n错误码:127", "", JOptionPane.PLAIN_MESSAGE);
+//		}
+//
+//		oprt.closeDatabase();
+		
+		/*
+		 * 
+		 * 测试用例.
+		 * TODO 测试后请注释掉.
+		 * 
+		 * */
+		nickname = "赫鲁晓夫爱玉米";
+		style = "你好啊李银河.可不要把我吃掉哇.";
 
 		Icon onlineImage;
 		JLabel onlineState = null;
@@ -210,10 +219,38 @@ public class MainWindow extends JFrame {
 	public void messageInit() {// TODO: 消息初始化
 
 		// TODO 拉取消息列表 读取本地
-		// 以下为测试用例.
-
-		// 這是測試用例.
-
+		
+		/*
+		 * 
+		 * 测试用例.
+		 * TODO 测试后请注释掉.
+		 * 
+		 * */
+		int s = 5;
+		for(int i = 0; i < s; i++)
+		{
+			msgList.add(new Message(
+					47
+					,1
+					,new Date().getTime()
+					,0
+					,"刚才我说了什么?"
+					,"王"
+					,"大鱿鱼"
+					,"???"
+					,"女"));
+			msgList.add(new Message(
+					47
+					,1
+					,new Date().getTime()
+					,1
+					,"刚才你好啊?"
+					,"王"
+					,"鱿鱼"
+					,"???"
+					,"男"));
+		}
+		
 		msgList.sort();
 
 		GridBagLayout mS = new GridBagLayout();
@@ -226,8 +263,7 @@ public class MainWindow extends JFrame {
 			Box m = (Box) i.create();
 			mS.setConstraints(m, mSCstrs);
 			msgPanel.add(m);
-			ctsList.get(i.ID).hasMessage = true;
-
+	//		ctsList.get(i.ID).hasMessage = true;
 		}
 		// msgL.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
 
@@ -253,36 +289,68 @@ public class MainWindow extends JFrame {
 
 	public void ContactsInit() {// TODO:联系人列表初始化
 		boolean hasFriend = true;
-		// TODO 拉取联系人列表,以下为测试用例
-		OperateSQLServer oprt = new OperateSQLServer();
-		oprt.connectToDatabase();
-		ResultSet rs = oprt.getFriendList(ID);
-		try {
-			if (!rs.next()) {
-				oprt.closeDatabase();
-				oprt = null;
-				hasFriend = false;
-			} else {
-				do {
-					int id = rs.getInt(1);
-					ResultSet info = oprt.getPersonalInformation(id);
-					info.next();
-					int onlineState = info.getInt(6);
-					String style = info.getString(10);
-					ctsList.add(new Contacts(info.getInt(1)// ID
-							, onlineState, new Date().getTime()// time
-							, Internet.READ// ifread
-							, "", info.getString(2)// 昵称
-							, rs.getString(4)// rs,好友信息库,备注
-							, style, info.getString(8)));
-				} while (rs.next());
-			}
-			rs = null;
-			oprt.closeDatabase();
-			oprt = null;
-		} catch (Exception e) {
-		}
+//		OperateSQLServer oprt = new OperateSQLServer();
+//		oprt.connectToDatabase();
+//		ResultSet rs = oprt.getFriendList(ID);
+//		try {
+//			if (!rs.next()) {
+//				oprt.closeDatabase();
+//				oprt = null;
+//				hasFriend = false;
+//			} else {
+//				do {
+//					int id = rs.getInt(1);
+//					ResultSet info = oprt.getPersonalInformation(id);
+//					info.next();
+//					int onlineState = info.getInt(6);
+//					String style = info.getString(10);
+//					ctsList.add(new Contacts(info.getInt(1)// ID
+//							, onlineState, new Date().getTime()// time
+//							, Internet.READ// ifread
+//							, "", info.getString(2)// 昵称
+//							, rs.getString(4)// rs,好友信息库,备注
+//							, style, info.getString(8)));
+//				} while (rs.next());
+//			}
+//			rs = null;
+//			oprt.closeDatabase();
+//			oprt = null;
+//		} catch (Exception e) {
+//		}
 
+
+		/*
+		 * 
+		 * 测试用例.
+		 * TODO 测试后请注释掉.
+		 * 
+		 * */
+		int s = 5;
+		for(int i = 0; i < s; i++)
+		{
+			ctsList.add(new Contacts(
+					47
+					,0
+					,new Date().getTime()
+					,0
+					,"刚才我说了什么?"
+					,"王"
+					,"大鱿鱼"
+					,"???"
+					,"女"));
+			ctsList.add(new Contacts(
+					47
+					,1
+					,new Date().getTime()
+					,1
+					,"刚才你好啊?"
+					,"王"
+					,"鱿鱼"
+					,"???"
+					,"男"));
+		}
+		
+		
 		if (!hasFriend) {
 			JLabel wr = new JLabel("暂无联系人哦");
 			ctsPanel.add(wr);
@@ -339,11 +407,6 @@ public class MainWindow extends JFrame {
 			}
 		});// TODO 扩充
 
-		/*
-		 * 
-		 * 释放内存
-		 * 
-		 */
 		JButton plus = new JButton("+");
 		plus.addMouseListener(new MouseAdapter() {
 			@Override
@@ -399,53 +462,50 @@ public class MainWindow extends JFrame {
 	}
 
 	public static boolean addContacts(int userID, int ID) {// TODO: 添加联系人
-		OperateSQLServer oprt = new OperateSQLServer();
-		oprt.connectToDatabase();
-		ResultSet rs = oprt.getPersonalInformation(ID);
-		int id;
-		int onlineState;
-		String gender;
-		try {
-			if (userID == ID)
-				throw new SQLException();// 不能加自己为好友
-			rs.next();
-			id = rs.getInt(1);
-			onlineState = rs.getInt(6);
-			gender = rs.getString(8);
-			ctsList.add(new Contacts(id, onlineState, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
-					, rs.getString(2), ""// 备注
-					, rs.getString(10), gender));
+//		OperateSQLServer oprt = new OperateSQLServer();
+//		oprt.connectToDatabase();
+//		ResultSet rs = oprt.getPersonalInformation(ID);
+//		int id;
+//		int onlineState;
+//		String gender;
+//		try {
+//			if (userID == ID)
+//				throw new SQLException();// 不能加自己为好友
+//			rs.next();
+//			id = rs.getInt(1);
+//			onlineState = rs.getInt(6);
+//			gender = rs.getString(8);
+//			Contacts newContact = new Contacts(id, onlineState, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
+//					, rs.getString(2), ""// 备注
+//					, rs.getString(10), gender);
+		/*
+		 * 
+		 * 测试用例.
+		 * TODO 测试后请注释掉.
+		 * 
+		 * */
+		Contacts newContact = new Contacts(
+				47
+				,0
+				,new Date().getTime()
+				,0
+				,"刚才我说了什么?"
+				,"王"
+				,""
+				,"???"
+				,"女");
+			ctsList.add(newContact);
+			ctsList.sort();
+			ctsPanel.add(newContact.create());
 			MainWindow.ctsPanel.repaint();// 加上此句會消除一個顯示bug.原因不明.
 			MainWindow.ctsPanel.revalidate();// 重新显示
-			oprt.addNewContacts(userID, ID, rs.getString(2));
-		} catch (SQLException e) {
-			return false;
-		}
-		oprt.closeDatabase();
+//			oprt.addNewContacts(userID, ID, rs.getString(2));
+//		} catch (SQLException e) {
+//			return false;
+//		}
+//		oprt.closeDatabase();
 		return true;
 	}
 
-	
-	public class Refresh implements Runnable {
-		@Override
-		public void run() {
-			while(true) {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {}
-				MainWindow.msgPanel.removeAll();
-				//messageInit();
-				MainWindow.msgPanel.repaint();
-				MainWindow.msgPanel.revalidate();
-				
-				MainWindow.ctsList.clear();
-				MainWindow.ctsPanel.removeAll();
-				//ContactsInit();
-				MainWindow.ctsPanel.repaint();
-				MainWindow.ctsPanel.revalidate();
-
-			}
-		}
-	}
 
 }
