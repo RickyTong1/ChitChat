@@ -193,7 +193,7 @@ public class ChatWindow extends JFrame implements ActionListener {
 					System.out.println("信息接收错误!");
 				}
 				if (recvPacket != null) {
-					System.out.println("111");
+		//			System.out.println("111");
 					information = recvPacket.getData();
 					String info = new String(information).trim();//注意
 					System.out.println(info);
@@ -207,37 +207,37 @@ public class ChatWindow extends JFrame implements ActionListener {
 				
 					int statement = Integer.parseInt(sourceStrArray[0]);
 					info = sourceStrArray[1].trim();
-					info = "Hello world!";
+			//		info = "Hello world!";
 					addNewMsg(info);
 					recvSocket.close();
-//					if (statement == 1) {// 收到文本
-//						maxSplit = 4;
-//						sourceStrArray = info.split("#", maxSplit);// ID
-//						String id = sourceStrArray[0];
-//						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasChatWin) {
-//							sourceStrArray = info.split("#", maxSplit);
-//							MainWindow.ctsList.get(Integer.parseInt(id)).chatWindow.addNewMsg(sourceStrArray[1]);
-//						}
-//						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasMessage) {
-//							sourceStrArray = info.split("#", maxSplit);
-//							MainWindow.ctsList.get(Integer.parseInt(id)).message.refreshMsg(sourceStrArray[1]);
-//						}
-//						
-//
-//					}
-//					if (statement == 4) {// 状态
-//						sourceStrArray = info.split("#", maxSplit);// ID
-//						if (sourceStrArray[0].equals("1"))// Internet.ONLINE
-//						{
-//							String id = sourceStrArray[1];
-//							MainWindow.ctsList.get(Integer.parseInt(id)).onlineState = Internet.ONLINE;
-//						}
-//						if (sourceStrArray[0].equals("0"))// offline
-//						{
-//							String id = sourceStrArray[1];
-//							MainWindow.ctsList.get(Integer.parseInt(id)).onlineState = Internet.OFFLINE;
-//						}
-//					}
+					if (statement == 1) {// 收到文本
+						maxSplit = 4;
+						sourceStrArray = info.split("#", maxSplit);// ID
+						String id = sourceStrArray[0];
+						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasChatWin) {
+							sourceStrArray = info.split("#", maxSplit);
+							MainWindow.ctsList.get(Integer.parseInt(id)).chatWindow.addNewMsg(sourceStrArray[1]);
+						}
+						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasMessage) {
+							sourceStrArray = info.split("#", maxSplit);
+							MainWindow.ctsList.get(Integer.parseInt(id)).message.refreshMsg(sourceStrArray[1]);
+						}
+						
+
+					}
+					if (statement == 4) {// 状态
+						sourceStrArray = info.split("#", maxSplit);// ID
+						if (sourceStrArray[0].equals("1"))// Internet.ONLINE
+						{
+							String id = sourceStrArray[1];
+							MainWindow.ctsList.get(Integer.parseInt(id)).onlineState = Internet.ONLINE;
+						}
+						if (sourceStrArray[0].equals("0"))// offline
+						{
+							String id = sourceStrArray[1];
+							MainWindow.ctsList.get(Integer.parseInt(id)).onlineState = Internet.OFFLINE;
+						}
+					}
 
 				}
 			}

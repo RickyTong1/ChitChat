@@ -42,18 +42,12 @@ import CComponents.*;
 public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 
 	Box thisBx = Box.createHorizontalBox();
-	
-	
-	
-	public Contacts(int id, int online, long time
-			, int isread, String spoke, String nick,String remark 
-			,String style,String gender) {
 
-		super(id, online, time, isread, spoke, nick, remark,style,gender);
-		// TODO Auto-generated constructor stub
+	public Contacts(int id, int online, long time, int isread, String spoke, String nick, String remark, String style,
+			String gender) {
+		super(id, online, time, isread, spoke, nick, remark, style, gender);
 	}
 
-	
 	int isOnline;
 	Icon onlineImage;
 	JLabel onlineState;
@@ -62,14 +56,13 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 	public Box create() {
 
 		Box labelBx = Box.createVerticalBox();
-		
 		/*
 		 * 设置在线状态图标
 		 * 
 		 */
 		switch (super.onlineState) {
 		case Internet.ONLINE: {
-			isOnline =Internet.ONLINE;
+			isOnline = Internet.ONLINE;
 			setIcon(Window.IMAGE_ONLINE_URL);
 			break;
 		}
@@ -110,44 +103,41 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 					JOptionPane.WARNING_MESSAGE);
 			// System.out.println(choose);
 			if (choose == 0/* 选是 */) {
-				MainWindow.deleteContacts(ID,MainWindow.ID, thisBx);// 发送删除指令
-				if(hasChatWin)
+				MainWindow.deleteContacts(ID, MainWindow.ID, thisBx);// 发送删除指令
+				if (hasChatWin) {
 					chatWindow.dispose();
-					
+					chatWindow = null;
+					hasChatWin = false;
+				}
 			}
 		});
-		showProfile.addActionListener(e->{
-			new FriendWindow(MainWindow.ID,this.ID);
+		showProfile.addActionListener(e -> {
+			new FriendWindow(MainWindow.ID, this.ID);
 		});
-		setRemark.addActionListener(e->{
-			String match = JOptionPane.showInputDialog(null,null,"请输入备注名",JOptionPane.PLAIN_MESSAGE);
-			if(match == null)return ;
+		setRemark.addActionListener(e -> {
+			String match = JOptionPane.showInputDialog(null, null, "请输入备注名", JOptionPane.PLAIN_MESSAGE);
+			if (match == null)
+				return;
 			OperateSQLServer opt = new OperateSQLServer();
 			opt.connectToDatabase();
 			opt.updateFriendRemark(MainWindow.ID, ID, match);
-			
+
 			MainWindow.ctsList.remove(ID);
 			ResultSet info = opt.getPersonalInformation(ID);
 			try {
 				info.next();
-				MainWindow.ctsList.add(new Contacts(info.getInt(1)//ID
-						,info.getInt(6)
-						,new Date().getTime()//time
-						,Internet.READ//ifread
-						,""
-						,info.getString(2)
-						,info.getString(4)
-						,style
-						,info.getString(8)));
+				MainWindow.ctsList.add(new Contacts(info.getInt(1)// ID
+				, info.getInt(6), new Date().getTime()// time
+				, Internet.READ// ifread
+				, "", info.getString(2), info.getString(4), style, info.getString(8)));
 			} catch (SQLException e1) {
-				JOptionPane.showMessageDialog(null, "错误:CTS_137","",JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(null, "错误:CTS_137", "", JOptionPane.PLAIN_MESSAGE);
 			}
 			MainWindow.ctsList.sort();
 			MainWindow.ctsPanel.repaint();
 			MainWindow.ctsPanel.revalidate();
 			opt.closeDatabase();
 		});
-		
 
 		thisBx.addMouseListener(new MouseAdapter() {
 			@Override
@@ -155,13 +145,12 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 				if (e.isMetaDown()) {
 					operator.show(e.getComponent(), e.getX(), e.getY());
 				}
-				if(e.getClickCount() == 2) {
-					if(!hasChatWin)
-					{
+				if (e.getClickCount() == 2) {
+					if (!hasChatWin) {
 						hasChatWin = true;
-						chatWindow = new ChatWindow(ID,MainWindow.ID,"");
+						chatWindow = new ChatWindow(ID, MainWindow.ID, "");
 					}
-					//TODO request Focus
+					chatWindow.requestFocus();//焦点
 				}
 			}
 
@@ -192,45 +181,57 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			System.out.println("文件不存在.");
 		}
 	}
-	public void refreshMsg() {
-		// TODO 联系人状态刷新方法
-		new Thread() {
-			@Override
-			public void run() {
-				while(true)
-				{
-					OperateSQLServer oprt = new OperateSQLServer();
-					ResultSet rs = oprt.getPersonalInformation(ID);
-					try {
-						rs.next();
-						switch(rs.getInt(6))
-						{
-						case Internet.ONLINE:{
-							MainWindow.ctsList.get(ID).onlineState = Internet.ONLINE;
-							isOnline = Internet.ONLINE;
-						//	setIcon(Window.IMAGE_ONLINE_URL);
-						}break;
-						case Internet.OFFLINE:{
-							MainWindow.ctsList.get(ID).onlineState = Internet.OFFLINE;
-							isOnline = Internet.OFFLINE;
-						//	setIcon(Window.IMAGE_OFFLINE_URL);
-						}break;
-						
-						}//switch
-						oprt.closeDatabase();
-						MainWindow.ctsList.sort();
-					} catch (SQLException e) {}
-					MainWindow.ctsPanel.remove(thisBx);
-					MainWindow.ctsPanel.add(MainWindow.ctsList.get(ID).create());
-					try {
-						sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}.start();
 
+	public void refreshMsg(int onlineState) {
+		switch (onlineState) {
+		case Internet.ONLINE: {
+			setIcon(Window.IMAGE_OFFLINE_URL);
+		}
+			break;
+		case Internet.OFFLINE: {
+			setIcon(Window.IMAGE_OFFLINE_URL);
+		}
+		}
+
+		// // TODO 联系人状态刷新方法
+		// new Thread() {
+		// @Override
+		// public void run() {
+		// while(true)
+		// {
+		// OperateSQLServer oprt = new OperateSQLServer();
+		// ResultSet rs = oprt.getPersonalInformation(ID);
+		// try {
+		// rs.next();
+		// switch(rs.getInt(6))
+		// {
+		// case Internet.ONLINE:{
+		// MainWindow.ctsList.get(ID).onlineState = Internet.ONLINE;
+		// isOnline = Internet.ONLINE;
+		// // setIcon(Window.IMAGE_ONLINE_URL);
+		// }break;
+		// case Internet.OFFLINE:{
+		// MainWindow.ctsList.get(ID).onlineState = Internet.OFFLINE;
+		// isOnline = Internet.OFFLINE;
+		// // setIcon(Window.IMAGE_OFFLINE_URL);
+		// }break;
+		//
+		// }//switch
+		// oprt.closeDatabase();
+		// MainWindow.ctsList.sort();
+		// } catch (SQLException e) {}
+		// MainWindow.ctsPanel.remove(thisBx);
+		// MainWindow.ctsPanel.add(MainWindow.ctsList.get(ID).create());
+		// try {
+		// sleep(2000);
+		// } catch (InterruptedException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// }.start();
+		//
 	}
+
 }

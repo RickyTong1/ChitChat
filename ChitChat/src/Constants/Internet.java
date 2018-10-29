@@ -12,4 +12,6 @@ public interface Internet {//¾W½j î‘B´a
 	public static final String KEY_ERROR = "1";//ÃÜÂë´íÎó
 	public static final String ID_ERROR = "0";//ÕËºÅ´íÎó
 	
+	public static final int INVISIBLE = 2;//ÒşÉí
+	
 }

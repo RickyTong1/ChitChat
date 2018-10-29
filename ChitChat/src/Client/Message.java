@@ -26,8 +26,7 @@ import Windows.ChatWindow;
 
 public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
-	public Message(int id, int online, long time, int isread
-			, String spoke, String nick, String remark, String style,
+	public Message(int id, int online, long time, int isread, String spoke, String nick, String remark, String style,
 			String gender) {
 		super(id, online, time, isread, spoke, nick, remark, style, gender);
 		// TODO Auto-generated constructor stub
@@ -50,40 +49,44 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		lastSpoke = new JLabel(spoke);// 設定label
 		// 判断并给出时间戳
 		timeStick = new JLabel();
+
+		long time = new Date().getTime() - lastTimeSpeak;
+		time /= 1000;// 秒
+		time /= 60;// 分
+
+		int stick = (int) time;// 存储时间标.
+
 		new Thread() {
 			@Override
 			public void run() {
-				while (true) {
-					long time = new Date().getTime() - lastTimeSpeak;
-					time /= 1000;// 秒
-					time /= 60;// 分
-					switch ((int) time / 60)// 小时
-					{
-					case 0: {
-						if (time * 60 < 1)
-							latestSpeak = "刚刚";
-						else if (time * 60 > 28 && time * 60 < 32)
-							latestSpeak = "约半小时前";
-						else
-							latestSpeak = String.valueOf(time * 60) + "分之前";
 
-					}
+				try {
+					sleep(20000);
+				} catch (InterruptedException e) {}//提升性能			
+				switch ((int) stick / 60)// 小时
+				{
+				case 0: {
+					if (stick * 60 < 1)
+						latestSpeak = "刚刚";
+					else if (stick * 60 > 28 && stick * 60 < 32)
+						latestSpeak = "约半小时前";
+					else
+						latestSpeak = String.valueOf(stick * 60) + "分之前";
+				}
+					break;
+				default: {
+					if (stick >= 24) {
+						latestSpeak = String.valueOf(stick / 24) + "天之前";
 						break;
-					default: {
-						if (time >= 24) {
-							latestSpeak = String.valueOf(time / 24) + "天之前";
-							break;
-						} else
-							latestSpeak = String.valueOf(time) + "小时 之前";
-
-					}
-						break;
-					}
-
-					timeStick.setText(latestSpeak);
+					} else
+						latestSpeak = String.valueOf(stick) + "小时 之前";
+				}
+					break;
 				}
 			}
 		}.start();
+
+		timeStick.setText(latestSpeak);
 
 		// 设置字体
 		lastSpoke.setFont(Fonts.MESSAGE_LASTSPEAK);

@@ -124,19 +124,19 @@ public class MainWindow extends JFrame {
 				byte[] info;
 				info = ("3#" + ID + "#" + ChatWindow.getNetworkTime() + "#" + ID).getBytes();
 
-				SendThread send;
-				try {
-					OperateSQLServer oprt = new OperateSQLServer();
-					oprt.connectToDatabase();
-					send = new SendThread("192.168.43.29", 23334, info);
-					new Thread(send).start();
-					oprt.updateLoggingStatus(0, ID);
-					oprt.closeDatabase();
-					
-				} catch (UnknownHostException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				SendThread send;
+//				try {
+//					OperateSQLServer oprt = new OperateSQLServer();
+//					oprt.connectToDatabase();
+//					send = new SendThread("192.168.43.29", 23334, info);
+//					new Thread(send).start();
+//					oprt.updateLoggingStatus(0, ID);
+//					oprt.closeDatabase();
+//					
+//				} catch (UnknownHostException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		});
 
@@ -462,48 +462,33 @@ public class MainWindow extends JFrame {
 	}
 
 	public static boolean addContacts(int userID, int ID) {// TODO: 添加联系人
-//		OperateSQLServer oprt = new OperateSQLServer();
-//		oprt.connectToDatabase();
-//		ResultSet rs = oprt.getPersonalInformation(ID);
-//		int id;
-//		int onlineState;
-//		String gender;
-//		try {
-//			if (userID == ID)
-//				throw new SQLException();// 不能加自己为好友
-//			rs.next();
-//			id = rs.getInt(1);
-//			onlineState = rs.getInt(6);
-//			gender = rs.getString(8);
-//			Contacts newContact = new Contacts(id, onlineState, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
-//					, rs.getString(2), ""// 备注
-//					, rs.getString(10), gender);
-		/*
-		 * 
-		 * 测试用例.
-		 * TODO 测试后请注释掉.
-		 * 
-		 * */
-		Contacts newContact = new Contacts(
-				47
-				,0
-				,new Date().getTime()
-				,0
-				,"刚才我说了什么?"
-				,"王"
-				,""
-				,"???"
-				,"女");
+		OperateSQLServer oprt = new OperateSQLServer();
+		oprt.connectToDatabase();
+		ResultSet rs = oprt.getPersonalInformation(ID);
+		int id;
+		int onlineState;
+		String gender;
+		try {
+			if (userID == ID)
+				throw new SQLException();// 不能加自己为好友
+			rs.next();
+			id = rs.getInt(1);
+			onlineState = rs.getInt(6);
+			gender = rs.getString(8);
+			Contacts newContact = new Contacts(id, onlineState, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
+					, rs.getString(2), ""// 备注
+					, rs.getString(10), gender);
+	
 			ctsList.add(newContact);
 			ctsList.sort();
 			ctsPanel.add(newContact.create());
 			MainWindow.ctsPanel.repaint();// 加上此句會消除一個顯示bug.原因不明.
 			MainWindow.ctsPanel.revalidate();// 重新显示
-//			oprt.addNewContacts(userID, ID, rs.getString(2));
-//		} catch (SQLException e) {
-//			return false;
-//		}
-//		oprt.closeDatabase();
+			oprt.addNewContacts(userID, ID, rs.getString(2));
+		} catch (SQLException e) {
+			return false;
+		}
+		oprt.closeDatabase();
 		return true;
 	}
 

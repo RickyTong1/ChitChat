@@ -10,7 +10,8 @@ public class Main {
 //		new LoginWindow();
 //		new FriendWindow(37,38);
 //		new MainWindow(37);
-		ChatWindow d = new ChatWindow(37,38,"");
+	//	ChatWindow d = new ChatWindow(37,38,"");
 		//MainWindow main = new MainWindow(37);
+		MainWindow w = new MainWindow(37);
 	}
 }
