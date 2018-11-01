@@ -48,6 +48,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import CComponents.ConvList;
 import CComponents.Convasation;
+import CComponents.MessageReceive;
 import Constants.*;
 import DataBaseOperation.OperateSQLServer;
 import Server.ParseInformation;
@@ -59,7 +60,7 @@ import Windows.StrangerWindow;
 
 public class MainWindow extends JFrame {
 
-	static int ID;// 账号
+	public static int ID;// 账号
 	Image image;// 用户头像
 	public static JLabel nicknameLabel;// 用户昵称
 	public static JLabel styleWord;// 用户的个性签名
@@ -94,9 +95,11 @@ public class MainWindow extends JFrame {
 				Window.getMiddleHeight(Constants.MAIN_WINDOW_HEIGHT), Constants.MAIN_WINDOW_WIDTH,
 				Constants.MAIN_WINDOW_HEIGHT);
 		setVisible(true);
-	
-//		Refresh rfs = new Refresh();
-//		new Thread(rfs).start();
+
+		MessageReceive getMsg = MessageReceive.getInstance();
+		new Thread(getMsg).start();;
+		// Refresh rfs = new Refresh();
+		// new Thread(rfs).start();
 	}
 
 	public void init() {
@@ -121,22 +124,23 @@ public class MainWindow extends JFrame {
 		this.addWindowListener(new WindowAdapter() {// 下线操作
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				byte[] info;
-				info = ("3#" + ID + "#" + ChatWindow.getNetworkTime() + "#" + ID).getBytes();
+				// byte[] info;
+				// info = ("3#" + ID + "#" + ChatWindow.getNetworkTime() + "#" + ID).getBytes();
 
-//				SendThread send;
-//				try {
-//					OperateSQLServer oprt = new OperateSQLServer();
-//					oprt.connectToDatabase();
-//					send = new SendThread("192.168.43.29", 23334, info);
-//					new Thread(send).start();
-//					oprt.updateLoggingStatus(0, ID);
-//					oprt.closeDatabase();
-//					
-//				} catch (UnknownHostException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				// SendThread send;
+				// try {
+				// TODO 服务器改造
+				// OperateSQLServer oprt = new OperateSQLServer();
+				// oprt.connectToDatabase();
+				// send = new SendThread("192.168.43.29", 23334, info);
+				// new Thread(send).start();
+				// oprt.updateLoggingStatus(0, ID);
+				// oprt.closeDatabase();
+				System.exit(0);
+				// } catch (UnknownHostException e) {
+				// // TODO Auto-generated catch block
+				// e.printStackTrace();
+				// }
 			}
 		});
 
@@ -145,28 +149,22 @@ public class MainWindow extends JFrame {
 	public void persInfoInit() {
 		String nickname = null;
 		String style = null;
-//		OperateSQLServer oprt = new OperateSQLServer();
-//		oprt.connectToDatabase();
-//		ResultSet rs = oprt.getPersonalInformation(ID);
-//
-//		try {
-//			rs.next();
-//			nickname = rs.getString(2);// nickname
-//			style = rs.getString(10);// 个性签名
-//		} catch (SQLException e1) {
-//			JOptionPane.showMessageDialog(null, "网络连接异常.\n错误码:127", "", JOptionPane.PLAIN_MESSAGE);
-//		}
-//
-//		oprt.closeDatabase();
-		
-		/*
-		 * 
-		 * 测试用例.
-		 * TODO 测试后请注释掉.
-		 * 
-		 * */
+		// OperateSQLServer oprt = new OperateSQLServer();
+		// oprt.connectToDatabase();
+		// ResultSet rs = oprt.getPersonalInformation(ID);
+		//
+		// try {
+		// rs.next();
+		// nickname = rs.getString(2);// nickname
+		// style = rs.getString(10);// 个性签名
+		// } catch (SQLException e1) {
+		// JOptionPane.showMessageDialog(null, "网络连接异常.\n错误码:127", "",
+		// JOptionPane.PLAIN_MESSAGE);
+		// }
+		//
+		// oprt.closeDatabase();TODO Server rebuild.
 		nickname = "赫鲁晓夫爱玉米";
-		style = "你好啊李银河.可不要把我吃掉哇.";
+		style = "这是个没有个性的个性签名.不过测试工程师认为应该测试下这个最长时会是什么情况.略略略略略略略";
 
 		Icon onlineImage;
 		JLabel onlineState = null;
@@ -180,7 +178,8 @@ public class MainWindow extends JFrame {
 		}
 
 		if (nickname == null || style == null) {
-			JOptionPane.showMessageDialog(null, "个人信息拉取异常.请检查网络.\n错误码:146", "", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(null, "个人信息拉取异常.请检查网络.\n错误码: MAIWIN_PNINFO_177", "",
+					JOptionPane.PLAIN_MESSAGE);
 		}
 		nicknameLabel = new JLabel(nickname);
 		nicknameLabel.setFont(Fonts.USER_NICKNAME);
@@ -218,56 +217,39 @@ public class MainWindow extends JFrame {
 
 	public void messageInit() {// TODO: 消息初始化
 
+		boolean hasMessage = false;
 		// TODO 拉取消息列表 读取本地
-		
-		/*
-		 * 
-		 * 测试用例.
-		 * TODO 测试后请注释掉.
-		 * 
-		 * */
-		int s = 5;
-		for(int i = 0; i < s; i++)
-		{
-			msgList.add(new Message(
-					47
-					,1
-					,new Date().getTime()
-					,0
-					,"刚才我说了什么?"
-					,"王"
-					,"大鱿鱼"
-					,"???"
-					,"女"));
-			msgList.add(new Message(
-					47
-					,1
-					,new Date().getTime()
-					,1
-					,"刚才你好啊?"
-					,"王"
-					,"鱿鱼"
-					,"???"
-					,"男"));
+		int lmt = 5;
+		hasMessage = true;
+		for (int i = 0; i < lmt; i++) {
+			msgList.add(
+					new Message(122, 1, new Date().getTime(), Internet.UNREAD, "这是应该说的话", "昵称", "备注", "个性签名", "性别"));
+			msgList.add(new Message(122, 1, new Date().getTime(), Internet.READ, "你好啊啊啊啊啊 ", "昵称", "备注", "个性签名", "性别"));
 		}
-		
-		msgList.sort();
+		// TODO 测试用例
+		if (!hasMessage) {
+			JLabel wr = new JLabel("暂无联系人哦");
+			msgPanel.add(wr);
 
-		GridBagLayout mS = new GridBagLayout();
-		GridBagConstraints mSCstrs = new GridBagConstraints();
-		mSCstrs.fill = GridBagConstraints.HORIZONTAL;// GirdBag布局
-		mSCstrs.anchor = GridBagConstraints.NORTH;
-		mSCstrs.gridwidth = GridBagConstraints.REMAINDER;
+		} else {
+			msgList.sort();
 
-		for (Convasation i : msgList) {
-			Box m = (Box) i.create();
-			mS.setConstraints(m, mSCstrs);
-			msgPanel.add(m);
-	//		ctsList.get(i.ID).hasMessage = true;
+			GridBagLayout mS = new GridBagLayout();
+			GridBagConstraints mSCstrs = new GridBagConstraints();
+			mSCstrs.fill = GridBagConstraints.HORIZONTAL;// GirdBag布局
+			mSCstrs.anchor = GridBagConstraints.NORTH;
+			mSCstrs.gridwidth = GridBagConstraints.REMAINDER;
+
+			for (Convasation i : msgList) {
+				Box m = (Box) i.create();
+				mS.setConstraints(m, mSCstrs);
+				msgPanel.add(m);
+				// ctsList.get(i.ID).hasMessage = true;
+			}
+			// msgL.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
+
+			msgPanel.setLayout(mS);
 		}
-		// msgL.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
-
-		msgPanel.setLayout(mS);
 		// msgL.setPreferredSize(getMinimumSize());
 		messages = new JScrollPane();
 		JLabel msgHead = new JLabel("消息");
@@ -288,69 +270,60 @@ public class MainWindow extends JFrame {
 	}
 
 	public void ContactsInit() {// TODO:联系人列表初始化
-		boolean hasFriend = true;
-//		OperateSQLServer oprt = new OperateSQLServer();
-//		oprt.connectToDatabase();
-//		ResultSet rs = oprt.getFriendList(ID);
-//		try {
-//			if (!rs.next()) {
-//				oprt.closeDatabase();
-//				oprt = null;
-//				hasFriend = false;
-//			} else {
-//				do {
-//					int id = rs.getInt(1);
-//					ResultSet info = oprt.getPersonalInformation(id);
-//					info.next();
-//					int onlineState = info.getInt(6);
-//					String style = info.getString(10);
-//					ctsList.add(new Contacts(info.getInt(1)// ID
-//							, onlineState, new Date().getTime()// time
-//							, Internet.READ// ifread
-//							, "", info.getString(2)// 昵称
-//							, rs.getString(4)// rs,好友信息库,备注
-//							, style, info.getString(8)));
-//				} while (rs.next());
-//			}
-//			rs = null;
-//			oprt.closeDatabase();
-//			oprt = null;
-//		} catch (Exception e) {
-//		}
-
-
-		/*
-		 * 
-		 * 测试用例.
-		 * TODO 测试后请注释掉.
-		 * 
-		 * */
-		int s = 5;
-		for(int i = 0; i < s; i++)
-		{
-			ctsList.add(new Contacts(
-					47
-					,0
-					,new Date().getTime()
-					,0
-					,"刚才我说了什么?"
-					,"王"
-					,"大鱿鱼"
-					,"???"
-					,"女"));
-			ctsList.add(new Contacts(
-					47
-					,1
-					,new Date().getTime()
-					,1
-					,"刚才你好啊?"
-					,"王"
-					,"鱿鱼"
-					,"???"
-					,"男"));
+		boolean hasFriend = false;
+		// OperateSQLServer oprt = new OperateSQLServer();
+		// oprt.connectToDatabase();
+		// ResultSet rs = oprt.getFriendList(ID);
+		// try {
+		// if (!rs.next()) {
+		// oprt.closeDatabase();
+		// oprt = null;
+		// } else {
+		// hasFriend = true;
+		// do {
+		// int id = rs.getInt(1);
+		// ResultSet info = oprt.getPersonalInformation(id);
+		// info.next();
+		// int onlineState = info.getInt(6);
+		// String style = info.getString(10);
+		// ctsList.add(new Contacts(info.getInt(1)// ID
+		// , onlineState, new Date().getTime()// time
+		// , Internet.READ// ifread
+		// , "", info.getString(2)// 昵称
+		// , rs.getString(4)// rs,好友信息库,备注
+		// , style, info.getString(8)));
+		// } while (rs.next());
+		// }
+		// rs = null;
+		// oprt.closeDatabase();
+		// oprt = null;
+		// } catch (Exception e) {
+		// }//TODO Server Rebuild.
+		int lmt = 6;
+		hasFriend= true;
+		for (int i = 0; i < lmt; i++) {
+			ctsList.add(
+					new Contacts(122
+							, 1
+							, new Date().getTime()
+							, Internet.UNREAD
+							, "这是应该说的话"
+							, "昵称"
+							, "备注"
+							, "个性签名"
+							, "性别"));
+			ctsList.add(
+					new Contacts(122
+							, 0
+							, new Date().getTime()
+							, Internet.UNREAD
+							, "这是应该说的话"
+							, "昵称"
+							, "备注"
+							, "个性签名"
+							, "性别"));
 		}
-		
-		
+
 		if (!hasFriend) {
 			JLabel wr = new JLabel("暂无联系人哦");
 			ctsPanel.add(wr);
@@ -367,8 +340,6 @@ public class MainWindow extends JFrame {
 				LS.setConstraints(m, LSCstrs);
 				ctsPanel.add(m);
 			}
-			// msgL.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
-
 			ctsPanel.setLayout(LS);
 		}
 		// msgL.setPreferredSize(getMinimumSize());
@@ -378,33 +349,37 @@ public class MainWindow extends JFrame {
 		searchContacts = new JMenuItem("搜索联系人");
 
 		searchContacts.addActionListener(e -> {
-			String match = JOptionPane.showInputDialog(null, null, "请输入账号", JOptionPane.PLAIN_MESSAGE);
-			if (match == null)
-				return;
-			if (match.length() >= 10) {
-				JOptionPane.showMessageDialog(null, "用户不存在!", "", JOptionPane.PLAIN_MESSAGE);
-				return;
-			}
-			if (match.matches("[0-9]+")) {
-				int id = Integer.parseInt(match);
-				OperateSQLServer opt = new OperateSQLServer();
-				opt.connectToDatabase();
-				ResultSet rss = opt.getPersonalInformation(id);
-				try {
-					if (!rss.next()) {
-						JOptionPane.showMessageDialog(null, "用户不存在!", "", JOptionPane.PLAIN_MESSAGE);
-						return;
-					} else
-						new StrangerWindow(MainWindow.ID, id);
-				} catch (HeadlessException e1) {
-					JOptionPane.showMessageDialog(null, "连接异常!\n错误码:283", "", JOptionPane.PLAIN_MESSAGE);
-				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "连接异常!\nz", "", JOptionPane.PLAIN_MESSAGE);
-				}
-				opt.closeDatabase();
-			} else {
-				JOptionPane.showMessageDialog(null, "请输入账号!", "", JOptionPane.PLAIN_MESSAGE);
-			}
+			//TODO 测试中 上线时请修改
+			addContacts(1,1);
+//			String match = JOptionPane.showInputDialog(null, null, "请输入账号", JOptionPane.PLAIN_MESSAGE);
+//			if (match == null)
+//				return;
+//			if (match.length() >= 10) {
+//				JOptionPane.showMessageDialog(null, "用户不存在!", "", JOptionPane.PLAIN_MESSAGE);
+//				return;
+//			}
+//			if (match.matches("[0-9]+")) {
+//				int id = Integer.parseInt(match);
+//				// OperateSQLServer opt = new OperateSQLServer();
+//				// opt.connectToDatabase();
+//				// ResultSet rss = opt.getPersonalInformation(id);
+//				// try {
+//				// if (!rss.next()) {
+//				// JOptionPane.showMessageDialog(null, "用户不存在!", "", JOptionPane.PLAIN_MESSAGE);
+//				// return;
+//				// } else
+//				// new StrangerWindow(MainWindow.ID, id);
+//				// } catch (HeadlessException e1) {
+//				// JOptionPane.showMessageDialog(null, "连接异常!\n错误码:283", "",
+//				// JOptionPane.PLAIN_MESSAGE);
+//				// } catch (SQLException e1) {
+//				// JOptionPane.showMessageDialog(null, "连接异常!\nz", "",
+//				// JOptionPane.PLAIN_MESSAGE);
+//				// }
+//				// opt.closeDatabase();TODO Server rebuild
+//			} else {
+//				JOptionPane.showMessageDialog(null, "请输入账号!", "", JOptionPane.PLAIN_MESSAGE);
+//			}
 		});// TODO 扩充
 
 		JButton plus = new JButton("+");
@@ -446,6 +421,13 @@ public class MainWindow extends JFrame {
 		MainWindow.msgPanel.revalidate();
 		// TODO 數據庫
 	}
+	public static void repaintContact(int ID) {
+		
+		ctsList.add(ctsList.remove(ID));
+		ctsList.sort();
+		reloadContacts();
+		
+	}
 
 	public static void deleteContacts(int ID, int userID, Box elem) {// TODO:删除联系人
 
@@ -454,43 +436,100 @@ public class MainWindow extends JFrame {
 		MainWindow.ctsPanel.remove(elem);
 		MainWindow.ctsPanel.repaint();// 加上此句會消除一個顯示bug.原因不明.
 		MainWindow.ctsPanel.revalidate();// 重新显示
-		OperateSQLServer oprt = new OperateSQLServer();
-		oprt.connectToDatabase();
-		oprt.deleteContacts(userID, ID);
-
-		oprt.closeDatabase();
+		// OperateSQLServer oprt = new OperateSQLServer();
+		// oprt.connectToDatabase();
+		// oprt.deleteContacts(userID, ID);
+		//
+		// oprt.closeDatabase();TODO Server rebuild.
 	}
 
 	public static boolean addContacts(int userID, int ID) {// TODO: 添加联系人
-		OperateSQLServer oprt = new OperateSQLServer();
-		oprt.connectToDatabase();
-		ResultSet rs = oprt.getPersonalInformation(ID);
-		int id;
-		int onlineState;
-		String gender;
-		try {
-			if (userID == ID)
-				throw new SQLException();// 不能加自己为好友
-			rs.next();
-			id = rs.getInt(1);
-			onlineState = rs.getInt(6);
-			gender = rs.getString(8);
-			Contacts newContact = new Contacts(id, onlineState, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
-					, rs.getString(2), ""// 备注
-					, rs.getString(10), gender);
-	
-			ctsList.add(newContact);
-			ctsList.sort();
-			ctsPanel.add(newContact.create());
-			MainWindow.ctsPanel.repaint();// 加上此句會消除一個顯示bug.原因不明.
-			MainWindow.ctsPanel.revalidate();// 重新显示
-			oprt.addNewContacts(userID, ID, rs.getString(2));
-		} catch (SQLException e) {
-			return false;
-		}
-		oprt.closeDatabase();
+		// OperateSQLServer oprt = new OperateSQLServer();
+		// oprt.connectToDatabase();
+		// ResultSet rs = oprt.getPersonalInformation(ID);
+		// int id;
+		// int onlineState;
+		// String gender;
+		// try {
+		// if (userID == ID)
+		// throw new SQLException();// 不能加自己为好友
+		// rs.next();
+		// id = rs.getInt(1);
+		// onlineState = rs.getInt(6);
+		// gender = rs.getString(8);
+		// Contacts newContact = new Contacts(id, onlineState, new Date().getTime(),
+		// Internet.READ, ""// 上次聊天的最后一句
+		// , rs.getString(2), ""// 备注
+		// , rs.getString(10), gender);
+		// oprt.addNewContacts(userID, ID, rs.getString(2));
+		// oprt.closeDatabase();
+
+		Contacts newContact = new Contacts(47, 1, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
+				, "新联系人", "新联系人备注"// 备注
+				, "个性签名", "性别");
+		ctsList.add(newContact);
+		ctsList.sort();
+		
+		 reloadContacts();
+
+		// } catch (SQLException e) {
+		// return false;
+		// }TODO Server rebuild.
+
 		return true;
 	}
 
+	public static void addNewMessage(int userID,int ID) {
+		
+		//TODO 数据库操作
+		Message newMessage = new Message(47, 1
+				, new Date().getTime(), Internet.UNREAD, "大骗子欠我的东西快还我"// 上次聊天的最后一句
+				, "新联系人", "新联系人备注"// 备注
+				, "个性签名", "性别");
+		msgList.add(0,newMessage);//置顶
+		msgList.sort();
+		reloadMessages();
+	}
+	public static void reloadMessages() {
+		msgPanel.removeAll();
+		GridBagLayout mS = new GridBagLayout();
+		GridBagConstraints mSCstrs = new GridBagConstraints();
+		mSCstrs.fill = GridBagConstraints.HORIZONTAL;// GirdBag布局
+		mSCstrs.anchor = GridBagConstraints.NORTH;
+		mSCstrs.gridwidth = GridBagConstraints.REMAINDER;
 
+		for (Convasation i : msgList) {
+			Box m = (Box) i.create();
+			mS.setConstraints(m, mSCstrs);
+			msgPanel.add(m);
+			// ctsList.get(i.ID).hasMessage = true;
+		}
+		// msgL.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
+
+		msgPanel.setLayout(mS);
+		
+		MainWindow.msgPanel.repaint();// 加上此句會消除一個顯示bug.原因不明.
+		MainWindow.msgPanel.revalidate();// 重新显示
+	}
+	public static void reloadContacts() {
+		
+		ctsPanel.removeAll();
+		
+		GridBagLayout LS = new GridBagLayout();
+		GridBagConstraints LSCstrs = new GridBagConstraints();
+		LSCstrs.gridheight = GridBagConstraints.PAGE_START;
+		LSCstrs.gridwidth = GridBagConstraints.REMAINDER;// 设置布局
+
+		for (Convasation i : ctsList) {
+			Box m = (Box) i.create();
+			LS.setConstraints(m, LSCstrs);
+			ctsPanel.add(m);
+		}
+		ctsPanel.setLayout(LS);
+		
+		MainWindow.ctsPanel.repaint();// 加上此句會消除一個顯示bug.原因不明.
+		MainWindow.ctsPanel.revalidate();// 重新显示
+		
+		
+	}
 }

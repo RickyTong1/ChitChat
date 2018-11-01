@@ -37,21 +37,21 @@ public class ChatWindow extends JFrame implements ActionListener {
 	int contactID;
 	int userID;
 	String spoke;
-	public ChatWindow(int ContactID,int userID,String lastSpoke) {
+
+	public ChatWindow(int ContactID, int userID, String lastSpoke) {
 		this.contactID = ContactID;
 		this.userID = userID;
 		spoke = lastSpoke;
-		OperateSQLServer oprt = new OperateSQLServer();
-//		oprt.connectToDatabase();
-//		ResultSet rs = oprt.getPersonalInformation(contactID);
-//		try {
-//			rs.next();
-//			nick = rs.getString(2);
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+		// OperateSQLServer oprt = new OperateSQLServer();
+		// oprt.connectToDatabase();
+		// ResultSet rs = oprt.getPersonalInformation(contactID);
+		// try {
+		// rs.next();
+		// nick = rs.getString(2);
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// }
+		// TODO Server rebuild.
 		init();
 		setLayout(null);
 		setTitle("聊天信息");
@@ -59,9 +59,7 @@ public class ChatWindow extends JFrame implements ActionListener {
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		Data d = new Data();
-		new Thread(d).start();
-		
+
 	}
 
 	public void init() {
@@ -91,11 +89,11 @@ public class ChatWindow extends JFrame implements ActionListener {
 		add(box);
 		sendField.addActionListener(this);
 		send.addActionListener(this);
-		this.addWindowListener(new WindowAdapter(){
+		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-	//TODO 		//	MainWindow.ctsList.get(contactID).hasChatWin = false;
-			//	MainWindow.ctsList.get(contactID).chatWindow = null;
+				MainWindow.ctsList.get(contactID).hasChatWin = false;
+				MainWindow.ctsList.get(contactID).chatWindow = null;
 				dispose();
 			}
 		});
@@ -105,20 +103,31 @@ public class ChatWindow extends JFrame implements ActionListener {
 		JPopupMenu pop = new JPopupMenu();
 		JLabel nullWarning = new JLabel("发送消息不能为空!");
 		JLabel outWarning = new JLabel("发送文段过长!(请不要超过255字)");
-		
+
 		if (sendField.getText().equals(""))// 发送消息为空时
 		{
 			pop.add(nullWarning);
 			pop.show(send, -(sendField.getWidth()), -sendField.getHeight());
 			// 警示显示位置为sendField的中间上方
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						sleep(1000);
+					} catch (InterruptedException e) {
+					}
+					pop.setVisible(false);
+				}
+			}.start();// 让这个提示一秒后自己消失
+
+			sendField.requestFocus();
 			return;
 		}
-		if (sendField.getText().length() >= 255)
-		{
+		if (sendField.getText().length() >= 255) {
 			pop.add(outWarning);
 			pop.show(send, -(sendField.getWidth()), -sendField.getHeight());
 			sendField.setText("");
-			return ;
+			return;
 		}
 		time = getNetworkTime();
 		content = new JTextArea(sendField.getText());
@@ -131,26 +140,29 @@ public class ChatWindow extends JFrame implements ActionListener {
 		// chatContent.add(new JLabel(time));
 		chatContent.add(chatBox);
 		chatContent.validate();// 刷新面板组件
-		//send
-		byte[] info = (sendField.getText()).getBytes();
-
+		// send
+		byte[] info = ("1#" + String.valueOf(contactID) + "#" + ChatWindow.getNetworkTime() + "#"
+				+ String.valueOf(contactID) + "#" + (sendField.getText())).getBytes();
+		// 1+发送者ID+时间+目标ID+聊天文本消息
 		try {
-			///SendThread sd = new SendThread("192.168.43.29",23333,info);
-		SendThread sd = new SendThread("192.168.43.37",23333,info);
+			// TODO 这里不能用ip
+			/// SendThread sd = new SendThread("192.168.43.29",23333,info);
+			SendThread sd = new SendThread("127.0.0.1", 50000, info);
 			new Thread(sd).start();
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 		}
-		//reseive
-		//new Thr
 		
+		info = null;
+		
+		
+
 		/* 设置滚动条一直在最下方 */
 		JScrollBar vertical = sp.getVerticalScrollBar();
 		vertical.setValue(vertical.getMinimum());
 		sendField.setText("");
 	}
 
-	
 	/* 获取网络时间 */
 	public static String getNetworkTime() {
 
@@ -159,88 +171,21 @@ public class ChatWindow extends JFrame implements ActionListener {
 		return dateFormat.format(date);
 
 	}
-	public void addNewMsg(String msg){
+
+	public void addNewMsg(String msg) {
 		time = getNetworkTime();
 		content = new JTextArea(msg);
 		content.setLineWrap(true);
 		content.setBackground(Color.LIGHT_GRAY);
 		content.setEditable(false);
-		chatBox.add(new JLabel("<html>"+nick+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + time
-				+ "<br></html>"));
+		chatBox.add(new JLabel("<html>" + nick
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + time + "<br></html>"));
 		chatBox.add(content);
 		// chatContent.add(new JLabel(time));
 		chatContent.add(chatBox);
 		chatContent.repaint();
 		chatContent.revalidate();// 刷新面板组件
+		this.requestFocus();
 	}
-	public class Data implements Runnable {
-		@Override
-		public void run() {
-			// 数据处理
-			byte[] information = new byte[1024];
-			DatagramPacket recvPacket = new DatagramPacket(information, information.length);
-			DatagramSocket recvSocket = null;
-			try {
-				recvSocket = new DatagramSocket();
-				System.out.println("信息接受线程启动成功!");
-			} catch (SocketException e) {
-				System.out.println("信息接受线程启动失败!");
-			}
-			while (true) {
-				try {
-					recvSocket.receive(recvPacket);
-				} catch (IOException e) {
-					System.out.println("信息接收错误!");
-				}
-				if (recvPacket != null) {
-		//			System.out.println("111");
-					information = recvPacket.getData();
-					String info = new String(information).trim();//注意
-					System.out.println(info);
-					int maxSplit = 4;
-					String[] sourceStrArray = info.split("#", maxSplit);
-					info = sourceStrArray[3];
-					if (MainWindow.ctsList.get(Integer.parseInt(sourceStrArray[1])).hasChatWin) {
-						sourceStrArray = info.split("#", maxSplit);
-						addNewMsg(sourceStrArray[1]);
-					}
-				
-					int statement = Integer.parseInt(sourceStrArray[0]);
-					info = sourceStrArray[1].trim();
-			//		info = "Hello world!";
-					addNewMsg(info);
-					recvSocket.close();
-					if (statement == 1) {// 收到文本
-						maxSplit = 4;
-						sourceStrArray = info.split("#", maxSplit);// ID
-						String id = sourceStrArray[0];
-						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasChatWin) {
-							sourceStrArray = info.split("#", maxSplit);
-							MainWindow.ctsList.get(Integer.parseInt(id)).chatWindow.addNewMsg(sourceStrArray[1]);
-						}
-						if (MainWindow.ctsList.get(Integer.parseInt(id)).hasMessage) {
-							sourceStrArray = info.split("#", maxSplit);
-							MainWindow.ctsList.get(Integer.parseInt(id)).message.refreshMsg(sourceStrArray[1]);
-						}
-						
 
-					}
-					if (statement == 4) {// 状态
-						sourceStrArray = info.split("#", maxSplit);// ID
-						if (sourceStrArray[0].equals("1"))// Internet.ONLINE
-						{
-							String id = sourceStrArray[1];
-							MainWindow.ctsList.get(Integer.parseInt(id)).onlineState = Internet.ONLINE;
-						}
-						if (sourceStrArray[0].equals("0"))// offline
-						{
-							String id = sourceStrArray[1];
-							MainWindow.ctsList.get(Integer.parseInt(id)).onlineState = Internet.OFFLINE;
-						}
-					}
-
-				}
-			}
-		}
-	}
 }

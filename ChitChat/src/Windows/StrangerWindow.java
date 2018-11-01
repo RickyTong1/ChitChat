@@ -63,28 +63,28 @@ public class StrangerWindow extends JFrame implements ActionListener{
 		rightJLabel[2] = new JLabel("生日");
 		rightJLabel[3] = new JLabel("年龄");
 		/*数据库操作*/
-		oss = new OperateSQLServer();
-		oss.connectToDatabase();
-		ResultSet rs = oss.getPersonalInformation(strangerID);
-		try {
-			if(rs.next()) {
-				rightJLabel[0].setText(rs.getString(2));
-				rightJLabel[1].setText(rs.getString(8));
-				rightJLabel[2].setText(rs.getString(9));
-				String birth = rs.getString(9);
-				int maxSplit = 3;
-				String[] source = birth.split("-", maxSplit);
-				int oldYear = Integer.parseInt(source[0]);
-				int newYear = Calendar.getInstance().get(Calendar.YEAR);
-				int age = newYear-oldYear;
-				rightJLabel[3].setText(String.valueOf(age));
-				signature.setText(rs.getString(10));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		oss.closeDatabase();//关闭数据库
+//		oss = new OperateSQLServer();
+//		oss.connectToDatabase();
+//		ResultSet rs = oss.getPersonalInformation(strangerID);
+//		try {
+//			if(rs.next()) {
+//				rightJLabel[0].setText(rs.getString(2));
+//				rightJLabel[1].setText(rs.getString(8));
+//				rightJLabel[2].setText(rs.getString(9));
+//				String birth = rs.getString(9);
+//				int maxSplit = 3;
+//				String[] source = birth.split("-", maxSplit);
+//				int oldYear = Integer.parseInt(source[0]);
+//				int newYear = Calendar.getInstance().get(Calendar.YEAR);
+//				int age = newYear-oldYear;
+//				rightJLabel[3].setText(String.valueOf(age));
+//				signature.setText(rs.getString(10));
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		oss.closeDatabase();//关闭数据库 TODO Server rebuild
 		leftBox = Box.createVerticalBox();
 		rightBox = Box.createVerticalBox();
 		message = Box.createHorizontalBox();

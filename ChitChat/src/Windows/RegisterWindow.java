@@ -194,16 +194,16 @@ public class RegisterWindow extends JFrame{
 			}
 			else if(tempUserName.equals("")) {
 				JOptionPane.showMessageDialog(null, "昵称不能为空");
-				OperateSQLServer oprt = new OperateSQLServer();
-				oprt.connectToDatabase();
-				//判断昵称唯一性
-				if(!oprt.isUniqueNickname(tempUserName))
-				{
-					JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!","",JOptionPane.PLAIN_MESSAGE);
-					oprt.closeDatabase();
-					return;
-				}
-				oprt.closeDatabase();
+//				OperateSQLServer oprt = new OperateSQLServer();
+//				oprt.connectToDatabase();
+//				//判断昵称唯一性
+//				if(!oprt.isUniqueNickname(tempUserName))
+//				{
+//					JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!","",JOptionPane.PLAIN_MESSAGE);
+//					oprt.closeDatabase();
+//					return;
+//				}
+//				oprt.closeDatabase();TODO Server rebuild.
 			}
 			else if(e.getSource()==textName) {
 				//textEmail.requestFocus();
@@ -228,22 +228,22 @@ public class RegisterWindow extends JFrame{
 			}
 			else if(e.getSource()==button1) {
 				String birth=tempYear+"-"+tempMonth+"-"+tempDay;
-				OperateSQLServer oprt = new OperateSQLServer();
-				oprt.connectToDatabase();
-				//判断昵称唯一性
-				if(!oprt.isUniqueNickname(tempUserName))
-				{
-					JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!","",JOptionPane.PLAIN_MESSAGE);
-					textName.requestFocus();
-					oprt.closeDatabase();
-					return;
-				}
-				oprt.regesterUserInformation(tempUserName, tempPassword, tempUserSex, birth
-						, tempEmail, "", "");
-				System.out.println(oprt.getUserID(tempUserName));
-				JOptionPane.showMessageDialog(null, "注册成功,账号为:"+oprt.getUserID(tempUserName));
-				removeList();			
-				oprt.closeDatabase();
+//				OperateSQLServer oprt = new OperateSQLServer();
+//				oprt.connectToDatabase();
+//				//判断昵称唯一性
+//				if(!oprt.isUniqueNickname(tempUserName))
+//				{
+//					JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!","",JOptionPane.PLAIN_MESSAGE);
+//					textName.requestFocus();
+//					oprt.closeDatabase();
+//					return;
+//				}
+//				oprt.regesterUserInformation(tempUserName, tempPassword, tempUserSex, birth
+//						, tempEmail, "", "");
+//				System.out.println(oprt.getUserID(tempUserName));
+//				JOptionPane.showMessageDialog(null, "注册成功,账号为:"+oprt.getUserID(tempUserName));
+//				removeList();			
+//				oprt.closeDatabase();TODO Server rebuild.
 			}			
 		}	
 	}

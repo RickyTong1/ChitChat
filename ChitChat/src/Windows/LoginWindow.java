@@ -209,36 +209,39 @@ public class LoginWindow extends JFrame {
 			}//没有break
 			case 3:{//loginButton
 				if(warning())return;//账号格式以及密码是否为空检查
-				OperateSQLServer oprt = new OperateSQLServer();
-				oprt.connectToDatabase();
-				ResultSet result = oprt.getPersonalInformation(Integer.parseInt(ID.getText()));
-
-				try {
-					result.next();
-					String keyGot = result.getString(3);//密码
-					if(keyGot.equals(key.getText()))
-					{	
-						dispose();
-						new MainWindow(Integer.parseInt(ID.getText()));
-						byte[] info;
-						info = ("2#"+ID.getText()+"#"+ChatWindow.getNetworkTime()+"#"+IP_address).getBytes();
-						
-						SendThread send = new SendThread("192.168.43.29",23334,info);
-						new Thread(send).start();
-						oprt.updateLoggingStatus(1, Integer.parseInt(ID.getText()));
-						
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null, "密码错误!","",JOptionPane.PLAIN_MESSAGE);
-						return;
-					}
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, "不存在该用户!","",JOptionPane.PLAIN_MESSAGE);
-				} catch (UnknownHostException e) {
-					JOptionPane.showMessageDialog(null, "远程服务器IP错误!","",JOptionPane.PLAIN_MESSAGE);
-				}
-				oprt.closeDatabase();
+//				OperateSQLServer oprt = new OperateSQLServer();
+//				oprt.connectToDatabase();
+//				ResultSet result = oprt.getPersonalInformation(Integer.parseInt(ID.getText()));
+//
+//				try {
+//					result.next();
+//					String keyGot = result.getString(3);//密码
+//					if(keyGot.equals(key.getText()))
+//					{	
+//						dispose();
+//						new MainWindow(Integer.parseInt(ID.getText()));
+//						byte[] info;
+//						info = ("2#"+ID.getText()+"#"+ChatWindow.getNetworkTime()+"#"+IP_address).getBytes();
+//						
+//						SendThread send = new SendThread("192.168.43.29",23334,info);
+//						new Thread(send).start();
+//						oprt.updateLoggingStatus(1, Integer.parseInt(ID.getText()));
+//						
+//					}
+//					else
+//					{
+//						JOptionPane.showMessageDialog(null, "密码错误!","",JOptionPane.PLAIN_MESSAGE);
+//						return;
+//					}
+//				} catch (SQLException e) {
+//					JOptionPane.showMessageDialog(null, "不存在该用户!","",JOptionPane.PLAIN_MESSAGE);
+//				} catch (UnknownHostException e) {
+//					JOptionPane.showMessageDialog(null, "远程服务器IP错误!","",JOptionPane.PLAIN_MESSAGE);
+//				}
+//				oprt.closeDatabase();TODO Server rebuild.
+				
+			dispose();//该方法释放资源.
+			new MainWindow(Integer.parseInt(ID.getText()));
 			}break;
 			case 4:{//RegisterWindow
 				new RegisterWindow();

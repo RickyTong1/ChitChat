@@ -41,20 +41,30 @@ import CComponents.*;
 
 public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 
-	Box thisBx = Box.createHorizontalBox();
+	Box thisBx = null;
 
 	public Contacts(int id, int online, long time, int isread, String spoke, String nick, String remark, String style,
 			String gender) {
 		super(id, online, time, isread, spoke, nick, remark, style, gender);
 	}
 
+	
 	int isOnline;
 	Icon onlineImage;
-	JLabel onlineState;
+	public JLabel onlineState;
 
 	@Override
 	public Box create() {
 
+		if(thisBx != null)
+			return thisBx;
+		thisBx = Box.createHorizontalBox();
+		/*
+		 * 以上解决了MainWindow.addNewContacts()
+		 * 中thisBx重复装载的问题.
+		 * */
+		
+		
 		Box labelBx = Box.createVerticalBox();
 		/*
 		 * 设置在线状态图标
@@ -118,25 +128,27 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			String match = JOptionPane.showInputDialog(null, null, "请输入备注名", JOptionPane.PLAIN_MESSAGE);
 			if (match == null)
 				return;
-			OperateSQLServer opt = new OperateSQLServer();
-			opt.connectToDatabase();
-			opt.updateFriendRemark(MainWindow.ID, ID, match);
-
-			MainWindow.ctsList.remove(ID);
-			ResultSet info = opt.getPersonalInformation(ID);
-			try {
-				info.next();
-				MainWindow.ctsList.add(new Contacts(info.getInt(1)// ID
-				, info.getInt(6), new Date().getTime()// time
-				, Internet.READ// ifread
-				, "", info.getString(2), info.getString(4), style, info.getString(8)));
-			} catch (SQLException e1) {
-				JOptionPane.showMessageDialog(null, "错误:CTS_137", "", JOptionPane.PLAIN_MESSAGE);
-			}
+			//TODO 服务器改造
+//			OperateSQLServer opt = new OperateSQLServer();
+//			opt.connectToDatabase();
+//			opt.updateFriendRemark(MainWindow.ID, ID, match);
+//
+//			MainWindow.ctsList.remove(ID);
+//			ResultSet info = opt.getPersonalInformation(ID);
+//			try {
+//				info.next();
+//				MainWindow.ctsList.add(new Contacts(info.getInt(1)// ID
+//				, info.getInt(6), new Date().getTime()// time
+//				, Internet.READ// ifread
+//				, "", info.getString(2), info.getString(4), style, info.getString(8)));
+//			} catch (SQLException e1) {
+//				JOptionPane.showMessageDialog(null, "错误:CTS_137", "", JOptionPane.PLAIN_MESSAGE);
+//			}
+//			opt.closeDatabase();
 			MainWindow.ctsList.sort();
 			MainWindow.ctsPanel.repaint();
 			MainWindow.ctsPanel.revalidate();
-			opt.closeDatabase();
+			
 		});
 
 		thisBx.addMouseListener(new MouseAdapter() {
@@ -149,6 +161,7 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 					if (!hasChatWin) {
 						hasChatWin = true;
 						chatWindow = new ChatWindow(ID, MainWindow.ID, "");
+						
 					}
 					chatWindow.requestFocus();//焦点
 				}
@@ -182,7 +195,7 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 		}
 	}
 
-	public void refreshMsg(int onlineState) {
+	public void setOnlineState(int onlineState) {
 		switch (onlineState) {
 		case Internet.ONLINE: {
 			setIcon(Window.IMAGE_OFFLINE_URL);

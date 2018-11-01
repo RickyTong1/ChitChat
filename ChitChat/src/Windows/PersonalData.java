@@ -52,7 +52,6 @@ public class PersonalData extends JFrame{
 	ComboBoxListener comboBoxListener_day;
 	MyKeyListener keyListener;
 	int id;
-	OperateSQLServer oss;
 	public PersonalData(int id){
 		this.id = id;
 		this.setLayout(new FlowLayout());
@@ -121,34 +120,33 @@ public class PersonalData extends JFrame{
 		day=new JLabel("日");		
 		textEmail=new JTextField(15);
 		//从数据库读取数据
-		oss = new OperateSQLServer();
-		oss.connectToDatabase();
-		ResultSet rs = oss.getPersonalInformation(id);
-		try {
-			if(rs.next()) {
-				textNo.setText(rs.getString(1));
-				textName.setText(rs.getString(2));
-				if(rs.getString(8).equals("男"))
-					comBox_sex.setSelectedIndex(0);
-				else
-					comBox_sex.setSelectedIndex(1);
-				String birth = rs.getString(9);
-				int maxSplit = 3;
-				String[] source = birth.split("-", maxSplit);
-				int birthYear = Integer.parseInt(source[0]);
-				int birthMonth = Integer.parseInt(source[1]);
-				int birthDay = Integer.parseInt(source[2]);
-				comBox_year.setSelectedIndex(birthYear-1950);
-				comBox_month.setSelectedIndex(birthMonth-1);
-				comBox_day.setSelectedIndex(birthDay-1);
-				textEmail.setText(rs.getString(5));
-				signature.setText(rs.getString(10));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		oss.closeDatabase();
+//		oss = new OperateSQLServer();
+//		oss.connectToDatabase();
+//		ResultSet rs = oss.getPersonalInformation(id);
+//		try {
+//			if(rs.next()) {
+//				textNo.setText(rs.getString(1));
+//				textName.setText(rs.getString(2));
+//				if(rs.getString(8).equals("男"))
+//					comBox_sex.setSelectedIndex(0);
+//				else
+//					comBox_sex.setSelectedIndex(1);
+//				String birth = rs.getString(9);
+//				int maxSplit = 3;
+//				String[] source = birth.split("-", maxSplit);
+//				int birthYear = Integer.parseInt(source[0]);
+//				int birthMonth = Integer.parseInt(source[1]);
+//				int birthDay = Integer.parseInt(source[2]);
+//				comBox_year.setSelectedIndex(birthYear-1950);
+//				comBox_month.setSelectedIndex(birthMonth-1);
+//				comBox_day.setSelectedIndex(birthDay-1);
+//				textEmail.setText(rs.getString(5));
+//				signature.setText(rs.getString(10));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		oss.closeDatabase();TODO Server rebuild.
 			
 		//放入右盒子
 		boxRight.add(textNo);
@@ -236,9 +234,10 @@ public class PersonalData extends JFrame{
 			if(e.getSource() == button2)
 				dispose();
 			else if(e.getSource() == button1) {
-				oss.connectToDatabase();
-				oss.updateUserImformation(id, tempUserName, tempUserSex, birth, tempEmail, signature.getText());
-				oss.closeDatabase();
+//				OperateSQLServer oss;
+//				oss.connectToDatabase();
+//				oss.updateUserImformation(id, tempUserName, tempUserSex, birth, tempEmail, signature.getText());
+//				oss.closeDatabase();TODO Server rebuild.
 				MainWindow.nicknameLabel = new JLabel(tempUserName);
 				MainWindow.styleWord = new JLabel(signature.getText());
 				dispose();

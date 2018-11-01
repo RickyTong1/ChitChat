@@ -36,7 +36,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 	String latestSpeak;// 上次送达的話的時間
 	JLabel lastSpoke;// 送达的话
 	Box all = Box.createHorizontalBox();
-	Box elem = Box.createVerticalBox();
+	Box elem = null;
 
 	final int L = Constants.MESSAGE_PANEL_WIDTH / 2;// 昵稱與時間戳的間距
 
@@ -46,48 +46,18 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 	@Override
 	public Box create() {
 
+		if (elem != null)
+			return elem;
+		Box elem = Box.createVerticalBox();
+		/*
+		 * 以上解决了MainWindow.addNewMessage() 中thisBx重复装载的问题.
+		 */
+
 		lastSpoke = new JLabel(spoke);// 設定label
 		// 判断并给出时间戳
 		timeStick = new JLabel();
 
-		long time = new Date().getTime() - lastTimeSpeak;
-		time /= 1000;// 秒
-		time /= 60;// 分
-
-		int stick = (int) time;// 存储时间标.
-
-		new Thread() {
-			@Override
-			public void run() {
-
-				try {
-					sleep(20000);
-				} catch (InterruptedException e) {}//提升性能			
-				switch ((int) stick / 60)// 小时
-				{
-				case 0: {
-					if (stick * 60 < 1)
-						latestSpeak = "刚刚";
-					else if (stick * 60 > 28 && stick * 60 < 32)
-						latestSpeak = "约半小时前";
-					else
-						latestSpeak = String.valueOf(stick * 60) + "分之前";
-				}
-					break;
-				default: {
-					if (stick >= 24) {
-						latestSpeak = String.valueOf(stick / 24) + "天之前";
-						break;
-					} else
-						latestSpeak = String.valueOf(stick) + "小时 之前";
-				}
-					break;
-				}
-			}
-		}.start();
-
-		timeStick.setText(latestSpeak);
-
+		setTime(super.lastTimeSpeak);
 		// 设置字体
 		lastSpoke.setFont(Fonts.MESSAGE_LASTSPEAK);
 		timeStick.setFont(Fonts.MESSAGE_TIMESTICK);// 字体
@@ -156,13 +126,15 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					operator.show(e.getComponent(), e.getX(), e.getY());
 				}
 				if (e.getClickCount() == 2) {
-					isRead = Internet.UNREAD;
+					isRead = Internet.READ;
 					lastSpoke.setForeground(Colors.MESSAGE_READ);
 					MainWindow.readMessage(ID, elem);
 					if (!hasChatWin) {
 						hasChatWin = true;
 						chatWindow = new ChatWindow(ID, MainWindow.ID, lastSpoke.getText());
 					}
+					else
+						chatWindow.requestFocus();
 				}
 			}
 
@@ -180,11 +152,37 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		return elem;
 	}
 
+	public void setTime(long rawTime) {
+		long time = new Date().getTime() - rawTime;
+		time /= 1000;// 秒
+		time /= 60;// 分
+		int sendTime = (int) time;
+		if (sendTime < 2)
+			latestSpeak = "刚刚";
+		else if (sendTime > 28 && sendTime < 32)
+			latestSpeak = "约半小时前";
+		else if (sendTime <= 58)
+			latestSpeak = sendTime + "分之前";
+		else if (sendTime > 58)
+			latestSpeak = sendTime / 60 + "小时之前";
+		else if (sendTime / 60 >= 24) {
+			if (((sendTime / 60) / 24) / 7 >= 1) {
+				int week = ((sendTime / 60) / 24) / 7;
+				if (week >= 4)
+					latestSpeak = week / 4 + "月之前";
+				latestSpeak = ((sendTime / 60) / 24) / 7 + "周之前";
+			}
+			latestSpeak = (sendTime / 60) / 24 + "天之前";
+		}
+		timeStick.setText(latestSpeak);
+	}
+
 	public void refreshMsg(String msg) {
 		// TODO 联系人状态刷新方法
 		super.isRead = Internet.UNREAD;
 		lastSpoke.setText(msg);
-
+		super.spoke = msg;
+		elem.requestFocus();
 	}
 
 }

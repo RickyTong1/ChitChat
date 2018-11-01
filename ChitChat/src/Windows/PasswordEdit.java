@@ -124,27 +124,27 @@ public class PasswordEdit extends JFrame {
 			switch(turnTo(arg0)) {
 				case OK:{//OK键
 					if(warning())return;//检查输入合法性
-					OperateSQLServer oss = new OperateSQLServer();
-					oss.connectToDatabase();
-					ResultSet rs = oss.getPersonalInformation(Integer.parseInt(tempID));
-					try {
-						if(rs.next()) {
-							if(rs.getString(3).equals(tempOriginalPswd)) {
-								oss.updateUserPassword(Integer.parseInt(tempID), tempNewPswd);
-							}
-							else{
-								originalPswd.requestFocus();
-								JOptionPane.showMessageDialog(null,"原密码错误,请重新输入!");
-							}
-						}
-						else {
-							userID.requestFocus();
-							JOptionPane.showMessageDialog(null,"用户不存在,请重新输入!");
-						}
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-					oss.closeDatabase();				
+//					OperateSQLServer oss = new OperateSQLServer();
+//					oss.connectToDatabase();
+//					ResultSet rs = oss.getPersonalInformation(Integer.parseInt(tempID));
+//					try {
+//						if(rs.next()) {
+//							if(rs.getString(3).equals(tempOriginalPswd)) {
+//								oss.updateUserPassword(Integer.parseInt(tempID), tempNewPswd);
+//							}
+//							else{
+//								originalPswd.requestFocus();
+//								JOptionPane.showMessageDialog(null,"原密码错误,请重新输入!");
+//							}
+//						}
+//						else {
+//							userID.requestFocus();
+//							JOptionPane.showMessageDialog(null,"用户不存在,请重新输入!");
+//						}
+//					} catch (SQLException e1) {
+//						e1.printStackTrace();
+//					}
+//					oss.closeDatabase();TODO Server rebuild.				
 				}break;
 				case EXIT:{//退出键
 					dispose();

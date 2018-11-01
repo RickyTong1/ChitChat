@@ -32,8 +32,10 @@ public class SendThread implements Runnable {
 		try {
 			sendPacket = new DatagramPacket(information, information.length, address, port);
 			sendPacket.setData(information);
+			System.out.println("这是线程里1: "+new String(information));
 			sendSocket = new DatagramSocket();
 			sendSocket.send(sendPacket);
+			System.out.println("这是线程里2: "+new String(information));
 			sendSocket.close();
 			System.out.println("SendThread OK");
 		} catch (Exception e) {

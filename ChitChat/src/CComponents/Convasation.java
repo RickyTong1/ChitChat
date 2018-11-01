@@ -56,6 +56,7 @@ public abstract class Convasation{
 		styleWord = new JLabel(this.style);
 	}
 	public abstract Box create();
+//	public abstract void setIssue();
 	@Override
 	public boolean equals(Object arg0) {
 		Convasation e = (Convasation) arg0;

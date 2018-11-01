@@ -74,31 +74,30 @@ public class FriendWindow extends JFrame implements ActionListener{
 		rightJLabel[3] = new JLabel("年龄");
 		//rightJLabel[4] = new JLabel("个性签名");
 		
-		oss = new OperateSQLServer();
-		oss.connectToDatabase();
-		
-		remark.setText(oss.getContactsNickname(userID, contactsID));
-		ResultSet rs = oss.getPersonalInformation(contactsID);
-		try {
-			if(rs.next()) {
-				rightJLabel[0].setText(rs.getString(2));
-				rightJLabel[1].setText(rs.getString(8));
-				rightJLabel[2].setText(rs.getString(9));
-				String birth = rs.getString(9);
-				int maxSplit = 3;
-				String[] source = birth.split("-", maxSplit);
-				int oldYear = Integer.parseInt(source[0]);
-				int newYear = Calendar.getInstance().get(Calendar.YEAR);
-				int age = newYear-oldYear;
-				rightJLabel[3].setText(String.valueOf(age));
-				signature.setText(rs.getString(10));
-				//remark.setText(rs.getString(columnIndex));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		oss.closeDatabase();
+//		oss = new OperateSQLServer();
+//		oss.connectToDatabase();
+//		
+//		remark.setText(oss.getContactsNickname(userID, contactsID));
+//		ResultSet rs = oss.getPersonalInformation(contactsID);
+//		try {
+//			if(rs.next()) {
+//				rightJLabel[0].setText(rs.getString(2));
+//				rightJLabel[1].setText(rs.getString(8));
+//				rightJLabel[2].setText(rs.getString(9));
+//				String birth = rs.getString(9);
+//				int maxSplit = 3;
+//				String[] source = birth.split("-", maxSplit);
+//				int oldYear = Integer.parseInt(source[0]);
+//				int newYear = Calendar.getInstance().get(Calendar.YEAR);
+//				int age = newYear-oldYear;
+//				rightJLabel[3].setText(String.valueOf(age));
+//				signature.setText(rs.getString(10));
+//				//remark.setText(rs.getString(columnIndex));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		oss.closeDatabase();TODO Server rebuild.
 		leftBox = Box.createVerticalBox();
 		rightBox = Box.createVerticalBox();
 		message = Box.createHorizontalBox();
@@ -159,10 +158,10 @@ public class FriendWindow extends JFrame implements ActionListener{
 			dispose();
 		}
 		if(e.getSource()==saveRemark) {
-			oss = new OperateSQLServer();
-			oss.connectToDatabase();
-			oss.updateFriendRemark(userID, contactsID, remark.getText());
-			oss.closeDatabase();
+//			oss = new OperateSQLServer();
+//			oss.connectToDatabase();
+//			oss.updateFriendRemark(userID, contactsID, remark.getText());
+//			oss.closeDatabase();TODO Server rebuild.
 			JOptionPane.showMessageDialog(null,"修改备注成功");
 			MainWindow.ctsList.get(contactsID).remark = remark.getText();
 			dispose();
