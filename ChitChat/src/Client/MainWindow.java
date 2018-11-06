@@ -218,15 +218,7 @@ public class MainWindow extends JFrame {
 	public void messageInit() {// TODO: 消息初始化
 
 		boolean hasMessage = false;
-		// TODO 拉取消息列表 读取本地
-		int lmt = 5;
-		hasMessage = true;
-		for (int i = 0; i < lmt; i++) {
-			msgList.add(
-					new Message(122, 1, new Date().getTime(), Internet.UNREAD, "这是应该说的话", "昵称", "备注", "个性签名", "性别"));
-			msgList.add(new Message(122, 1, new Date().getTime(), Internet.READ, "你好啊啊啊啊啊 ", "昵称", "备注", "个性签名", "性别"));
-		}
-		// TODO 测试用例
+	
 		if (!hasMessage) {
 			JLabel wr = new JLabel("暂无联系人哦");
 			msgPanel.add(wr);
@@ -299,31 +291,7 @@ public class MainWindow extends JFrame {
 		// oprt = null;
 		// } catch (Exception e) {
 		// }//TODO Server Rebuild.
-		int lmt = 6;
-		hasFriend= true;
-		for (int i = 0; i < lmt; i++) {
-			ctsList.add(
-					new Contacts(122
-							, 1
-							, new Date().getTime()
-							, Internet.UNREAD
-							, "这是应该说的话"
-							, "昵称"
-							, "备注"
-							, "个性签名"
-							, "性别"));
-			ctsList.add(
-					new Contacts(122
-							, 0
-							, new Date().getTime()
-							, Internet.UNREAD
-							, "这是应该说的话"
-							, "昵称"
-							, "备注"
-							, "个性签名"
-							, "性别"));
-		}
-
+		
 		if (!hasFriend) {
 			JLabel wr = new JLabel("暂无联系人哦");
 			ctsPanel.add(wr);
@@ -464,10 +432,8 @@ public class MainWindow extends JFrame {
 		// oprt.addNewContacts(userID, ID, rs.getString(2));
 		// oprt.closeDatabase();
 
-		Contacts newContact = new Contacts(47, 1, new Date().getTime(), Internet.READ, ""// 上次聊天的最后一句
-				, "新联系人", "新联系人备注"// 备注
-				, "个性签名", "性别");
-		ctsList.add(newContact);
+		//TODO 数据库操作.
+		//ctsList.add(newContact);
 		ctsList.sort();
 		
 		 reloadContacts();

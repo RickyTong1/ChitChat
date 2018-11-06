@@ -32,6 +32,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		// TODO Auto-generated constructor stub
 	}
 
+	long spokeTime = super.lastTimeSpeak;
 	JLabel timeStick = null;// 送达的時間戳
 	String latestSpeak;// 上次送达的話的時間
 	JLabel lastSpoke;// 送达的话
@@ -57,7 +58,23 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		// 判断并给出时间戳
 		timeStick = new JLabel();
 
-		setTime(super.lastTimeSpeak);
+		//TODO 时间戳测试
+		setTime(spokeTime);
+		new Thread() {
+			@Override
+			public void run() {
+				while(true) {
+					try {
+						sleep(60000);//一分钟一次
+					} catch (InterruptedException e) {}
+					//spokeTime -= 60000*60*24;//时间加速大法
+					setTime(spokeTime);
+				}
+			}
+		}.start();
+		
+		
+		
 		// 设置字体
 		lastSpoke.setFont(Fonts.MESSAGE_LASTSPEAK);
 		timeStick.setFont(Fonts.MESSAGE_TIMESTICK);// 字体
@@ -163,16 +180,22 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 			latestSpeak = "约半小时前";
 		else if (sendTime <= 58)
 			latestSpeak = sendTime + "分之前";
-		else if (sendTime > 58)
-			latestSpeak = sendTime / 60 + "小时之前";
+		else if (sendTime > 58 && sendTime < 1440/*一天*/)
+		{
+			if(sendTime / 60 == 0)
+				latestSpeak = "1小时之前";
+			else latestSpeak = sendTime / 60 + "小时之前";	
+		}
+		
 		else if (sendTime / 60 >= 24) {
-			if (((sendTime / 60) / 24) / 7 >= 1) {
-				int week = ((sendTime / 60) / 24) / 7;
+			int day = (sendTime / 60) / 24;
+			if (day >= 7) {
+				int week = day / 7;
 				if (week >= 4)
 					latestSpeak = week / 4 + "月之前";
-				latestSpeak = ((sendTime / 60) / 24) / 7 + "周之前";
+				else latestSpeak = week  + "周之前";
 			}
-			latestSpeak = (sendTime / 60) / 24 + "天之前";
+			else latestSpeak = day + "天之前";
 		}
 		timeStick.setText(latestSpeak);
 	}

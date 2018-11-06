@@ -186,6 +186,7 @@ public class ChatWindow extends JFrame implements ActionListener {
 		chatContent.repaint();
 		chatContent.revalidate();// 刷新面板组件
 		this.requestFocus();
+		sendField.requestFocus();
 	}
 
 }
