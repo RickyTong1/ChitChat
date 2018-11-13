@@ -2,3 +2,4 @@
 11/6	现在可进行聊天内容测试.测试时注意修改Windows.ChatWindow Line:150的IP地址.服务器传输待完成.
 11/12	俊生访问了。
 11/12	奎德访问了。
+11/13	1)修改了Constants.Window下图片和用户信息的URL, 增加通用性; 2)删除了Windows.test.
