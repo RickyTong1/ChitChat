@@ -1,34 +1,26 @@
 package Main;
 
 import Client.MainWindow;
+import WindowsController.ChatWindowControl;
 import Windows.ChatWindow;
+import Windows.ChatWindowModule;
 import Windows.FriendWindow;
 import Windows.LoginWindow;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main{
+	
+	
 	public static void main(String args[]) {
-		//new LoginWindow();
-//		new FriendWindow(37,38);
-		new MainWindow(47);
-	//	ChatWindow d = new ChatWindow(37,38,"");
-		//MainWindow main = new MainWindow(37);
-		//MainWindow w = new MainWindow(37);
-//		new Thread() {
-//			@Override
-//			public void run() {
-//				int i = 0;
-//				while(i < 10) {
-//					try {
-//						sleep(2000);
-//						i++;
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//					//MainWindow.addNewMessage(1, 1);
-//				MainWindow.addContacts(1, 1);
-//				}
-//			}
-//		}.start();
+		
+		Application.launch(ChatWindowModule.class);
+		//System.out.println("");
 	}
+	
+
+	
 }

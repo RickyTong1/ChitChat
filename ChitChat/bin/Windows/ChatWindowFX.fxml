@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane pickOnBounds="false" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WindowsController.ChatWindowControl">
+   <children>
+      <ScrollPane id="sp" layoutX="3.0" layoutY="25.0" prefHeight="401.0" prefWidth="507.0">
+         <content>
+            <Pane id="chatComtent" prefHeight="399.0" prefWidth="494.0" />
+         </content>
+      </ScrollPane>
+      <ToolBar id="tools" layoutY="426.0" prefHeight="24.0" prefWidth="513.0">
+        <items>
+          <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="55.0" text="按钮一">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="2.0" prefWidth="55.0" text="按钮2">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Button>
+            <ToggleButton mnemonicParsing="false" prefHeight="9.0" prefWidth="262.0" text="按钮" />
+        </items>
+      </ToolBar>
+      <TextArea id="sendField" fx:id="sendField" layoutX="4.0" layoutY="450.0" onMouseEntered="#sendFieldListener" prefHeight="144.0" prefWidth="455.0" />
+      <Button id="send" layoutX="463.0" layoutY="572.0" mnemonicParsing="false" onAction="#sendListener" prefHeight="22.0" prefWidth="46.0" text="发送">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+      <Button layoutX="4.0" layoutY="3.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="212.0" text="好友信息">
+         <font>
+            <Font size="9.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor>
+      </Button>
+      <Button id="quickSet" layoutX="459.0" layoutY="450.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="快速设置">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
