@@ -19,7 +19,8 @@ public class ChatWindowModule extends Application{
 		arg0.setScene(new Scene(root));
 		arg0.show();
 		arg0.setOnCloseRequest(e ->{
-			System.out.println("Window Closing!");
+			System.out.println("Window Closing!   Windows.ChatWindowModule");
+			//TODO Window Closing
 		});
 	}
 }

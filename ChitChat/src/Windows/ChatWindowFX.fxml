@@ -12,7 +12,10 @@
    <children>
       <ScrollPane id="sp" layoutX="3.0" layoutY="25.0" prefHeight="401.0" prefWidth="507.0">
          <content>
-            <Pane id="chatComtent" prefHeight="399.0" prefWidth="494.0" />
+            <Pane id="chatComtent" prefHeight="399.0" prefWidth="494.0">
+               <children>
+                  <ListView id="sentMessageList" fx:id="sentMessageList" layoutY="1.0" prefHeight="401.0" prefWidth="495.0" />
+               </children></Pane>
          </content>
       </ScrollPane>
       <ToolBar id="tools" layoutY="426.0" prefHeight="24.0" prefWidth="513.0">
@@ -30,8 +33,8 @@
             <ToggleButton mnemonicParsing="false" prefHeight="9.0" prefWidth="262.0" text="按钮" />
         </items>
       </ToolBar>
-      <TextArea id="sendField" fx:id="sendField" layoutX="4.0" layoutY="450.0" onMouseEntered="#sendFieldListener" prefHeight="144.0" prefWidth="455.0" />
-      <Button id="send" layoutX="463.0" layoutY="572.0" mnemonicParsing="false" onAction="#sendListener" prefHeight="22.0" prefWidth="46.0" text="发送">
+      <TextArea id="sendField" fx:id="sendField" layoutX="4.0" layoutY="450.0" onMouseEntered="#buttonsListener" prefHeight="144.0" prefWidth="455.0" />
+      <Button id="send" fx:id="send" layoutX="463.0" layoutY="572.0" mnemonicParsing="false" onAction="#buttonsListener" prefHeight="22.0" prefWidth="46.0" text="发送">
          <font>
             <Font size="10.0" />
          </font>
