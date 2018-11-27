@@ -47,7 +47,7 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </Button>
-      <Button id="quickSet" layoutX="459.0" layoutY="450.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="55.0" text="快速设置">
+      <Button id="quickSet" layoutX="459.0" layoutY="450.0" mnemonicParsing="false" onAction="#buttonsListener" prefHeight="22.0" prefWidth="55.0" text="快速设置">
          <font>
             <Font size="10.0" />
          </font>

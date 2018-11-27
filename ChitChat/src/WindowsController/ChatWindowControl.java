@@ -1,6 +1,5 @@
 package WindowsController;
 
-import java.awt.Color;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +28,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -81,11 +81,6 @@ public class ChatWindowControl implements Initializable{
 		
 	}
 	
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
-	}
 	void addNewMsg(String msg,message_type type) {
 		String time = getTime();
 		content.setWrapText(true);//»»ÐÐ
@@ -94,9 +89,12 @@ public class ChatWindowControl implements Initializable{
 		Task<VBox> othersMessages = new Task<VBox>() {
             @Override
             public VBox call() throws Exception {
-         //   	content.setBackground(new Background(new BackgroundFill(Color.CYAN,null,null)));
-         //   	chatBox.getChildren().add();
-            	return new VBox();
+            	content.setBackground(new Background(new BackgroundFill(Color.CYAN,null,null)));
+            	chatBox.getChildren().add(new Label("<html>" + nick
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" 
+            			+ time + "<br></html>"));
+            	chatBox.getChildren().add(content);
+            	
             }
         };
 
@@ -114,6 +112,11 @@ public class ChatWindowControl implements Initializable{
 		if(source == send)return button_type.SEND;
 		if(source == quickSet)return button_type.QUICK_SET;
 		else throw new ButtonTypeSwitchException("ChatWindowControl.turnTo()");
+	}
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 	
