@@ -90,11 +90,12 @@ public class ChatWindowControl implements Initializable{
             @Override
             public VBox call() throws Exception {
             	content.setBackground(new Background(new BackgroundFill(Color.CYAN,null,null)));
-            	chatBox.getChildren().add(new Label("<html>" + nick
+            	chatBox.getChildren().add(new Label("<html>" 
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" 
             			+ time + "<br></html>"));
             	chatBox.getChildren().add(content);
-            	
+            	return new VBox();
+            			
             }
         };
 

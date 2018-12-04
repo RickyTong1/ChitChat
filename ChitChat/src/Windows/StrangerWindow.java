@@ -2,22 +2,14 @@ package Windows;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Calendar;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
 
-import Client.Contacts;
 import Client.MainWindow;
-import DataBaseOperation.OperateSQLServer;
 import javafx.scene.layout.Border;
 
 /*好友（非陌生人）资料窗口，继承PublicDateWindow实现代码重复利用*/
@@ -32,7 +24,6 @@ public class StrangerWindow extends JFrame implements ActionListener{
 	JTextArea signature;//用于展示个性签名
 	JLabel leftJLabel[] = new JLabel [5];
 	JLabel rightJLabel[] = new JLabel [4];
-	OperateSQLServer oss;
 	public StrangerWindow(int id,int strangerID){
 		userID = id;	
 		this.strangerID = strangerID;

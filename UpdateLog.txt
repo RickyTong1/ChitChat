@@ -6,3 +6,4 @@
 11/19	提交到分支dev that 正在用JavaFX重写前端.
 11/21	增加了MessageBlob,MessageBlobOperator,更改客户端与服务端通信模式.详见MessageBlob.
 11/27	修改了Enum MessageBlobType&Enum MessageAnswerType.@王奎德
+12/4	完善中,删除了客户端部分.

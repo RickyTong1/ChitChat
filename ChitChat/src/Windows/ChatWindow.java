@@ -5,24 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import Client.MainWindow;
 import Constants.*;
 import Constants.Window;
-import DataBaseOperation.OperateSQLServer;
-import Server.SendThread;
 
 public class ChatWindow extends JFrame implements ActionListener {
 	static String time = "sjkla";
@@ -144,14 +134,7 @@ public class ChatWindow extends JFrame implements ActionListener {
 		byte[] info = ("1#" + String.valueOf(contactID) + "#" + ChatWindow.getNetworkTime() + "#"
 				+ String.valueOf(contactID) + "#" + (sendField.getText())).getBytes();
 		// 1+发送者ID+时间+目标ID+聊天文本消息
-		try {
-			// TODO 这里不能用ip
-			/// SendThread sd = new SendThread("192.168.43.29",23333,info);
-			SendThread sd = new SendThread("127.0.0.1", 50000, info);
-			new Thread(sd).start();
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		}
+	
 		
 		info = null;
 		

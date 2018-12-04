@@ -16,43 +16,58 @@ public class MessageBlob implements Serializable{
 	* 建议通过调用MessageBlobOperator类中相应的静态方法提取MessageBlob中的信息.
 	*
 	*/
-	int senderID;
-	int targetID;
+	public int senderID;//发送者id
+	public int targetID;//目标者id
+	public int roomID;//群房间id
 	
-	int onlineState;
-	int isRead;//是否已读
+	public int onlineState;
+	public int isRead;//是否已读
 	
-	String key;//密码
-	String nickname;
-	String remark;//备注
-	String style;//个性签名
-	String gender;//性别
-	String email;
-	String birth;
-	String phoneNum;//手机号
+	public String key;//密码
+	public String nickname;
+	public String remark;//备注
+	public String style;//个性签名
+	public String gender;//性别
+	public String email;
+	public String birth;
+	public String phoneNum;//手机号
+	//增加
+	public String targetRemark;
+	public String roomName;
 	
-	String[] messagesUnread;//未读消息
+	public String text;//文本消息
+	public String[] messagesRead;//已读消息
+	public String[] messagesUnread;//未读消息
 	
 	
-	String senderIP;
-	String targetIP;
+	public String senderIP;
+	public String targetIP;
 	
-	
-	Image pic;
+	public Image pic;
 
-	class Contacts{
-		String nickname;
-		int id;
-		String style;
-		String remark;
-		Image pic;
+	public class Contacts{
+		public String nickname;
+		public int id;
+		public String style;
+		public String remark;
+		public Image pic;
 	}
 	
-	Contacts[] contactslist;
+	public Contacts[] contactslist;
 	
-	MessageBlobType type;
-	MessageAnswerType answer;
-	long lastTimeSpeak;
+	public MessageBlobType type;
+	public MessageAnswerType answer;
+	public long lastTimeSpeak;
+	
+	//创建长度为counts对象数组
+	public void createContactslist(int counts) {
+		contactslist = new Contacts[counts];
+		int i;
+		for(i=0;i<counts;i++) {
+			contactslist[i] = new Contacts();
+		}
+	}
+	
 	
 	
 }

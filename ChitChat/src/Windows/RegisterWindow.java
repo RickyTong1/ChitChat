@@ -3,9 +3,6 @@ package Windows;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
-
-import DataBaseOperation.OperateSQLServer;
-
 import java.awt.*;
 import java.awt.event.*;
 

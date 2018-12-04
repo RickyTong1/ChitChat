@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import Client.MainWindow;
-import DataBaseOperation.OperateSQLServer;
 import javafx.scene.layout.Border;
 
 /*好友（非陌生人）资料窗口，继承PublicDateWindow实现代码重复利用*/
@@ -34,7 +33,6 @@ public class FriendWindow extends JFrame implements ActionListener{
 	JTextField remark;//用于展示备注
 	JLabel leftJLabel[] = new JLabel [6];
 	JLabel rightJLabel[] = new JLabel [4];
-	OperateSQLServer oss;
 	public FriendWindow(int userID,int contactsID){
 		this.userID = userID;
 		this.contactsID = contactsID;

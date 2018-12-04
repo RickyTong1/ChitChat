@@ -7,26 +7,14 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.HeadlessException;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -50,13 +38,8 @@ import CComponents.ConvList;
 import CComponents.Convasation;
 import CComponents.MessageReceive;
 import Constants.*;
-import DataBaseOperation.OperateSQLServer;
-import Server.ParseInformation;
-import Server.SendThread;
-import Windows.ChatWindow;
-import Windows.LoginWindow;
 import Windows.PersonalData;
-import Windows.StrangerWindow;
+
 
 public class MainWindow extends JFrame {
 

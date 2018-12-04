@@ -23,10 +23,8 @@ import javax.swing.event.DocumentListener;
 
 import Client.MainWindow;
 import Constants.*;
-import DataBaseOperation.OperateSQLServer;
 import Restores.KeyKeep;
 import Restores.KeyKeepOperate;
-import Server.SendThread;
 
 /*µÇÂ½´°¿ÚLoginWindow*/
 public class LoginWindow extends JFrame {

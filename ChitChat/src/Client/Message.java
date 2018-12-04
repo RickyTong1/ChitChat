@@ -1,16 +1,10 @@
 package Client;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -21,7 +15,6 @@ import javax.swing.JPopupMenu;
 
 import CComponents.Convasation;
 import Constants.*;
-import DataBaseOperation.OperateSQLServer;
 import Windows.ChatWindow;
 
 public class Message extends Convasation {// 消息 主窗口左边的基本元素
