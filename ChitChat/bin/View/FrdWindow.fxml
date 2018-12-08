@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="501.0" prefWidth="386.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FrdWindowCtrl">
+   <children>
+      <Label layoutX="50.0" layoutY="31.0" text="账号：" />
+      <Label layoutX="50.0" layoutY="82.0" text="昵称：" />
+      <Label layoutX="50.0" layoutY="191.0" text="性别：" />
+      <Label layoutX="50.0" layoutY="251.0" text="生日：" />
+      <Label layoutX="50.0" layoutY="312.0" text="年龄：" />
+      <Label layoutX="26.0" layoutY="384.0" text="个性签名：" />
+      <TextField fx:id="userIDText" editable="false" layoutX="106.0" layoutY="27.0" style="-fx-border-color: white;" />
+      <TextField fx:id="nickName" editable="false" layoutX="106.0" layoutY="78.0" style="-fx-border-color: white;" />
+      <TextField fx:id="sex" editable="false" layoutX="106.0" layoutY="186.0" style="-fx-border-color: white;" />
+      <TextField fx:id="birthday" editable="false" layoutX="106.0" layoutY="246.0" style="-fx-border-color: white;" />
+      <TextField fx:id="age" editable="false" layoutX="106.0" layoutY="307.0" style="-fx-border-color: white;" />
+      <TextArea fx:id="signature" editable="false" layoutX="107.0" layoutY="357.0" prefHeight="72.0" prefWidth="205.0" style="-fx-border-color: white;" wrapText="true" />
+      <Button fx:id="saveButton" layoutX="96.0" layoutY="445.0" mnemonicParsing="false" onAction="#saveLis" prefHeight="35.0" prefWidth="54.0" text="保存" />
+      <Button fx:id="cancleButton" layoutX="209.0" layoutY="445.0" mnemonicParsing="false" onAction="#cancleLis" prefHeight="35.0" prefWidth="54.0" text="取消" />
+      <Label layoutX="50.0" layoutY="134.0" text="备注：" />
+      <TextField fx:id="remark" layoutX="107.0" layoutY="130.0" onAction="#remarkLis" style="-fx-border-color: white;" />
+   </children>
+</AnchorPane>

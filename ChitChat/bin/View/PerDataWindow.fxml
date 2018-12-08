@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="388.0" prefWidth="414.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PerDataWindowCtrl">
+   <children>
+      <Label layoutX="66.0" layoutY="40.0" text="账号：" />
+      <Label layoutX="66.0" layoutY="80.0" text="昵称：" />
+      <Label layoutX="66.0" layoutY="120.0" text="性别：" />
+      <Label layoutX="44.0" layoutY="163.0" text="出生日期：" />
+      <Label layoutX="59.0" layoutY="204.0" prefHeight="17.0" prefWidth="50.0" text="Email：">
+         <opaqueInsets>
+            <Insets left="10.0" />
+         </opaqueInsets>
+      </Label>
+      <Label layoutX="44.0" layoutY="264.0" text="个性签名：" />
+      <TextField fx:id="userIDText" editable="false" layoutX="120.0" layoutY="36.0" prefHeight="25.0" prefWidth="232.0" />
+      <TextField fx:id="nickNameText" layoutX="120.0" layoutY="76.0" onAction="#nickNameLis" prefHeight="25.0" prefWidth="232.0" />
+      <ComboBox fx:id="sexComboBox" layoutX="120.0" layoutY="116.0" prefHeight="25.0" prefWidth="161.0" />
+      <ComboBox fx:id="monthComboBox" layoutX="217.0" layoutY="159.0" prefHeight="25.0" prefWidth="45.0" />
+      <ComboBox fx:id="dayComboBox" layoutX="301.0" layoutY="159.0" prefHeight="25.0" prefWidth="29.0" />
+      <Label layoutX="195.0" layoutY="163.0" text="年" />
+      <Label layoutX="275.0" layoutY="163.0" text="月" />
+      <Label layoutX="361.0" layoutY="163.0" text="日" />
+      <TextField fx:id="emailText" layoutX="120.0" layoutY="200.0" onAction="#emailLis" prefHeight="25.0" prefWidth="232.0" />
+      <TextArea fx:id="signature" layoutX="117.0" layoutY="240.0" prefHeight="65.0" prefWidth="232.0" wrapText="true" />
+      <ComboBox fx:id="yearComboBox" layoutX="120.0" layoutY="159.0" prefHeight="25.0" prefWidth="69.0" />
+      <Button fx:id="vertifyButton" layoutX="127.0" layoutY="325.0" mnemonicParsing="false" onAction="#vertifyLis" text="修改" />
+      <Button fx:id="cancleButton" layoutX="233.0" layoutY="325.0" mnemonicParsing="false" onAction="#cancleLis" text="取消" />
+   </children>
+</AnchorPane>

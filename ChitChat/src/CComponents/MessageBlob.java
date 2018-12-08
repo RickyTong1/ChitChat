@@ -45,7 +45,7 @@ public class MessageBlob implements Serializable{
 	
 	public Image pic;
 
-	public class Contacts{
+	public class Contacts implements Serializable{
 		public String nickname;
 		public int id;
 		public String style;

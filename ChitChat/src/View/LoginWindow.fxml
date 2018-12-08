@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="230.0" prefWidth="434.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginWindowCtrl">
+   <children>
+      <Label layoutX="46.0" layoutY="42.0" text="账号：">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="46.0" layoutY="90.0" text="密码：">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="ID" layoutX="112.0" layoutY="40.0" onAction="#IDListener" onInputMethodTextChanged="#docListener" prefHeight="25.0" prefWidth="179.0" />
+      <PasswordField fx:id="password" layoutX="112.0" layoutY="88.0" onAction="#passwordListener" prefHeight="25.0" prefWidth="179.0" />
+      <CheckBox id="keepMyKey" fx:id="keepMyKey" layoutX="48.0" layoutY="140.0" mnemonicParsing="false" onAction="#KeyKeepListener" prefHeight="34.0" prefWidth="88.0" text="记住密码">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <Button fx:id="loginButton" layoutX="304.0" layoutY="162.0" mnemonicParsing="false" onAction="#loginListener" prefHeight="25.0" prefWidth="51.0" style="-fx-background-color: #f4f4f4;" text="登陆" />
+      <Button fx:id="registerButton" layoutX="183.0" layoutY="162.0" mnemonicParsing="false" onAction="#registerListener" prefHeight="25.0" prefWidth="51.0" style="-fx-background-color: #f4f4f4;" text="注册" />
+      <Button fx:id="findButton" layoutX="329.0" layoutY="41.0" mnemonicParsing="false" onAction="#findListener" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #f4f4f4;" text="找回密码" />
+      <Button fx:id="changeButton" layoutX="329.0" layoutY="88.0" mnemonicParsing="false" onAction="#changeListener" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #f4f4f4;" text="修改密码" />
+      <CheckBox id="keepMyKey" fx:id="keepMyKey1" layoutX="48.0" layoutY="174.0" mnemonicParsing="false" onAction="#KeyKeepListener" prefHeight="34.0" prefWidth="88.0" text="记住账号">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+   </children>
+</AnchorPane>

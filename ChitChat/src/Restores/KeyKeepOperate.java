@@ -1,5 +1,7 @@
 package Restores;
 
+import java.util.Vector;
+
 public class KeyKeepOperate {
 
 	public static KeyKeep pack(String ID, String Key) {//º”√‹
@@ -11,12 +13,16 @@ public class KeyKeepOperate {
 		return new KeyKeep(id, keySecured);
 	}
 
-	public static KeyKeep unpack(KeyKeep keys) {//Ω‚√‹
-		String id = keys.id;
-		String key;
-		char[] keyChar = new char[keys.keySecured.length];
-		for(int i = 0; i < keys.keySecured.length; i++)
-			keyChar[i] = (char) (keys.keySecured[i]  ^ id.toCharArray()[0]);
-		return new KeyKeep(id, keyChar);
+	public static Vector<KeyKeep> unpack(Vector<KeyKeep> keys) {//Ω‚√‹
+		Vector<KeyKeep> upKey = new Vector<KeyKeep>();
+		for(KeyKeep i : keys) {
+			String id = i.id;
+			String key;
+			char[] keyChar = new char[i.keySecured.length];
+			for(int j = 0; j < i.keySecured.length; j++)
+				keyChar[j] = (char) (i.keySecured[j]  ^ id.toCharArray()[0]);
+			upKey.add(new KeyKeep(id, keyChar));
+		}
+		return upKey;
 	}
 }

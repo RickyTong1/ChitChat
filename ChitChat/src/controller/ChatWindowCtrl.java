@@ -1,4 +1,4 @@
-package WindowsController;
+package controller;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -33,11 +33,12 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class ChatWindowControl implements Initializable{
+public class ChatWindowCtrl{
 
 	private enum sendField_quickKey{//发送快捷键模式,在快速设置中可以更改,默认为ENTER+ALT.
 		SEND_TYPE_ON_ENTER,SEND_TYPE_ON_ENTER_ALT,SEND_TYPE_ON_ENTER_CTRL
 	}
+	
 	 
 	private enum button_type{
 		SEND,QUICK_SET
@@ -94,8 +95,7 @@ public class ChatWindowControl implements Initializable{
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" 
             			+ time + "<br></html>"));
             	chatBox.getChildren().add(content);
-            	return new VBox();
-            			
+            	return new VBox();    			
             }
         };
 
@@ -113,11 +113,6 @@ public class ChatWindowControl implements Initializable{
 		if(source == send)return button_type.SEND;
 		if(source == quickSet)return button_type.QUICK_SET;
 		else throw new ButtonTypeSwitchException("ChatWindowControl.turnTo()");
-	}
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
 	}
 }
 	

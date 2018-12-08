@@ -64,15 +64,11 @@ public class LoginWindow extends JFrame {
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "账号信息装载错误.","",JOptionPane.PLAIN_MESSAGE);
 		}
-		Vector<KeyKeep> temp = new Vector<KeyKeep>();
-		for(KeyKeep i:keys) {
-			temp.add(KeyKeepOperate.unpack(i));
-		}
-		keys = temp;
+		keys = KeyKeepOperate.unpack(keys);
 		
 		init();
 		setLayout(new FlowLayout());
-		setVisible(true);			//设置可见
+		setVisible(true);//设置可见
 		setTitle("ChitChat");
 		setBounds(Window.getMiddleWidth(350),Window.getMiddleHeight(350),350,350);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
