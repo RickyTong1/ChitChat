@@ -12,7 +12,6 @@ import java.util.Date;
 import javax.swing.*;
 import Client.MainWindow;
 import Constants.*;
-import Constants.Window;
 
 public class ChatWindow extends JFrame implements ActionListener {
 	static String time = "sjkla";
@@ -45,7 +44,7 @@ public class ChatWindow extends JFrame implements ActionListener {
 		init();
 		setLayout(null);
 		setTitle("¡ƒÃÏ–≈œ¢");
-		setBounds(Window.getMiddleWidth(500), Window.getMiddleHeight(600), 500, 600);
+		setBounds(utils.Window.getMiddleWidth(500), utils.Window.getMiddleHeight(600), 500, 600);
 		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

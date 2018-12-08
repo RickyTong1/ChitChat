@@ -21,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import utils.LocalData;
 
 public class RegisterWindowCtrl implements Initializable {
 	/*×é¼þ°ó¶¨*/

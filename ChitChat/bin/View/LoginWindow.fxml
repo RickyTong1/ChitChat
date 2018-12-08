@@ -29,7 +29,7 @@
       <Button fx:id="registerButton" layoutX="183.0" layoutY="162.0" mnemonicParsing="false" onAction="#registerListener" prefHeight="25.0" prefWidth="51.0" style="-fx-background-color: #f4f4f4;" text="注册" />
       <Button fx:id="findButton" layoutX="329.0" layoutY="41.0" mnemonicParsing="false" onAction="#findListener" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #f4f4f4;" text="找回密码" />
       <Button fx:id="changeButton" layoutX="329.0" layoutY="88.0" mnemonicParsing="false" onAction="#changeListener" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #f4f4f4;" text="修改密码" />
-      <CheckBox id="keepMyKey" fx:id="keepMyKey1" layoutX="48.0" layoutY="174.0" mnemonicParsing="false" onAction="#KeyKeepListener" prefHeight="34.0" prefWidth="88.0" text="记住账号">
+      <CheckBox fx:id="keepMyKey" layoutX="48.0" layoutY="174.0" mnemonicParsing="false" onAction="#KeyKeepListener" prefHeight="34.0" prefWidth="88.0" text="记住账号">
          <font>
             <Font size="14.0" />
          </font>

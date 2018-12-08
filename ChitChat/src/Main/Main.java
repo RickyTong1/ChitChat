@@ -1,7 +1,6 @@
 package Main;
 
-import Module.LoginWindow;
-import Module.Popup;
+import Windows.LoginWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -12,14 +11,13 @@ public class Main extends Application {
     
     public static void main(String[] args) {
 
-    	launch();
+    	new LoginWindow();
     }
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-		LoginWindow login = new LoginWindow();
-		Parent root = FXMLLoader.load(getClass().getResource(login.url));
+		Parent root = FXMLLoader.load(getClass().getResource("../View/LoginWindow.fxml"));
 		primaryStage.setTitle("a");
 		primaryStage.setScene(new Scene(root));
 		primaryStage.show();

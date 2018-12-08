@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane pickOnBounds="false" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WindowsController.ChatWindowControl">
+<AnchorPane pickOnBounds="false" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ChatWindowCtrl">
    <children>
       <ScrollPane id="sp" layoutX="3.0" layoutY="25.0" prefHeight="401.0" prefWidth="507.0">
          <content>

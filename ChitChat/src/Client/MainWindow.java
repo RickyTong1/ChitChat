@@ -39,6 +39,7 @@ import CComponents.Convasation;
 import CComponents.MessageReceive;
 import Constants.*;
 import Windows.PersonalData;
+import utils.Window;
 
 
 public class MainWindow extends JFrame {

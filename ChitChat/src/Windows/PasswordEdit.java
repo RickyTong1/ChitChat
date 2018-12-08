@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
-import Constants.Window;
+import utils.Window;
 /*修改密码界面*/
 public class PasswordEdit extends JFrame {
 	JTextField userID;					//用户账号

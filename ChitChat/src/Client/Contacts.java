@@ -18,6 +18,7 @@ import Constants.*;
 
 import Windows.ChatWindow;
 import Windows.FriendWindow;
+import utils.Window;
 import CComponents.*;
 
 public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素

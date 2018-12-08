@@ -22,6 +22,8 @@ public class MessageBlob implements Serializable{
 	
 	public int onlineState;
 	public int isRead;//是否已读
+	public int unreadCounts;//未读消息的数目
+	public int totalCounts;//总记录数(聊天记录或者是好友记录数)
 	
 	public String key;//密码
 	public String nickname;
@@ -32,25 +34,35 @@ public class MessageBlob implements Serializable{
 	public String birth;
 	public String phoneNum;//手机号
 	//增加
-	public String targetRemark;
+	public String targetRemark;//自身备注
 	public String roomName;
-	
-	public String text;//文本消息
-	public String[] messagesRead;//已读消息
-	public String[] messagesUnread;//未读消息
 	
 	
 	public String senderIP;
 	public String targetIP;
+	public String text;//文本消息
 	
 	public Image pic;
+	
+	public class Messages implements Serializable{
+		public int senderID;
+		public String text;
+		public String time;
+		public int status;
+	}
+	
+	public Messages[] messageslist;//聊天记录
+	
+	
+	
 
 	public class Contacts implements Serializable{
 		public String nickname;
 		public int id;
 		public String style;
-		public String remark;
+		public String remark;//暂时没用
 		public Image pic;
+		public int status;
 	}
 	
 	public Contacts[] contactslist;
@@ -67,8 +79,14 @@ public class MessageBlob implements Serializable{
 			contactslist[i] = new Contacts();
 		}
 	}
-	
-	
-	
+	//创建长度为counts的信息数组
+	public void createMessagesliist(int counts) {
+		totalCounts = counts;//记录总数
+		messageslist = new Messages[counts];
+		int i;
+		for(i=0;i<counts;i++) {
+			messageslist[i] = new Messages();
+		}
+	}
 }
 

@@ -1,4 +1,4 @@
-package Constants;
+package utils;
 
 import java.awt.Toolkit;
 

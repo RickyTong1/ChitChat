@@ -10,8 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import Constants.Window;
+import utils.Window;
 /*找回密码界面*/
 public class FindPasswordWindow extends JFrame implements ActionListener{
 	JTextField userID;					//用户账号

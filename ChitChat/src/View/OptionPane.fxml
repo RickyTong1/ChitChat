@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="187.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Module.OptionPane">
+   <children>
+      <Pane layoutX="2.0" prefHeight="192.0" prefWidth="307.0">
+         <children>
+            <Label id="head" fx:id="head" layoutX="16.0" layoutY="14.0" prefHeight="22.0" prefWidth="279.0" text="Label">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label id="message" fx:id="message" alignment="TOP_LEFT" layoutX="16.0" layoutY="58.0" prefHeight="93.0" prefWidth="285.0" text="Label">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button layoutX="134.0" layoutY="155.0" mnemonicParsing="false" onAction="#onAction" text="确认" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

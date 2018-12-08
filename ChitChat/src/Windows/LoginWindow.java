@@ -25,6 +25,7 @@ import Client.MainWindow;
 import Constants.*;
 import Restores.KeyKeep;
 import Restores.KeyKeepOperate;
+import utils.Window;
 
 /*µÇÂ½´°¿ÚLoginWindow*/
 public class LoginWindow extends JFrame {
@@ -44,7 +45,8 @@ public class LoginWindow extends JFrame {
 	Box vbox1,vbox2,vbox3;				//ÊúÖ±ºÐ×Ó
 	File user_info;
 	Vector<KeyKeep> keys = new Vector<KeyKeep>();
-	public LoginWindow(){
+	public LoginWindow() {
+		
 		try {
 			user_info = new File(Window.USER_INFO_URL);
 			IP_address = InetAddress.getLocalHost().getHostAddress();

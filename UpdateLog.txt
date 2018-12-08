@@ -8,3 +8,4 @@
 11/27	修改了Enum MessageBlobType&Enum MessageAnswerType.@王奎德
 12/4	完善中,删除了客户端部分.
 12/8	删除了Server的包,客户端和服务器端代码分离;弃用之前的swing组件,但保留源码.
+12/8	增加utils包,包含Popup类,以及原先在Constants包中的LocalData和Window类,以及正在写的ClientTrans类.
