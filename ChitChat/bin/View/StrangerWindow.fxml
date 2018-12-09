@@ -39,6 +39,7 @@
       <TextField fx:id="birthdayText" editable="false" layoutX="133.0" layoutY="161.0" style="-fx-border-color: white;" />
       <TextField fx:id="sexText" editable="false" layoutX="133.0" layoutY="107.0" style="-fx-border-color: white;" />
       <TextField fx:id="nickText" editable="false" layoutX="133.0" layoutY="53.0" style="-fx-border-color: white;" />
-      <Button fx:id="cancleButton" layoutX="160.0" layoutY="367.0" mnemonicParsing="false" onAction="#cancleLis" text="退出" />
+      <Button fx:id="cancleButton" layoutX="93.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancleLis" text="退出" />
+      <Button id="addContact" fx:id="addContact" layoutX="204.0" layoutY="374.0" mnemonicParsing="false" onAction="#addContactLis" text="添加好友" />
    </children>
 </AnchorPane>

@@ -2,6 +2,10 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import CComponents.MessageBlob;
+import CComponents.MessageBlobType;
+import Client.MainWindow;
 import Constants.*;
 import Module.PerDataWindow;
 import javafx.fxml.FXML;
@@ -38,11 +42,11 @@ public class PerDataWindowCtrl implements Initializable{
 	public void initialize(URL location, ResourceBundle resources) {
 	// TODO Auto-generated method stub
 		/*从数据库中读取消息并显示*/
-		userIDText.setText(String.valueOf(userID));
+	
 	}
 	/*昵称监视器*/
 	public void nickNameLis() {
-		
+		nickNameText.getText();
 	}
 	/*邮箱文本框监视器*/
 	public void emailLis() {
@@ -50,6 +54,16 @@ public class PerDataWindowCtrl implements Initializable{
 	}
 	/*确认按钮监视器*/
 	public void vertifyLis() {
+		MessageBlob message = new MessageBlob();
+		message.type = MessageBlobType.SELF_PROFILE_UPDATE;
+		message.senderIP = Property.Property.NATIVE_IP;
+		message.senderID = MainWindow.ID;
+		message.nickname = nickNameText.getText();
+		message.key = null;
+		message.email = emailText.getText();
+		message.phoneNum = null;
+		
+		
 		
 	}
 	/*取消按钮监视器*/

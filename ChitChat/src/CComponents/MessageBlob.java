@@ -25,6 +25,7 @@ public class MessageBlob implements Serializable{
 	public int unreadCounts;//未读消息的数目
 	public int totalCounts;//总记录数(聊天记录或者是好友记录数)
 	
+	public String newKey;
 	public String key;//密码
 	public String nickname;
 	public String remark;//备注

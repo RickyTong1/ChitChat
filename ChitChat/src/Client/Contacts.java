@@ -13,12 +13,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import java.awt.Dimension;
-
+import Property.Property;
 import Constants.*;
 
 import Windows.ChatWindow;
 import Windows.FriendWindow;
-import utils.Window;
 import CComponents.*;
 
 public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
@@ -55,12 +54,12 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 		switch (super.onlineState) {
 		case Internet.ONLINE: {
 			isOnline = Internet.ONLINE;
-			setIcon(Window.IMAGE_ONLINE_URL);
+			setIcon(Property.IMAGE_ONLINE_URL);
 			break;
 		}
 		case Internet.OFFLINE: {
 			isOnline = Internet.OFFLINE;
-			setIcon(Window.IMAGE_OFFLINE_URL);
+			setIcon(Property.IMAGE_OFFLINE_URL);
 			break;
 		}
 		}
@@ -107,29 +106,16 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			new FriendWindow(MainWindow.ID, this.ID);
 		});
 		setRemark.addActionListener(e -> {
-			String match = JOptionPane.showInputDialog(null, null, "请输入备注名", JOptionPane.PLAIN_MESSAGE);
-			if (match == null)
-				return;
-			//TODO 服务器改造
-//			OperateSQLServer opt = new OperateSQLServer();
-//			opt.connectToDatabase();
-//			opt.updateFriendRemark(MainWindow.ID, ID, match);
-//
-//			MainWindow.ctsList.remove(ID);
-//			ResultSet info = opt.getPersonalInformation(ID);
-//			try {
-//				info.next();
-//				MainWindow.ctsList.add(new Contacts(info.getInt(1)// ID
-//				, info.getInt(6), new Date().getTime()// time
-//				, Internet.READ// ifread
-//				, "", info.getString(2), info.getString(4), style, info.getString(8)));
-//			} catch (SQLException e1) {
-//				JOptionPane.showMessageDialog(null, "错误:CTS_137", "", JOptionPane.PLAIN_MESSAGE);
-//			}
-//			opt.closeDatabase();
-			MainWindow.ctsList.sort();
-			MainWindow.ctsPanel.repaint();
-			MainWindow.ctsPanel.revalidate();
+			MessageBlob message = new MessageBlob();
+			message.type = MessageBlobType.FRIEND_PROFILE_QUEST;
+			message.senderIP = Property.NATIVE_IP;
+			message.senderID = MainWindow.ID;
+			message.targetID = super.ID;
+			
+			new SendMessage(
+					Property.SERVER_IP
+					,SocketConstants.GENERAL_PORT
+					,MessageBlobOperator.pack(message));
 			
 		});
 
@@ -161,7 +147,6 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			}
 
 		});
-
 		return thisBx;
 
 	}
@@ -180,53 +165,13 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 	public void setOnlineState(int onlineState) {
 		switch (onlineState) {
 		case Internet.ONLINE: {
-			setIcon(Window.IMAGE_OFFLINE_URL);
+			setIcon(Property.IMAGE_OFFLINE_URL);
 		}
 			break;
 		case Internet.OFFLINE: {
-			setIcon(Window.IMAGE_OFFLINE_URL);
+			setIcon(Property.IMAGE_OFFLINE_URL);
 		}
 		}
-
-		// // TODO 联系人状态刷新方法
-		// new Thread() {
-		// @Override
-		// public void run() {
-		// while(true)
-		// {
-		// OperateSQLServer oprt = new OperateSQLServer();
-		// ResultSet rs = oprt.getPersonalInformation(ID);
-		// try {
-		// rs.next();
-		// switch(rs.getInt(6))
-		// {
-		// case Internet.ONLINE:{
-		// MainWindow.ctsList.get(ID).onlineState = Internet.ONLINE;
-		// isOnline = Internet.ONLINE;
-		// // setIcon(Window.IMAGE_ONLINE_URL);
-		// }break;
-		// case Internet.OFFLINE:{
-		// MainWindow.ctsList.get(ID).onlineState = Internet.OFFLINE;
-		// isOnline = Internet.OFFLINE;
-		// // setIcon(Window.IMAGE_OFFLINE_URL);
-		// }break;
-		//
-		// }//switch
-		// oprt.closeDatabase();
-		// MainWindow.ctsList.sort();
-		// } catch (SQLException e) {}
-		// MainWindow.ctsPanel.remove(thisBx);
-		// MainWindow.ctsPanel.add(MainWindow.ctsList.get(ID).create());
-		// try {
-		// sleep(2000);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// }.start();
-		//
 	}
 
 }

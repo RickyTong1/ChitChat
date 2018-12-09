@@ -4,7 +4,12 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
 import Client.MainWindow;
+import Client.SendMessage;
+import Constants.SocketConstants;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -51,17 +56,17 @@ public class PersonalData extends JFrame{
 	ComboBoxListener comboBoxListener_day;
 	MyKeyListener keyListener;
 	int id;
-	public PersonalData(int id){
-		this.id = id;
+	public PersonalData(MessageBlob e){
+		this.id = e.senderID;
 		this.setLayout(new FlowLayout());
-		init();
+		init(e);
 		setBounds(500, 200, 400, 450);
 		setTitle("我的资料");
 		setVisible(true);
 		setResizable(false);//设置窗口不可调
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	void init() {
+	void init(MessageBlob e) {
 		//初始化临时变量
 		tempUserSex="男";
 		tempYear="1994";
@@ -119,33 +124,24 @@ public class PersonalData extends JFrame{
 		day=new JLabel("日");		
 		textEmail=new JTextField(15);
 		//从数据库读取数据
-//		oss = new OperateSQLServer();
-//		oss.connectToDatabase();
-//		ResultSet rs = oss.getPersonalInformation(id);
-//		try {
-//			if(rs.next()) {
-//				textNo.setText(rs.getString(1));
-//				textName.setText(rs.getString(2));
-//				if(rs.getString(8).equals("男"))
-//					comBox_sex.setSelectedIndex(0);
-//				else
-//					comBox_sex.setSelectedIndex(1);
-//				String birth = rs.getString(9);
-//				int maxSplit = 3;
-//				String[] source = birth.split("-", maxSplit);
-//				int birthYear = Integer.parseInt(source[0]);
-//				int birthMonth = Integer.parseInt(source[1]);
-//				int birthDay = Integer.parseInt(source[2]);
-//				comBox_year.setSelectedIndex(birthYear-1950);
-//				comBox_month.setSelectedIndex(birthMonth-1);
-//				comBox_day.setSelectedIndex(birthDay-1);
-//				textEmail.setText(rs.getString(5));
-//				signature.setText(rs.getString(10));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		oss.closeDatabase();TODO Server rebuild.
+		textNo.setText(""+e.senderID);
+		textName.setText(e.nickname);
+		if(e.gender.equals("男"))
+			comBox_sex.setSelectedIndex(0);
+		else
+			comBox_sex.setSelectedIndex(1);
+		String birth = e.birth;
+		int maxSplit = 3;
+		String[] source = birth.split("-", maxSplit);
+		int birthYear = Integer.parseInt(source[0]);
+		int birthMonth = Integer.parseInt(source[1]);
+		int birthDay = Integer.parseInt(source[2]);
+		comBox_year.setSelectedIndex(birthYear-1950);
+		comBox_month.setSelectedIndex(birthMonth-1);
+		comBox_day.setSelectedIndex(birthDay-1);
+		textEmail.setText(e.email);
+		signature.setText(e.style);
+		
 			
 		//放入右盒子
 		boxRight.add(textNo);
@@ -167,11 +163,8 @@ public class PersonalData extends JFrame{
 		signatureBox.add(label[5]);
 		signatureBox.add(Box.createHorizontalStrut(10));
 		signatureBox.add(signature);
-		//boxRight.add(signatureBox);
+
 		
-//		boxRight.add(pvd);	
-//		boxRight.add(Box.createVerticalStrut(6));
-//		boxRight.add(repvd);
 		//填充按钮盒子
 		boxDown=Box.createHorizontalBox();
 		button1=new JButton("保存");
@@ -233,10 +226,21 @@ public class PersonalData extends JFrame{
 			if(e.getSource() == button2)
 				dispose();
 			else if(e.getSource() == button1) {
-//				OperateSQLServer oss;
-//				oss.connectToDatabase();
-//				oss.updateUserImformation(id, tempUserName, tempUserSex, birth, tempEmail, signature.getText());
-//				oss.closeDatabase();TODO Server rebuild.
+				MessageBlob message = new MessageBlob();
+				message.type = MessageBlobType.SELF_PROFILE_UPDATE;
+				message.senderIP = Property.Property.NATIVE_IP;
+				message.senderID = MainWindow.ID;
+				message.nickname = tempUserName;
+				message.key = null;
+				message.email = tempEmail;
+				message.phoneNum = null;
+				message.birth = birth;
+				message.gender = tempUserSex;
+				message.style = signature.getText();
+				new SendMessage(Property.Property.SERVER_IP
+						,SocketConstants.GENERAL_PORT
+						,MessageBlobOperator.pack(message));
+				
 				MainWindow.nicknameLabel = new JLabel(tempUserName);
 				MainWindow.styleWord = new JLabel(signature.getText());
 				dispose();

@@ -7,6 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
+import Client.SendMessage;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -15,9 +21,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -50,7 +59,10 @@ public class RegisterWindowCtrl implements Initializable {
 	String email;//电子邮箱
 	String password;//密码
 	String vertify;//确认的密码
-	int birthdayYear;//出生年份
+	String sex;//性别
+	String birthdayYear;//出生年份
+	String birthdayMonth;//出生月份
+	String birthdayDay;//出生日份
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// nothing here.Don't need!!!
@@ -85,10 +97,46 @@ public class RegisterWindowCtrl implements Initializable {
 	}
 	/*注册按钮监视器*/
 	public void registerListener(ActionEvent register) {
-		nickName = nickNameTextField.getText();//将昵称文本框内容提出
+		nickName = nickNameTextField.getText();//提取昵称文本框内容
+		sex = (String) sexComboBox.getValue();//提取性别下拉框内容
 		email = emailTextField.getText();//提取邮箱文本框内容
 		password = pswdPswdField.getText();//提取密码内容
 		vertify = vertifyPswdField.getText();//提取确认密码内容
+		birthdayYear = (String) year.getValue();//提取年份下拉框内容
+		birthdayMonth = (String)month.getValue();//提取月份下拉框内容
+		birthdayDay = (String)day.getValue();//提取日份下拉框内容
+		/*设置弹出菜单提示*/
+		ContextMenu pop = new ContextMenu();
+		MenuItem IDNullWar = new MenuItem("账号不能为空");//账号空警告
+		MenuItem pswdNullWar = new MenuItem("密码不能为空");//密码空警告
+		if(nickName.trim().compareTo("")==0) {
+			pop.getItems().add(IDNullWar);//账号为空
+			pop.show(nickNameTextField, Side.BOTTOM, 0,0);
+		}
+		else if(password.trim().compareTo("")==0) {
+			pop.getItems().add(pswdNullWar);//密码为空
+			pop.show(pswdPswdField, Side.BOTTOM, 0,0);
+		}
+	
+		else if(password.trim().compareTo(vertify.trim())!=0) {
+			JOptionPane.showMessageDialog(null, "两次密码不一致，请重新确认");//两次密码比较失败
+		}
+		MessageBlob message = new MessageBlob();
+		message.type = MessageBlobType.REGISTER;
+		message.senderIP = Property.Property.NATIVE_IP;
+		message.nickname = nickName;
+		message.key = password;
+		message.email = email;
+		message.phoneNum = null;
+		message.birth = birthdayYear+"-"+birthdayMonth
+				+"-"+birthdayDay;
+		message.gender = sex;
+		message.style = null;
+		
+		new SendMessage(
+				Property.Property.SERVER_IP
+				,SocketConstants.GENERAL_PORT
+				,MessageBlobOperator.pack(message));
 	}
 	/*退出按钮监视器*/
 	public void exitListener(ActionEvent exit) {

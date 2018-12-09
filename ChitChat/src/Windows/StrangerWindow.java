@@ -9,7 +9,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
+import CComponents.MessageAnswerType;
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
 import Client.MainWindow;
+import Client.SendMessage;
+import Constants.SocketConstants;
 import javafx.scene.layout.Border;
 
 /*好友（非陌生人）资料窗口，继承PublicDateWindow实现代码重复利用*/
@@ -129,10 +135,19 @@ public class StrangerWindow extends JFrame implements ActionListener{
 			dispose();
 		}
 		else if(e.getSource()==addConstent) {
-			if(MainWindow.addContacts(this.strangerID, userID))
-				JOptionPane.showMessageDialog(null,"添加成功");
-			else 
-				JOptionPane.showMessageDialog(null,"添加失败,请检查网络!");
+			if (userID == this.strangerID)
+				return ;
+			MessageBlob message = new MessageBlob();
+			message.type = MessageBlobType.ADD_CONTACT_QUEST;
+			message.answer = MessageAnswerType.WAITING;
+			message.senderID = userID;
+			message.targetID = this.strangerID;
+			message.targetRemark = "";
+			message.roomID = 0;
+			message.roomName = "";
+			new SendMessage(Property.Property.SERVER_IP
+					,SocketConstants.GENERAL_PORT
+					,MessageBlobOperator.pack(message));
 
 		}
 	}

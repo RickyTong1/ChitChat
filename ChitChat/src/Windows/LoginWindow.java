@@ -21,7 +21,12 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
+import CComponents.MessageReceive;
 import Client.MainWindow;
+import Client.SendMessage;
 import Constants.*;
 import Restores.KeyKeep;
 import Restores.KeyKeepOperate;
@@ -46,9 +51,11 @@ public class LoginWindow extends JFrame {
 	File user_info;
 	Vector<KeyKeep> keys = new Vector<KeyKeep>();
 	public LoginWindow() {
+		MessageReceive s = MessageReceive.getInstance();
+		new Thread(s).start();
 		
 		try {
-			user_info = new File(Window.USER_INFO_URL);
+			user_info = new File(Property.Property.USER_INFO_URL);
 			IP_address = InetAddress.getLocalHost().getHostAddress();
 			System.out.println(IP_address);
 		} catch (UnknownHostException e) {
@@ -205,38 +212,18 @@ public class LoginWindow extends JFrame {
 			}//没有break
 			case 3:{//loginButton
 				if(warning())return;//账号格式以及密码是否为空检查
-//				OperateSQLServer oprt = new OperateSQLServer();
-//				oprt.connectToDatabase();
-//				ResultSet result = oprt.getPersonalInformation(Integer.parseInt(ID.getText()));
-//
-//				try {
-//					result.next();
-//					String keyGot = result.getString(3);//密码
-//					if(keyGot.equals(key.getText()))
-//					{	
-//						dispose();
-//						new MainWindow(Integer.parseInt(ID.getText()));
-//						byte[] info;
-//						info = ("2#"+ID.getText()+"#"+ChatWindow.getNetworkTime()+"#"+IP_address).getBytes();
-//						
-//						SendThread send = new SendThread("192.168.43.29",23334,info);
-//						new Thread(send).start();
-//						oprt.updateLoggingStatus(1, Integer.parseInt(ID.getText()));
-//						
-//					}
-//					else
-//					{
-//						JOptionPane.showMessageDialog(null, "密码错误!","",JOptionPane.PLAIN_MESSAGE);
-//						return;
-//					}
-//				} catch (SQLException e) {
-//					JOptionPane.showMessageDialog(null, "不存在该用户!","",JOptionPane.PLAIN_MESSAGE);
-//				} catch (UnknownHostException e) {
-//					JOptionPane.showMessageDialog(null, "远程服务器IP错误!","",JOptionPane.PLAIN_MESSAGE);
-//				}
-//				oprt.closeDatabase();TODO Server rebuild.
+				MessageBlob message = new MessageBlob();
+				message.type = MessageBlobType.LOGIN;
+				message.senderIP = Property.Property.NATIVE_IP;
+				message.senderID = Integer.parseInt(ID.getText());
+				message.key = key.getText();
+				message.onlineState = 0;
 				
-			dispose();//该方法释放资源.
+				new SendMessage(Property.Property.SERVER_IP
+						,SocketConstants.GENERAL_PORT
+						,MessageBlobOperator.pack(message));
+				
+				dispose();//该方法释放资源.
 			new MainWindow(Integer.parseInt(ID.getText()));
 			}break;
 			case 4:{//RegisterWindow

@@ -10,6 +10,7 @@ import javax.swing.JScrollBar;
 import Client.Contacts;
 import Client.MainWindow;
 import Constants.Internet;
+import utils.ClientTranslation;
 
 public class MessageReceive implements Runnable {//单例
 	private static MessageReceive instance = null;
@@ -32,23 +33,24 @@ public class MessageReceive implements Runnable {//单例
 		try {
 			recvSocket = new DatagramSocket(50000);
 			System.out.println("信息接受线程启动成功!");
+			while (true) {
+				try {
+					recvSocket.receive(recvPacket);
+					System.out.println("接收到信息!!");
+				} catch (IOException e) {
+					System.out.println("信息接收错误!");
+					break;
+				}
+				MessageBlob recvMessage = null;
+				byte obj[] = recvPacket.getData();
+				recvMessage = MessageBlobOperator.unpack(obj);
+				ClientTranslation.typeTrans(recvMessage);
+			}
 		} catch (Exception e) {
 			System.out.println("信息接受线程启动失败!");
 			return;
 		}
-		while (true) {
-			try {
-				recvSocket.receive(recvPacket);
-			} catch (IOException e) {
-				System.out.println("信息接收错误!");
-				break;
-			}
-			MessageBlob recvMessage = null;
-			byte obj[] = recvPacket.getData();
-			recvMessage = MessageBlobOperator.unpack(obj);
-			
-
-		}
+		
 
 	}
 	

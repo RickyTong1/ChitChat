@@ -3,6 +3,13 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import CComponents.MessageAnswerType;
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
+import Client.MainWindow;
+import Client.SendMessage;
+import Constants.SocketConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -23,6 +30,11 @@ public class StrangerWindowCtrl implements Initializable{
 	private TextArea signatureText;
 	@FXML
 	private Button cancleButton;
+	@FXML
+	private Button addContact;
+	
+	int id;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		nickText.setText("Í«≥∆");
@@ -34,5 +46,18 @@ public class StrangerWindowCtrl implements Initializable{
 	public void cancleLis() {
 		Stage stage = (Stage)cancleButton.getScene().getWindow();
 		stage.close();
+	}
+	public void addContactLid() {
+		MessageBlob message = new MessageBlob();
+		message.type = MessageBlobType.ADD_CONTACT_QUEST;
+		message.answer = MessageAnswerType.WAITING;
+		message.senderID = MainWindow.ID;
+		message.targetID = id;
+		message.targetRemark = "";
+		message.roomID = 0;
+		message.roomName = "";
+		new SendMessage(Property.Property.SERVER_IP
+				,SocketConstants.GENERAL_PORT
+				,MessageBlobOperator.pack(message));
 	}
 }

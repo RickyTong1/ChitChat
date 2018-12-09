@@ -1,7 +1,13 @@
-/controller/
-/utils/
-/View/
+/CComponents/
+/Client/
+/Constants/
+/Exceptions/
 /Main/
 /Module/
+/Property/
+/Restores/
+/View/
 /Windows/
-/CComponents/
+/controller/
+/fileTransportation/
+/utils/
