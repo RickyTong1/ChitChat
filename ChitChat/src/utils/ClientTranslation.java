@@ -40,35 +40,40 @@ public class ClientTranslation {// 解析接收到的Blob
 			break;
 
 		case LOGIN: {
-			switch(e.onlineState) {
-			case Internet.LOGIN_SUCCESS:{
-				if(e.senderID == LoginWindowCtrl.userID) {
+			switch (e.onlineState) {
+			case Internet.LOGIN_SUCCESS: {
+				if (e.senderID == LoginWindowCtrl.userID) {
 					new MainWindow(e.senderID);
-					break;
-
+					return ;//TODO	
 				}
 				Convasation i = MainWindow.ctsList.get(e.senderID);
 				i.onlineState = Internet.ONLINE;
 				MainWindow.repaintContact(e.senderID);
-			}break;
-			case Internet.UNKOWN_USER:{
-				JOptionPane.showMessageDialog(null, "用户名不存在!", "",
-						JOptionPane.PLAIN_MESSAGE);
-			}break;
-			case Internet.PSWD_ERR:{
-				JOptionPane.showMessageDialog(null, "密码错误!", "",
-						JOptionPane.PLAIN_MESSAGE);
-			}break;
-			case Internet.ALREDY_LOGGED:{
-				JOptionPane.showMessageDialog(null, "你已经在别处登录,点击确定将上线,另一处处将下线.", "",
-						JOptionPane.PLAIN_MESSAGE);
 			}
-			case Internet.FORCED_LOGGED_OUT:{
-				JOptionPane.showMessageDialog(null, "您的账号在别处上线,您已被迫下线!\n若非本人操作,请修改密码.", "",
-						JOptionPane.PLAIN_MESSAGE);
+				break;
+			case Internet.UNKOWN_USER: {
+				JOptionPane.showMessageDialog(null, "用户名不存在!", "", JOptionPane.PLAIN_MESSAGE);
+				new Popup("../View/LoginWindow.fxml", "登录界面");
+			}
+				break;
+			case Internet.PSWD_ERR: {
+				JOptionPane.showMessageDialog(null, "密码错误!", "", JOptionPane.PLAIN_MESSAGE);
+				new Popup("../View/LoginWindow.fxml", "登录界面");
+			}
+				break;
+			case Internet.ALREDY_LOGGED: {
+				if (e.senderID == LoginWindowCtrl.userID) {
+					JOptionPane.showMessageDialog(null, "你已经在别处登录,点击确定将上线,另一处处将下线.", "", JOptionPane.PLAIN_MESSAGE);
+					new MainWindow(e.senderID);
+				}
+			}
+				break;
+
+			case Internet.FORCED_LOGGED_OUT: {
+				JOptionPane.showMessageDialog(null, "您的账号在别处上线,您已被迫下线!\n若非本人操作,请修改密码.", "", JOptionPane.PLAIN_MESSAGE);
+				new Popup("../View/LoginWindow.fxml", "登录界面");
 			}
 			}
-			
 		}
 			break;
 
@@ -99,9 +104,9 @@ public class ClientTranslation {// 解析接收到的Blob
 			break;
 
 		case REGISTER: {
-			if(e.answer == MessageAnswerType.POSITIVE)
+			if (e.answer == MessageAnswerType.POSITIVE)
 				JOptionPane.showMessageDialog(null, "注册成功,账号为:" + e.targetID);
-			else 
+			else
 				JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!" + e.targetID);
 		}
 			break;

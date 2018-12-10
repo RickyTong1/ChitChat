@@ -3,6 +3,13 @@ package Windows;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
+
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
+import Client.SendMessage;
+import Constants.SocketConstants;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -53,7 +60,7 @@ public class RegisterWindow extends JFrame{
 		setTitle("用户注册");
 		setVisible(true);
 		setResizable(false);//设置窗口不可调
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	void init() {
 		//初始化临时变量
@@ -191,19 +198,10 @@ public class RegisterWindow extends JFrame{
 			}
 			else if(tempUserName.equals("")) {
 				JOptionPane.showMessageDialog(null, "昵称不能为空");
-//				OperateSQLServer oprt = new OperateSQLServer();
-//				oprt.connectToDatabase();
-//				//判断昵称唯一性
-//				if(!oprt.isUniqueNickname(tempUserName))
-//				{
-//					JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!","",JOptionPane.PLAIN_MESSAGE);
-//					oprt.closeDatabase();
-//					return;
-//				}
-//				oprt.closeDatabase();TODO Server rebuild.
 			}
 			else if(e.getSource()==textName) {
-				//textEmail.requestFocus();
+				
+				textEmail.requestFocus();
 			}
 			else if(e.getSource()==textEmail) {
 					pvd.requestFocus();	
@@ -225,22 +223,21 @@ public class RegisterWindow extends JFrame{
 			}
 			else if(e.getSource()==button1) {
 				String birth=tempYear+"-"+tempMonth+"-"+tempDay;
-//				OperateSQLServer oprt = new OperateSQLServer();
-//				oprt.connectToDatabase();
-//				//判断昵称唯一性
-//				if(!oprt.isUniqueNickname(tempUserName))
-//				{
-//					JOptionPane.showMessageDialog(null, "这个昵称已经有人用了哦!","",JOptionPane.PLAIN_MESSAGE);
-//					textName.requestFocus();
-//					oprt.closeDatabase();
-//					return;
-//				}
-//				oprt.regesterUserInformation(tempUserName, tempPassword, tempUserSex, birth
-//						, tempEmail, "", "");
-//				System.out.println(oprt.getUserID(tempUserName));
-//				JOptionPane.showMessageDialog(null, "注册成功,账号为:"+oprt.getUserID(tempUserName));
-//				removeList();			
-//				oprt.closeDatabase();TODO Server rebuild.
+				MessageBlob message = new MessageBlob();
+				message.type = MessageBlobType.REGISTER;
+				message.senderIP = Property.Property.NATIVE_IP;
+				message.nickname = tempUserName;
+				message.key = tempPassword;
+				message.email = tempEmail;
+				message.phoneNum = null;
+				message.birth = birth;
+				message.gender = tempUserSex;
+				message.style = null;
+				System.out.println(message.senderIP);
+				new SendMessage(
+						Property.Property.SERVER_IP
+						,SocketConstants.GENERAL_PORT
+						,MessageBlobOperator.pack(message));
 			}			
 		}	
 	}

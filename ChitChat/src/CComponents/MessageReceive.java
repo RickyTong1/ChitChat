@@ -10,11 +10,14 @@ import javax.swing.JScrollBar;
 import Client.Contacts;
 import Client.MainWindow;
 import Constants.Internet;
+import Constants.SocketConstants;
 import utils.ClientTranslation;
 
-public class MessageReceive implements Runnable {//单例
+public class MessageReceive extends Thread {//单例
 	private static MessageReceive instance = null;
-	private MessageReceive() {}//禁用构造方法
+	private MessageReceive() {
+		this.start();
+	}//禁用构造方法
 	
 	public static MessageReceive getInstance() {
 		if(instance == null) {
@@ -23,15 +26,18 @@ public class MessageReceive implements Runnable {//单例
 		}
 		return instance;
 	}
+	public static void destroyMRcv() {
+		instance.destroy();
+	}
 
 	@Override
 	public void run() {
 		// 数据处理
-		byte[] information = new byte[1024*8];
+		byte[] information = new byte[SocketConstants.MESSAGE_LENGTH];
 		DatagramPacket recvPacket = new DatagramPacket(information, information.length);
 		DatagramSocket recvSocket = null;
 		try {
-			recvSocket = new DatagramSocket(50000);
+			recvSocket = new DatagramSocket(SocketConstants.GENERAL_PORT);
 			System.out.println("信息接受线程启动成功!");
 			while (true) {
 				try {

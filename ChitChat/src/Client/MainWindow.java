@@ -73,7 +73,7 @@ public class MainWindow extends JFrame {
 		ID = id;
 
 		MessageReceive getMsg = MessageReceive.getInstance();
-		new Thread(getMsg).start();
+		
 		try {
 			msgList = new ConvList(Constants.CONVLIST_MESSAGE);
 			ctsList = new ConvList(Constants.CONVLIST_CONTACTS);

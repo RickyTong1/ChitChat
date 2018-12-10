@@ -16,6 +16,14 @@ public class MessageBlob implements Serializable{
 	* 建议通过调用MessageBlobOperator类中相应的静态方法提取MessageBlob中的信息.
 	*
 	*/
+	
+	
+	/************下面是有关文件信息接受和发送的操作属性	***********/
+	public String fileName;
+	public int capacity;
+	public int fileState;
+	public int download;
+	/**************************/
 	public int senderID;//发送者id
 	public int targetID;//目标者id
 	public int roomID;//群房间id

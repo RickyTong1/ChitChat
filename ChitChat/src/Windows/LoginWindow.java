@@ -81,7 +81,6 @@ public class LoginWindow extends JFrame {
 		setTitle("ChitChat");
 		setBounds(Window.getMiddleWidth(350),Window.getMiddleHeight(350),350,350);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
 		//add(new Imagecanvas());
 	}
 	/*方法：初始化组件*/
@@ -224,7 +223,7 @@ public class LoginWindow extends JFrame {
 						,MessageBlobOperator.pack(message));
 				
 				dispose();//该方法释放资源.
-			new MainWindow(Integer.parseInt(ID.getText()));
+
 			}break;
 			case 4:{//RegisterWindow
 				new RegisterWindow();

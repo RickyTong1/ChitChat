@@ -64,7 +64,6 @@ public class LoginWindowCtrl implements Initializable {
 		user_info = new File(Property.Property.USER_INFO_URL);
 		//TODO ip地址和文件用配置文件写.
 		MessageReceive s = MessageReceive.getInstance();
-		new Thread(s).start();
 		
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(user_info));
