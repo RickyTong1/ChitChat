@@ -14,6 +14,7 @@ public interface Internet {//¾W½j î‘B´a
 	public static final int PSWD_ERR = 3;
 	public static final int ALREDY_LOGGED = 4;
 	public static final int FORCED_LOGGED_OUT = 5;
+	public static final int SERVER_ERR = 6;
 
 	
 }

@@ -12,27 +12,33 @@ import java.util.Properties;
 public class Property {
 
 	static Properties props;
-	public static String NATIVE_IP ;
-	public static String SERVER_IP ;
+	public static String NATIVE_IP;
+	public static String SERVER_IP;
 	public static String IMAGE_ONLINE_URL = "image\\Online.png";
 	public static String IMAGE_OFFLINE_URL = "image\\Offline.png";
 	public static String USER_INFO_URL = "data\\user_info.bat";
 	static {// 提取property
 		Properties props = new Properties();
 
-		FileInputStream fis;  
-        try {  
+		FileInputStream fis;
+		try {
 
-        	fis = new FileInputStream("property\\properties.properties");
-            props.load(fis);
-            fis.close();// 关闭流  
-        } catch (FileNotFoundException e) {  
-            e.printStackTrace();  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        } 
-        NATIVE_IP = props.getProperty("NATIVE_IP");
-        SERVER_IP = props.getProperty("SERVER_IP");
+			fis = new FileInputStream("property\\properties.properties");
+			props.load(fis);
+			fis.close();// 关闭流
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			String tail = props.getProperty(InetAddress.getLocalHost().getHostAddress());
+			NATIVE_IP = props.getProperty("NATIVE_IP_" + tail);
+			SERVER_IP = props.getProperty("SERVER_IP_" + tail);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 //		 props.setProperty("SERVER_IP", "");   
 //		 try {
@@ -46,7 +52,6 @@ public class Property {
 //			e1.printStackTrace();
 //		}   
 //	        // 文件输出流   
-		 
-	          	
+
 	}
 }

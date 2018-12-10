@@ -23,10 +23,14 @@ import Constants.SocketConstants;
 import Restores.KeyKeep;
 //import Restores.KeyKeep;
 import Restores.KeyKeepOperate;
+import javafx.application.Application;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ContextMenu;
@@ -37,7 +41,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import utils.Popup;
 
-public class LoginWindowCtrl implements Initializable {
+public class LoginWindowCtrl extends Application implements Initializable {
 	/*绑定组件*/
 	@FXML
 	private TextField ID;//账号
@@ -61,6 +65,7 @@ public class LoginWindowCtrl implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		user_info = new File(Property.Property.USER_INFO_URL);
 		//TODO ip地址和文件用配置文件写.
 		MessageReceive s = MessageReceive.getInstance();
@@ -189,6 +194,21 @@ public class LoginWindowCtrl implements Initializable {
 		ID.requestFocus();
 		
 //		validate();
+	}
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("../View/LoginWindow.fxml"));
+			Stage stage = new Stage();
+			stage.setTitle("登录");
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

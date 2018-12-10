@@ -19,4 +19,6 @@ public enum MessageBlobType{
 	,FRIEND_LIST_QUEST,FRIEND_LIST_ANSWER
 	/*暂时未实现*/
 	,RECEIVE_FILE,SEND_FILE,DELETE_SELF_FILE
+	/*新增需求:个人验证表请求，个人文件表请求，验证表和文件请求*/
+	,SELF_VERIFY,SELF_FILE,VERIFY_FILE
 }

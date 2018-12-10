@@ -10,3 +10,4 @@
 12/8	删除了Server的包,客户端和服务器端代码分离;弃用之前的swing组件,但保留源码.
 12/8	增加utils包,包含Popup类,以及原先在Constants包中的LocalData和Window类,以及正在写的ClientTrans类.
 12/10	增加了Properties配置文件
+12/10	使用Swing组件中,FX组件待开发.文件传输工作待完善.

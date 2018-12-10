@@ -10,7 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.*;
+
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
 import Client.MainWindow;
+import Client.SendMessage;
 import Constants.*;
 
 public class ChatWindow extends JFrame implements ActionListener {
@@ -27,20 +32,20 @@ public class ChatWindow extends JFrame implements ActionListener {
 	int userID;
 	String spoke;
 
-	public ChatWindow(int ContactID, int userID, String lastSpoke) {
+	public ChatWindow(int ContactID, int userID) {
 		this.contactID = ContactID;
 		this.userID = userID;
-		spoke = lastSpoke;
-		// OperateSQLServer oprt = new OperateSQLServer();
-		// oprt.connectToDatabase();
-		// ResultSet rs = oprt.getPersonalInformation(contactID);
-		// try {
-		// rs.next();
-		// nick = rs.getString(2);
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
-		// TODO Server rebuild.
+		
+		MessageBlob message  = new MessageBlob();
+		message.type = MessageBlobType.CHAT_CONTENT_QUEST;
+		message.senderID = MainWindow.ID;
+		message.targetID = ContactID;
+		message.senderIP = Property.Property.NATIVE_IP;
+		new SendMessage(Property.Property.SERVER_IP
+				,SocketConstants.GENERAL_PORT
+				,MessageBlobOperator.pack(message));
+		//请求聊天记录.
+		
 		init();
 		setLayout(null);
 		setTitle("聊天信息");
@@ -130,15 +135,17 @@ public class ChatWindow extends JFrame implements ActionListener {
 		chatContent.add(chatBox);
 		chatContent.validate();// 刷新面板组件
 		// send
-		byte[] info = ("1#" + String.valueOf(contactID) + "#" + ChatWindow.getNetworkTime() + "#"
-				+ String.valueOf(contactID) + "#" + (sendField.getText())).getBytes();
-		// 1+发送者ID+时间+目标ID+聊天文本消息
-	
+		MessageBlob message = new MessageBlob();
+		message.type = MessageBlobType.CHAT_TEXT;
+		message.senderID = MainWindow.ID;
+		message.senderIP = Property.Property.NATIVE_IP;
+		message.targetID = contactID;
+		message.text = sendField.getText();
 		
-		info = null;
+		new SendMessage(Property.Property.SERVER_IP
+				,SocketConstants.GENERAL_PORT
+				,MessageBlobOperator.pack(message));
 		
-		
-
 		/* 设置滚动条一直在最下方 */
 		JScrollBar vertical = sp.getVerticalScrollBar();
 		vertical.setValue(vertical.getMinimum());

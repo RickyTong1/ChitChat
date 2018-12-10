@@ -132,7 +132,7 @@ public class RegisterWindowCtrl implements Initializable {
 				+"-"+birthdayDay;
 		message.gender = sex;
 		message.style = null;
-		System.out.println(message.senderIP);
+		System.out.println(message.senderIP+"in SendMessage");
 		new SendMessage(
 				Property.Property.SERVER_IP
 				,SocketConstants.GENERAL_PORT

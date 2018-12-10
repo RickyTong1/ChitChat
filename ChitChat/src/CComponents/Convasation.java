@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public abstract class Convasation{

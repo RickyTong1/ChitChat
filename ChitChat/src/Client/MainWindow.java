@@ -48,6 +48,7 @@ import utils.Window;
 public class MainWindow extends JFrame {
 
 	public static int ID;// 账号
+	private String key = null;
 	Image image;// 用户头像
 	public static JLabel nicknameLabel;// 用户昵称
 	public static JLabel styleWord;// 用户的个性签名
@@ -63,6 +64,7 @@ public class MainWindow extends JFrame {
 	JScrollPane right;// 主页面右侧框
 	static JSplitPane left;// 主页面左侧的框
 	JScrollPane messages;// 消息列表容器
+	static Box prof = Box.createHorizontalBox();
 
 	public static JPanel msgPanel = new JPanel();
 	public static JPanel ctsPanel = new JPanel();
@@ -71,7 +73,6 @@ public class MainWindow extends JFrame {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public MainWindow(int id) {
 		ID = id;
-
 		MessageReceive getMsg = MessageReceive.getInstance();
 		
 		try {
@@ -105,6 +106,21 @@ public class MainWindow extends JFrame {
 		messageInit();// 聊天消息初始化
 		// 在messageInit()方法中已經設置過bottomComponrnt.
 
+		//请求添加好友的待处理事务
+		MessageBlob message = new MessageBlob();
+		message.type = MessageBlobType.SELF_VERIFY;
+		message.senderID = ID;
+		message.senderIP = Property.NATIVE_IP;
+		new SendMessage(Property.SERVER_IP
+				,SocketConstants.GENERAL_PORT
+				,MessageBlobOperator.pack(message));
+		
+//		//id和ip没变,请求待处理的文件接收事务.
+//		message.type = MessageBlobType.SELF_FILE;
+//		new SendMessage(Property.SERVER_IP
+//				,SocketConstants.GENERAL_PORT
+//				,MessageBlobOperator.pack(message));
+		
 		left.setDividerLocation(Constants.MAIN_WINDOW_USER_BLOCK_HEIGHT);// 设置个人信息框离顶部的距离
 		left.setDividerSize(2);// 设置分隔线宽度
 		left.setEnabled(false);// 分隔线不可移动
@@ -133,8 +149,8 @@ public class MainWindow extends JFrame {
 			}
 			if (match.matches("[0-9]+")) {
 				int id = Integer.parseInt(match);
-				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.FIND_FRIEND;
+				message.targetID = id;
 				message.senderID = ID;
 				message.senderIP = Property.NATIVE_IP;
 				new SendMessage(Property.SERVER_IP, SocketConstants.GENERAL_PORT, MessageBlobOperator.pack(message));
@@ -187,10 +203,9 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void persInfoInit(MessageBlob msg) {
-		String nickname = null;
-		String style = null;
+		String nickname = msg.nickname;
+		String style = msg.style;
 		
-
 		Icon onlineImage;
 		JLabel onlineState = null;
 		try {
@@ -202,10 +217,6 @@ public class MainWindow extends JFrame {
 			System.out.println("文件不存在.");
 		}
 
-		if (nickname == null || style == null) {
-			JOptionPane.showMessageDialog(null, "个人信息拉取异常.请检查网络.\n错误码: MAIWIN_PNINFO_177", "",
-					JOptionPane.PLAIN_MESSAGE);
-		}
 		nicknameLabel = new JLabel(nickname);
 		nicknameLabel.setFont(Fonts.USER_NICKNAME);
 		styleWord = new JLabel(style);
@@ -216,8 +227,10 @@ public class MainWindow extends JFrame {
 		labels.add(Box.createVerticalStrut(5));
 		labels.add(styleWord);
 
-		Box prof = Box.createHorizontalBox();
-		left = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, prof, null);
+		prof.add(labels);
+		prof.add(onlineState);
+		left.setTopComponent(prof);
+		
 		prof.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -244,12 +257,12 @@ public class MainWindow extends JFrame {
 				prof.setBorder(BorderFactory.createLineBorder(null));
 			}
 		});
-		prof.add(labels);
-		prof.add(onlineState);
+		
 	}
 
 	public void messageInit() {// TODO: 消息初始化
 
+	
 		boolean hasMessage = false;
 
 		if (!hasMessage) {
@@ -290,6 +303,7 @@ public class MainWindow extends JFrame {
 
 		messages.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		messages.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		left = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		left.setBottomComponent(messages);
 
 	}

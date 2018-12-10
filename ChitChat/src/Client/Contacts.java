@@ -103,7 +103,17 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			}
 		});
 		showProfile.addActionListener(e -> {
-			new FriendWindow(MainWindow.ID, this.ID);
+			MessageBlob message = new MessageBlob();
+			message.type = MessageBlobType.FRIEND_PROFILE_QUEST;
+			message.senderIP = Property.NATIVE_IP;
+			message.senderID = MainWindow.ID;
+			message.targetID = super.ID;
+			
+			new SendMessage(
+					Property.SERVER_IP
+					,SocketConstants.GENERAL_PORT
+					,MessageBlobOperator.pack(message));
+			
 		});
 		setRemark.addActionListener(e -> {
 			MessageBlob message = new MessageBlob();
@@ -128,7 +138,7 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 				if (e.getClickCount() == 2) {
 					if (!hasChatWin) {
 						hasChatWin = true;
-						chatWindow = new ChatWindow(ID, MainWindow.ID, "");
+						chatWindow = new ChatWindow(ID, MainWindow.ID);
 						
 					}
 					chatWindow.requestFocus();//焦点

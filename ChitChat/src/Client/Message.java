@@ -9,11 +9,16 @@ import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import CComponents.Convasation;
+import CComponents.MessageBlob;
+import CComponents.MessageBlobType;
 import Constants.*;
 import Windows.ChatWindow;
 
@@ -51,23 +56,22 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		// 判断并给出时间戳
 		timeStick = new JLabel();
 
-		//TODO 时间戳测试
+		// TODO 时间戳测试
 		setTime(spokeTime);
 		new Thread() {
 			@Override
 			public void run() {
-				while(true) {
+				while (true) {
 					try {
-						sleep(60000);//一分钟一次
-					} catch (InterruptedException e) {}
-					//spokeTime -= 60000*60*24;//时间加速大法
+						sleep(60000);// 一分钟一次
+					} catch (InterruptedException e) {
+					}
+					// spokeTime -= 60000*60*24;//时间加速大法
 					setTime(spokeTime);
 				}
 			}
 		}.start();
-		
-		
-		
+
 		// 设置字体
 		lastSpoke.setFont(Fonts.MESSAGE_LASTSPEAK);
 		timeStick.setFont(Fonts.MESSAGE_TIMESTICK);// 字体
@@ -124,6 +128,9 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		});
 		readThis.addActionListener(e -> {
+			if (gender.equals("系统通知")) {
+				new ServerNoteView(ID,spoke);
+			}
 			isRead = Internet.READ;
 			lastSpoke.setForeground(Colors.MESSAGE_READ);
 			MainWindow.readMessage(ID, elem);
@@ -139,11 +146,14 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					isRead = Internet.READ;
 					lastSpoke.setForeground(Colors.MESSAGE_READ);
 					MainWindow.readMessage(ID, elem);
+					if(gender.equals("系统通知")) {
+						new ServerNoteView(ID,spoke);
+						return;
+					}
 					if (!hasChatWin) {
 						hasChatWin = true;
-						chatWindow = new ChatWindow(ID, MainWindow.ID, lastSpoke.getText());
-					}
-					else
+						chatWindow = new ChatWindow(ID, MainWindow.ID);
+					} else
 						chatWindow.requestFocus();
 				}
 			}
@@ -173,22 +183,23 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 			latestSpeak = "约半小时前";
 		else if (sendTime <= 58)
 			latestSpeak = sendTime + "分之前";
-		else if (sendTime > 58 && sendTime < 1440/*一天*/)
-		{
-			if(sendTime / 60 == 0)
+		else if (sendTime > 58 && sendTime < 1440/* 一天 */) {
+			if (sendTime / 60 == 0)
 				latestSpeak = "1小时之前";
-			else latestSpeak = sendTime / 60 + "小时之前";	
+			else
+				latestSpeak = sendTime / 60 + "小时之前";
 		}
-		
+
 		else if (sendTime / 60 >= 24) {
 			int day = (sendTime / 60) / 24;
 			if (day >= 7) {
 				int week = day / 7;
 				if (week >= 4)
 					latestSpeak = week / 4 + "月之前";
-				else latestSpeak = week  + "周之前";
-			}
-			else latestSpeak = day + "天之前";
+				else
+					latestSpeak = week + "周之前";
+			} else
+				latestSpeak = day + "天之前";
 		}
 		timeStick.setText(latestSpeak);
 	}

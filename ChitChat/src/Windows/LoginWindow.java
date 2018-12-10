@@ -45,6 +45,8 @@ public class LoginWindow extends JFrame {
 	JTextField ID;					//密码文本框
 	JPasswordField key;				//密码文本框
 	
+	public static int userID;
+	
 	public static String IP_address;
 	Box hbox1,hbox2;				//水平盒子
 	Box vbox1,vbox2,vbox3;				//竖直盒子
@@ -52,7 +54,6 @@ public class LoginWindow extends JFrame {
 	Vector<KeyKeep> keys = new Vector<KeyKeep>();
 	public LoginWindow() {
 		MessageReceive s = MessageReceive.getInstance();
-		new Thread(s).start();
 		
 		try {
 			user_info = new File(Property.Property.USER_INFO_URL);
@@ -211,6 +212,7 @@ public class LoginWindow extends JFrame {
 			}//没有break
 			case 3:{//loginButton
 				if(warning())return;//账号格式以及密码是否为空检查
+				userID = Integer.parseInt(ID.getText());
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.LOGIN;
 				message.senderIP = Property.Property.NATIVE_IP;

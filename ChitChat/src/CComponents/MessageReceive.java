@@ -13,19 +13,21 @@ import Constants.Internet;
 import Constants.SocketConstants;
 import utils.ClientTranslation;
 
-public class MessageReceive extends Thread {//单例
+public class MessageReceive extends Thread {// 单例
 	private static MessageReceive instance = null;
+
 	private MessageReceive() {
 		this.start();
-	}//禁用构造方法
-	
+	}// 禁用构造方法
+
 	public static MessageReceive getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new MessageReceive();
 			return instance;
 		}
 		return instance;
 	}
+
 	public static void destroyMRcv() {
 		instance.destroy();
 	}
@@ -36,28 +38,38 @@ public class MessageReceive extends Thread {//单例
 		byte[] information = new byte[SocketConstants.MESSAGE_LENGTH];
 		DatagramPacket recvPacket = new DatagramPacket(information, information.length);
 		DatagramSocket recvSocket = null;
+
 		try {
 			recvSocket = new DatagramSocket(SocketConstants.GENERAL_PORT);
 			System.out.println("信息接受线程启动成功!");
 			while (true) {
 				try {
+					
 					recvSocket.receive(recvPacket);
-					System.out.println("接收到信息!!");
+					System.out.println("接收到信息!");
 				} catch (IOException e) {
 					System.out.println("信息接收错误!");
 					break;
 				}
 				MessageBlob recvMessage = null;
 				byte obj[] = recvPacket.getData();
+
 				recvMessage = MessageBlobOperator.unpack(obj);
-				ClientTranslation.typeTrans(recvMessage);
+				
+	//				System.out.println("MR_EXCEPTION_E.");
+				try{
+					ClientTranslation.typeTrans(recvMessage);
+				}catch(Exception e) {
+					e.printStackTrace();
+
+				}
 			}
-		} catch (Exception e) {
-			System.out.println("信息接受线程启动失败!");
-			return;
+		} catch (SocketException e1) {
+			System.out.println("信息接受线程启动失败.");
+		}catch(Exception ee ) {
+			System.out.println("其他地方错误 MR_EXCEPTION_EE.");
 		}
-		
 
 	}
-	
+
 }

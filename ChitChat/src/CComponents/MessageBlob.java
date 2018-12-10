@@ -18,12 +18,7 @@ public class MessageBlob implements Serializable{
 	*/
 	
 	
-	/************下面是有关文件信息接受和发送的操作属性	***********/
-	public String fileName;
-	public int capacity;
-	public int fileState;
-	public int download;
-	/**************************/
+	
 	public int senderID;//发送者id
 	public int targetID;//目标者id
 	public int roomID;//群房间id
@@ -76,6 +71,34 @@ public class MessageBlob implements Serializable{
 	
 	public Contacts[] contactslist;
 	
+	public class Verify implements Serializable{
+		public String nickname;
+		public int id;
+		public String time;
+		public String status;
+	}
+	
+	public Verify[] verifylist;
+	
+	/************下面是有关文件信息接受和发送的操作属性	***********/
+	public String fileName;
+	public int capacity;
+	public int fileState;
+	public int download;
+	/**************************/
+	
+	public class File implements Serializable{
+		public int id;
+		public String nickname;
+		public String fileName;
+		public int capacity;
+		public int fileState;
+		public int download;
+		public String time;
+	}
+	
+	public File[] filelist;
+	
 	public MessageBlobType type;
 	public MessageAnswerType answer;
 	public long lastTimeSpeak;
@@ -97,5 +120,25 @@ public class MessageBlob implements Serializable{
 			messageslist[i] = new Messages();
 		}
 	}
+	
+	//创建长度为counts的验证表数组
+	public void createVerifylist(int counts) {
+		totalCounts = counts;//记录总数
+		verifylist = new Verify[counts];
+		int i;
+		for(i=0;i<counts;i++) {
+			verifylist[i] = new Verify();
+		}
+	}
+		//创建长度为counts的验证表数组
+	public void createFilelist(int counts) {
+		totalCounts = counts;//记录总数
+		filelist = new File[counts];
+		int i;
+		for(i=0;i<counts;i++) {
+			filelist[i] = new File();
+		}
+	}
+		
 }
 
