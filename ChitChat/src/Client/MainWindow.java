@@ -50,9 +50,9 @@ public class MainWindow extends JFrame {
 	public static int ID;// 账号
 	private String key = null;
 	Image image;// 用户头像
-	public static JLabel nicknameLabel;// 用户昵称
-	public static JLabel styleWord;// 用户的个性签名
-	public static boolean hasPersonalWindow = false;
+	public static JLabel nicknameLabel = new JLabel("");
+	public static JLabel styleWord = new JLabel("");
+	public static  boolean hasPersonalWindow = false;
 	
 	JSplitPane split;// 切分窗格,左边为联系人,右边是消息
 	JMenuBar operats;// 左上角菜单栏
@@ -203,6 +203,8 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void persInfoInit(MessageBlob msg) {
+		prof.removeAll();
+		left.setTopComponent(null);
 		String nickname = msg.nickname;
 		String style = msg.style;
 		
@@ -214,27 +216,32 @@ public class MainWindow extends JFrame {
 			onlineState.setPreferredSize(
 					new Dimension(Constants.CONTACTS_ONLINESTATE_WIDTH, Constants.CONTACTS_ONLINESTATE_WIDTH));
 		} catch (IOException e) {
-			System.out.println("文件不存在.");
+			System.out.println("文件不存在.persInfoInit");
 		}
 
-		nicknameLabel = new JLabel(nickname);
+
+		nicknameLabel.setText(nickname);
 		nicknameLabel.setFont(Fonts.USER_NICKNAME);
-		styleWord = new JLabel(style);
+		styleWord.setText(style);
 		styleWord.setFont(Fonts.USER_STYLEWORD);
 
 		Box labels = Box.createVerticalBox();
+		labels.removeAll();
 		labels.add(nicknameLabel);
 		labels.add(Box.createVerticalStrut(5));
 		labels.add(styleWord);
 
+		prof.removeAll();
 		prof.add(labels);
 		prof.add(onlineState);
 		left.setTopComponent(prof);
+		left.revalidate();
 		
 		prof.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
+					MainWindow.hasPersonalWindow = true;
 					MessageBlob message = new MessageBlob();
 					message.type = MessageBlobType.SELF_PROFILE_QUEST;
 					message.senderIP = Property.NATIVE_IP;
@@ -242,8 +249,8 @@ public class MainWindow extends JFrame {
 					new SendMessage(Property.SERVER_IP
 							,SocketConstants.GENERAL_PORT
 							,MessageBlobOperator.pack(message));
-					MainWindow.hasPersonalWindow = true;
 					
+					return ;
 				}
 			}
 
@@ -257,6 +264,8 @@ public class MainWindow extends JFrame {
 				prof.setBorder(BorderFactory.createLineBorder(null));
 			}
 		});
+		prof.repaint();
+		prof.validate();
 		
 	}
 
@@ -309,6 +318,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void ContactsInit(MessageBlob e) {// TODO:联系人列表初始化
+		ctsList.clear();
 		boolean hasFriend = false;
 		if (e.contactslist.length > 0)
 			hasFriend = true;

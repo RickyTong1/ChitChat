@@ -10,6 +10,7 @@ import CComponents.MessageBlobType;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.SocketConstants;
+import Property.Property;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -202,6 +203,13 @@ public class PersonalData extends JFrame{
 		comBox_day.addItemListener(comboBoxListener_sex);
 		keyListener=new MyKeyListener();
 		button1.addKeyListener(keyListener);
+		this.addWindowListener(new WindowAdapter() {// ÏÂÏß²Ù×÷
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				dispose();
+				MainWindow.hasPersonalWindow = false;
+			}
+		});
 	}
 	void removeList() {
 		textNo.setText("");
@@ -223,12 +231,16 @@ public class PersonalData extends JFrame{
 			tempEmail=textEmail.getText();
 			//tempPassword=pvd.getText();
 			String birth = tempYear+"-"+tempMonth+"-"+tempDay;
-			if(e.getSource() == button2)
+			if(e.getSource() == button2) {
+				MainWindow.hasPersonalWindow = false;
 				dispose();
+				
+			}
+				
 			else if(e.getSource() == button1) {
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.SELF_PROFILE_UPDATE;
-				message.senderIP = Property.Property.NATIVE_IP;
+				message.senderIP = Property.NATIVE_IP;
 				message.senderID = MainWindow.ID;
 				message.nickname = tempUserName;
 				message.key = null;
@@ -237,12 +249,29 @@ public class PersonalData extends JFrame{
 				message.birth = birth;
 				message.gender = tempUserSex;
 				message.style = signature.getText();
-				new SendMessage(Property.Property.SERVER_IP
+				new SendMessage(Property.SERVER_IP
 						,SocketConstants.GENERAL_PORT
 						,MessageBlobOperator.pack(message));
+				MainWindow.hasPersonalWindow = false;
 				
-				MainWindow.nicknameLabel = new JLabel(tempUserName);
-				MainWindow.styleWord = new JLabel(signature.getText());
+//				try {
+//					Thread.sleep(50);
+//				} catch (InterruptedException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+//				MessageBlob quest_for_profile = new MessageBlob();
+//				quest_for_profile.type = MessageBlobType.SELF_PROFILE_QUEST;
+//				quest_for_profile.senderID = MainWindow.ID;
+//				quest_for_profile.senderIP = Property.NATIVE_IP;
+//				
+//				new SendMessage(Property.SERVER_IP
+//						,SocketConstants.GENERAL_PORT
+//						,MessageBlobOperator.pack(quest_for_profile));
+				
+//				
+//				MainWindow.nicknameLabel = new JLabel(tempUserName);
+//				MainWindow.styleWord = new JLabel(signature.getText());
 				dispose();
 			}
 		}	

@@ -11,6 +11,7 @@ import Client.SendMessage;
 import Client.ServerNote;
 import Constants.Internet;
 import Constants.SocketConstants;
+import Property.Property;
 import Windows.FriendWindow;
 import Windows.LoginWindow;
 import Windows.PersonalData;
@@ -19,7 +20,7 @@ import javafx.application.Application;
 
 public class ClientTranslation {// 解析接收到的Blob
 	public static void typeTrans(MessageBlob e) {
-		System.out.println(e.type+"\t"+e.answer);
+		System.out.println(e.type + "\t" + e.answer);
 		switch (e.type) {
 
 		case CHAT_TEXT: {
@@ -73,7 +74,7 @@ public class ClientTranslation {// 解析接收到的Blob
 				JOptionPane.showMessageDialog(null, "您的账号在别处上线,您已被迫下线!\n若非本人操作,请修改密码.", "", JOptionPane.PLAIN_MESSAGE);
 				new LoginWindow();
 			}
-			case Internet.SERVER_ERR:{
+			case Internet.SERVER_ERR: {
 				JOptionPane.showMessageDialog(null, "服务端异常!", "", JOptionPane.PLAIN_MESSAGE);
 				new LoginWindow();
 			}
@@ -91,7 +92,12 @@ public class ClientTranslation {// 解析接收到的Blob
 
 		case ADD_CONTACT_ANSWER: {
 			if (e.answer == MessageAnswerType.POSITIVE) {
-				MainWindow.addContacts(e);
+				MessageBlob quest_for_friend_list = new MessageBlob();// 联系人列表初始化
+				quest_for_friend_list.type = MessageBlobType.FRIEND_LIST_QUEST;
+				quest_for_friend_list.senderIP = Property.NATIVE_IP;
+				quest_for_friend_list.senderID = MainWindow.ID;
+				new SendMessage(Property.SERVER_IP, SocketConstants.GENERAL_PORT,
+						MessageBlobOperator.pack(quest_for_friend_list));
 			}
 
 			if (e.answer == MessageAnswerType.NEGATIVE)
@@ -102,8 +108,7 @@ public class ClientTranslation {// 解析接收到的Blob
 		case ONLINE_STATE_QUEST: {
 			MessageBlob message = new MessageBlob();
 			message.type = MessageBlobType.ONLINE_STATE_ANSWER;
-			new SendMessage(Property.Property.SERVER_IP, SocketConstants.GENERAL_PORT,
-					MessageBlobOperator.pack(message));
+			new SendMessage(Property.SERVER_IP, SocketConstants.GENERAL_PORT, MessageBlobOperator.pack(message));
 		}
 			break;
 
@@ -137,9 +142,14 @@ public class ClientTranslation {// 解析接收到的Blob
 		case SELF_PROFILE_ANSWER: {
 
 			if (e.answer == MessageAnswerType.POSITIVE) {
-				MainWindow.persInfoInit(e);// 信息初始化
-				if (MainWindow.hasPersonalWindow)
-					new PersonalData(e);
+				if (MainWindow.hasPersonalWindow == false)
+					MainWindow.persInfoInit(e);// 信息初始化
+				else
+					{
+						new PersonalData(e);
+					//	MainWindow.hasPersonalWindow = true;
+					}
+					
 			}
 
 			else
@@ -178,23 +188,20 @@ public class ClientTranslation {// 解析接收到的Blob
 			break;
 		case SELF_VERIFY: {
 			if (e.answer == MessageAnswerType.POSITIVE) {
-				for(int i = 0;i < e.verifylist.length;i++)
-					if(e.verifylist[i].status.equals("WAITING"))
-						new ServerNote(e.verifylist[i].id, "用户" 
-				+ e.verifylist[i].nickname + "请求添加您为好友.");
-			}
-			else
+				for (int i = 0; i < e.verifylist.length; i++)
+					if (e.verifylist[i].status.equals("WAITING"))
+						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.");
+			} else
 				JOptionPane.showMessageDialog(null, "个人验证事务获取失败!请检查网络连接.");
 		}
 			break;
 		case SELF_FILE: {
 			if (e.answer == MessageAnswerType.POSITIVE)
-				for(int i = 0; i < e.filelist.length; i ++)
-					if(e.filelist[i].fileState == 0)
-						new ServerNote(e.filelist[i].id, "用户" 
-				+ e.filelist[i].nickname + "想要给你发送文件.");
-			else
-				JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
+				for (int i = 0; i < e.filelist.length; i++)
+					if (e.filelist[i].fileState == 0)
+						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.");
+					else
+						JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
 		}
 
 		default:

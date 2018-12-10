@@ -24,6 +24,7 @@ import CComponents.MessageBlobType;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.SocketConstants;
+import Property.Property;
 import javafx.scene.layout.Border;
 
 /*好友（非陌生人）资料窗口，继承PublicDateWindow实现代码重复利用*/
@@ -156,15 +157,28 @@ public class FriendWindow extends JFrame implements ActionListener {
 		if (e.getSource() == saveRemark) {
 			MessageBlob message = new MessageBlob();
 			message.type = MessageBlobType.FRIEND_PROFILE_UPDATE;
-			message.senderIP = Property.Property.SERVER_IP;
+			message.senderIP = Property.SERVER_IP;
 			message.senderID = MainWindow.ID;
 			message.targetID = contactsID;
 			message.remark = remark.getText();
-			new SendMessage(Property.Property.SERVER_IP, SocketConstants.GENERAL_PORT,
+			new SendMessage(Property.SERVER_IP, SocketConstants.GENERAL_PORT,
 					MessageBlobOperator.pack(message));
 			JOptionPane.showMessageDialog(null, "修改备注成功");
 			MainWindow.ctsList.get(contactsID).remark = remark.getText();
 			dispose();
+			try {
+				Thread.sleep(20);//停一会
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			MessageBlob quest_for_friend_list = new MessageBlob();// 联系人列表初始化
+			quest_for_friend_list.type = MessageBlobType.FRIEND_LIST_QUEST;
+			quest_for_friend_list.senderIP = Property.NATIVE_IP;
+			quest_for_friend_list.senderID = MainWindow.ID;
+			new SendMessage(Property.SERVER_IP
+					, SocketConstants.GENERAL_PORT
+					, MessageBlobOperator.pack(quest_for_friend_list));
 		}
 	}
 
