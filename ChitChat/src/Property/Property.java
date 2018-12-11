@@ -33,7 +33,7 @@ public class Property {
 		}
 		try {
 			String tail = props.getProperty(InetAddress.getLocalHost().getHostAddress());
-			NATIVE_IP = props.getProperty("NATIVE_IP_" + tail);
+			NATIVE_IP = props.getProperty(InetAddress.getLocalHost().getHostAddress());
 			SERVER_IP = props.getProperty("SERVER_IP_" + tail);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
