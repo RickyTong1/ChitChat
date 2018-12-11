@@ -12,7 +12,7 @@ public class SendFile extends Thread {
     private String host;//socket目标地址
     private int port;//socket目标端口号
     
-	public SendFile(String dir, String host, int port) {
+	public SendFile(String dir, String host/*ip*/, int port) {
 		this.dir = dir;
 	//	this.fileName = fileName;
 		this.host = host;

@@ -101,7 +101,6 @@ public class ReceiveFile extends Thread {
 			ack.close();
 			input.close();
 			fileOut.close();
-			System.out.println("1111");
 
 		} 
 		catch (Exception e) {

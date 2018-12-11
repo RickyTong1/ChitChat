@@ -29,6 +29,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		super(id, online, time, isread, spoke, nick, remark, style, gender);
 		// TODO Auto-generated constructor stub
 	}
+	int mode  = 0;//1 加好友 ;2文件;3拒絕提示
 
 	long spokeTime = super.lastTimeSpeak;
 	JLabel timeStick = null;// 送达的時間戳
@@ -128,9 +129,9 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		});
 		readThis.addActionListener(e -> {
-			if (gender.equals("系统通知")) {
-				new ServerNoteView(ID,spoke);
-			}
+//			if (mode == 1 || mode == 2||mode ==3) {
+//				new ServerNoteView(ID,spoke,mode);
+//			}
 			isRead = Internet.READ;
 			lastSpoke.setForeground(Colors.MESSAGE_READ);
 			MainWindow.readMessage(ID, elem);
@@ -146,8 +147,8 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					isRead = Internet.READ;
 					lastSpoke.setForeground(Colors.MESSAGE_READ);
 					MainWindow.readMessage(ID, elem);
-					if(gender.equals("系统通知")) {
-						new ServerNoteView(ID,spoke);
+					if(mode == 1||mode ==2||mode == 3) {
+						new ServerNoteView(ID,spoke,mode);
 						return;
 					}
 					if (!hasChatWin) {

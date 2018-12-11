@@ -16,6 +16,8 @@ import Windows.FriendWindow;
 import Windows.LoginWindow;
 import Windows.PersonalData;
 import Windows.StrangerWindow;
+import fileTransportation.ChooseFolder;
+import fileTransportation.GetFilePath;
 import javafx.application.Application;
 
 public class ClientTranslation {// 解析接收到的Blob
@@ -101,7 +103,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			}
 
 			if (e.answer == MessageAnswerType.NEGATIVE)
-				new ServerNote(e.senderID, "用户" + e.senderID + "拒绝了您的请求.");
+				new ServerNote(e.senderID, "用户" + e.senderID + "拒绝了您的请求.",3);
 		}
 			break;
 
@@ -190,7 +192,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			if (e.answer == MessageAnswerType.POSITIVE) {
 				for (int i = 0; i < e.verifylist.length; i++)
 					if (e.verifylist[i].status.equals("WAITING"))
-						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.");
+						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.",1);
 			} else
 				JOptionPane.showMessageDialog(null, "个人验证事务获取失败!请检查网络连接.");
 		}
@@ -199,9 +201,16 @@ public class ClientTranslation {// 解析接收到的Blob
 			if (e.answer == MessageAnswerType.POSITIVE)
 				for (int i = 0; i < e.filelist.length; i++)
 					if (e.filelist[i].fileState == 0)
-						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.");
+						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.",2);
 					else
 						JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
+		}
+		case SEND_FILE:{
+			GetFilePath.send();
+		}
+		case RECEIVE_FILE:{
+			new ChooseFolder();
+			ChooseFolder.save();
 		}
 
 		default:
