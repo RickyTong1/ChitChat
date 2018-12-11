@@ -101,7 +101,7 @@ public class ReceiveFile extends Thread {
 			ack.close();
 			input.close();
 			fileOut.close();
-
+			socket.close();
 		} 
 		catch (Exception e) {
 			System.out.println("ReceiveFile Error!");

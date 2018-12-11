@@ -1,9 +1,14 @@
 package fileTransportation;
 import java.net.*;
 
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
+
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.io.*;
  
 public class SendFile extends Thread {
@@ -11,10 +16,26 @@ public class SendFile extends Thread {
     //private String fileName;//上传的文件名
     private String host;//socket目标地址
     private int port;//socket目标端口号
+    JFrame barWindow = new JFrame();
+	JProgressBar progressBar;
+	private int percent = 0;
     
 	public SendFile(String dir, String host/*ip*/, int port) {
 		this.dir = dir;
 	//	this.fileName = fileName;
+		progressBar = new JProgressBar(JProgressBar.HORIZONTAL,0,100);
+		progressBar.setStringPainted(true);
+		progressBar.setValue(0);
+		progressBar.setBackground(Color.CYAN);
+	
+		barWindow.setLayout(new FlowLayout());
+		barWindow.setSize(250, 100);
+		barWindow.setTitle("发送进度");
+		barWindow.setLocation(200,200);
+		barWindow.setVisible(true);
+		barWindow.add(progressBar);
+		barWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		
 		this.host = host;
 		this.port = port;
 	}
@@ -43,6 +64,8 @@ public class SendFile extends Thread {
 			output.flush();
 			
 			int readSize = 0;
+			int filelen = (int)file.length();
+			int donelen = 0;
 			
 			while(true)
 			{
@@ -54,7 +77,9 @@ public class SendFile extends Thread {
 					break;
 				
 				output.write(buf, 0, readSize);
-				
+				donelen += readSize;
+				percent = (int)(donelen * 100 / filelen);
+				progressBar.setValue(percent);
 				if(!getAck.readUTF().equals("OK"))
 				{
 					System.out.println("服务器"+ host + ":" + port + "失去连接！"); 

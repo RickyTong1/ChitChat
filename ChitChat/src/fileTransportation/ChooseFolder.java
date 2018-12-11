@@ -6,6 +6,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
+import CComponents.MessageBlobType;
+import Client.MainWindow;
+import Client.SendMessage;
 import Constants.SocketConstants;
 
 /*该类用于保存设备存储空间，并将接收到的文件保存到该位置*/
@@ -13,14 +18,23 @@ import Constants.SocketConstants;
 public class ChooseFolder {
 	public static String savePath;// 保存路径
 
-	public ChooseFolder() {
+	public ChooseFolder(String fileName) {
 		JFileChooser jfc = new JFileChooser();
-		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		jfc.showDialog(new JLabel(), "选择");
 		File file = jfc.getSelectedFile();
 
 		if (file != null) {
 			savePath = file.getAbsolutePath();
+			MessageBlob message = new MessageBlob();
+			message.type = MessageBlobType.SEND_FILE;//让服务器接收消息
+			message.senderIP = Property.Property.NATIVE_IP;
+			message.senderID = MainWindow.ID;
+			message.fileName = fileName;
+		//	message.fileName = GetFilePath.fileName;
+			new SendMessage(Property.Property.SERVER_IP
+					,SocketConstants.GENERAL_PORT
+					,MessageBlobOperator.pack(message));
 			System.out.println("文件:" + file.getAbsolutePath());
 			System.out.println(jfc.getSelectedFile().getName());
 		}

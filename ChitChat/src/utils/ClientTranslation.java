@@ -210,7 +210,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			GetFilePath.send();
 		}
 		case RECEIVE_FILE: {
-			new ChooseFolder();
+			new ChooseFolder(e.fileName);
 			ChooseFolder.save();
 		}
 

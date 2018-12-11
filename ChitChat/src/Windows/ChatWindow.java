@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 public class ChatWindow extends JFrame {
 	public static String filePath;
 	static String time = "sjkla";
+	public static GetFilePath filesend;
 	String nick;
 	JTextArea sendField; // 发送文本区
 	JButton send; // 发送按钮
@@ -185,18 +186,7 @@ public class ChatWindow extends JFrame {
 				
 			}
 			if(e.getSource() == file) {//文件传输
-				new GetFilePath();
-				MessageBlob message = new MessageBlob();
-				message.type = MessageBlobType.RECEIVE_FILE;//让服务器接收消息
-				message.senderIP = Property.Property.NATIVE_IP;
-				message.senderID = MainWindow.ID;
-				message.targetID = contactID;
-				//message.fileName = filePath.
-				message.fileName = GetFilePath.fileName;
-				new SendMessage(Property.Property.SERVER_IP
-						,SocketConstants.FILE_GRN_PORT
-						,MessageBlobOperator.pack(message));
-				
+				filesend = new GetFilePath(contactID);
 			}
 		}
 
