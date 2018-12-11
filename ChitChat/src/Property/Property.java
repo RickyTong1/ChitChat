@@ -23,7 +23,7 @@ public class Property {
 		FileInputStream fis;
 		try {
 
-			fis = new FileInputStream("property\\properties.properties");
+			fis = new FileInputStream("src\\properties.properties");
 			props.load(fis);
 			fis.close();// ¹Ø±ÕÁ÷
 		} catch (FileNotFoundException e) {

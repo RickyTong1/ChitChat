@@ -27,7 +27,7 @@ public class ClientTranslation {// 解析接收到的Blob
 
 		case CHAT_TEXT: {
 			if (MainWindow.ctsList.get(e.senderID).hasChatWin) {// 打开了聊天页的话
-				MainWindow.ctsList.get(e.senderID).chatWindow.addNewMsg(e.text);
+				MainWindow.ctsList.get(e.senderID).chatWindow.addNewMsg(e.senderID,e.nickname,e.text);
 			}
 			if (MainWindow.ctsList.get(e.senderID).hasMessage) {// 存在信息盒的话
 				MainWindow.ctsList.get(e.senderID).message.refreshMsg(e.text);
@@ -103,7 +103,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			}
 
 			if (e.answer == MessageAnswerType.NEGATIVE)
-				new ServerNote(e.senderID, "用户" + e.senderID + "拒绝了您的请求.",3);
+				new ServerNote(e.senderID, "用户" + e.senderID + "拒绝了您的请求.", 3);
 		}
 			break;
 
@@ -146,12 +146,11 @@ public class ClientTranslation {// 解析接收到的Blob
 			if (e.answer == MessageAnswerType.POSITIVE) {
 				if (MainWindow.hasPersonalWindow == false)
 					MainWindow.persInfoInit(e);// 信息初始化
-				else
-					{
-						new PersonalData(e);
-					//	MainWindow.hasPersonalWindow = true;
-					}
-					
+				else {
+					new PersonalData(e);
+					// MainWindow.hasPersonalWindow = true;
+				}
+
 			}
 
 			else
@@ -172,12 +171,14 @@ public class ClientTranslation {// 解析接收到的Blob
 			break;
 
 		case CHAT_CONTENT_ANSWER: {
-			if (e.answer == MessageAnswerType.POSITIVE)
-				for (int i = 0; i < e.totalCounts; i++) {
+			if (e.answer == MessageAnswerType.POSITIVE) {
+				System.out.println(e.messageslist[0]);
+
+				for (int i = e.totalCounts-1; i >= 0; i--) {
 					System.out.println("ChatContent loaded!");
-					MainWindow.ctsList.get(e.senderID).chatWindow.addNewMsg(e.messageslist[i].text);
+					MainWindow.ctsList.get(e.targetID).chatWindow.addNewMsg(e.messageslist[i].senderID,e.messageslist[i].nick,e.messageslist[i].text);
 				}
-			else
+			} else
 				JOptionPane.showMessageDialog(null, "聊天记录获取失败!请检查网络连接.");
 
 		}
@@ -192,7 +193,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			if (e.answer == MessageAnswerType.POSITIVE) {
 				for (int i = 0; i < e.verifylist.length; i++)
 					if (e.verifylist[i].status.equals("WAITING"))
-						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.",1);
+						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.", 1);
 			} else
 				JOptionPane.showMessageDialog(null, "个人验证事务获取失败!请检查网络连接.");
 		}
@@ -201,14 +202,14 @@ public class ClientTranslation {// 解析接收到的Blob
 			if (e.answer == MessageAnswerType.POSITIVE)
 				for (int i = 0; i < e.filelist.length; i++)
 					if (e.filelist[i].fileState == 0)
-						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.",2);
+						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.", 2);
 					else
 						JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
 		}
-		case SEND_FILE:{
+		case SEND_FILE: {
 			GetFilePath.send();
 		}
-		case RECEIVE_FILE:{
+		case RECEIVE_FILE: {
 			new ChooseFolder();
 			ChooseFolder.save();
 		}

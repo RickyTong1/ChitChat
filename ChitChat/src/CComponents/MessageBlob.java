@@ -50,6 +50,7 @@ public class MessageBlob implements Serializable{
 	
 	public class Messages implements Serializable{
 		public int senderID;
+		public String nick;
 		public String text;
 		public String time;
 		public int status;

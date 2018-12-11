@@ -50,6 +50,7 @@ public class ChatWindow extends JFrame {
 		MessageBlob message = new MessageBlob();
 		message.type = MessageBlobType.CHAT_CONTENT_QUEST;
 		message.senderID = MainWindow.ID;
+		message.totalCounts = 5;//≥ı ºƒ¨’JÈL∂»
 		message.targetID = ContactID;
 		message.senderIP = Property.Property.NATIVE_IP;
 		new SendMessage(Property.Property.SERVER_IP, SocketConstants.GENERAL_PORT, MessageBlobOperator.pack(message));
@@ -227,11 +228,16 @@ public class ChatWindow extends JFrame {
 
 	}
 
-	public void addNewMsg(String msg) {
+	public void addNewMsg(int id,String nick,String msg) {
 		time = getNetworkTime();
 		content = new JTextArea(msg);
 		content.setLineWrap(true);
-		content.setBackground(Color.LIGHT_GRAY);
+		if(id == MainWindow.ID) {
+			content.setBackground(Color.CYAN);
+			nick = "Œ“";
+		}		
+		else
+			content.setBackground(Color.LIGHT_GRAY);
 		content.setEditable(false);
 		chatBox.add(new JLabel("<html>" + nick
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + time + "<br></html>"));
