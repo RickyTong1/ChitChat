@@ -257,7 +257,7 @@ public class PersonalData extends JFrame{
 //				try {
 //					Thread.sleep(50);
 //				} catch (InterruptedException e1) {
-//					// TODO Auto-generated catch block
+//					// TODO ÊµÊ±Ë¢ÐÂ
 //					e1.printStackTrace();
 //				}
 //				MessageBlob quest_for_profile = new MessageBlob();
