@@ -19,6 +19,7 @@ import CComponents.MessageBlobType;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.SocketConstants;
+import Property.Property;
 import javafx.scene.layout.Border;
 import utils.Window;
 
@@ -143,8 +144,8 @@ public class StrangerWindow extends JFrame implements ActionListener {
 			message.targetRemark = "";
 			message.roomID = 0;
 			message.roomName = "";
-			new SendMessage(Property.Property.SERVER_IP, SocketConstants.GENERAL_PORT,
-					MessageBlobOperator.pack(message));
+			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 
 		}
 	}

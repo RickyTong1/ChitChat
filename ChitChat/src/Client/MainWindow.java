@@ -100,7 +100,7 @@ public class MainWindow extends JFrame {
 		quest_for_profile.senderIP = Property.NATIVE_IP;
 		
 		new SendMessage(Property.SERVER_IP
-				,SocketConstants.GENERAL_PORT
+				,SocketConstants.SERVER_PORT
 				,MessageBlobOperator.pack(quest_for_profile));
 		
 		messageInit();// 聊天消息初始化
@@ -112,14 +112,16 @@ public class MainWindow extends JFrame {
 		message.senderID = ID;
 		message.senderIP = Property.NATIVE_IP;
 		new SendMessage(Property.SERVER_IP
-				,SocketConstants.GENERAL_PORT
+				,SocketConstants.SERVER_PORT
 				,MessageBlobOperator.pack(message));
 		
-//		//id和ip没变,请求待处理的文件接收事务.
-//		message.type = MessageBlobType.SELF_FILE;
-//		new SendMessage(Property.SERVER_IP
-//				,SocketConstants.GENERAL_PORT
-//				,MessageBlobOperator.pack(message));
+		//id和ip没变,请求待处理的文件接收事务.
+		message.type = MessageBlobType.SELF_FILE;
+		new SendMessage(Property.SERVER_IP
+				,SocketConstants.SERVER_PORT
+				,MessageBlobOperator.pack(message));
+		
+		//TODO 资源回收测试.
 		
 		left.setDividerLocation(Constants.MAIN_WINDOW_USER_BLOCK_HEIGHT);// 设置个人信息框离顶部的距离
 		left.setDividerSize(2);// 设置分隔线宽度
@@ -130,7 +132,7 @@ public class MainWindow extends JFrame {
 		quest_for_friend_list.senderIP = Property.NATIVE_IP;
 		quest_for_friend_list.senderID = ID;
 		new SendMessage(Property.SERVER_IP
-				, SocketConstants.GENERAL_PORT
+				,SocketConstants.SERVER_PORT
 				, MessageBlobOperator.pack(quest_for_friend_list));
 		
 		right = new JScrollPane();
@@ -153,7 +155,7 @@ public class MainWindow extends JFrame {
 				message.targetID = id;
 				message.senderID = ID;
 				message.senderIP = Property.NATIVE_IP;
-				new SendMessage(Property.SERVER_IP, SocketConstants.GENERAL_PORT, MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP,SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
 			} else {
 				JOptionPane.showMessageDialog(null, "请输入账号!", "", JOptionPane.PLAIN_MESSAGE);
@@ -194,7 +196,7 @@ public class MainWindow extends JFrame {
 				message.senderID = ID;
 				message.key = null;
 				new SendMessage(Property.SERVER_IP
-						,SocketConstants.GENERAL_PORT
+						,SocketConstants.SERVER_PORT
 						,MessageBlobOperator.pack(message));
 				System.exit(0);
 			}
@@ -247,7 +249,7 @@ public class MainWindow extends JFrame {
 					message.senderIP = Property.NATIVE_IP;
 					message.senderID = ID;
 					new SendMessage(Property.SERVER_IP
-							,SocketConstants.GENERAL_PORT
+							,SocketConstants.SERVER_PORT
 							,MessageBlobOperator.pack(message));
 					
 					return ;
@@ -389,7 +391,7 @@ public class MainWindow extends JFrame {
 		message.senderID = userID;
 		message.targetID = ID;
 		new SendMessage(Property.SERVER_IP
-				,SocketConstants.GENERAL_PORT
+				,SocketConstants.SERVER_PORT
 				,MessageBlobOperator.pack(message));
 	}
 
@@ -478,4 +480,5 @@ public class MainWindow extends JFrame {
 		MainWindow.ctsPanel.revalidate();// 重新显示
 
 	}
+	
 }

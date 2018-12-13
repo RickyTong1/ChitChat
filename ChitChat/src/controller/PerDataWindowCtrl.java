@@ -12,6 +12,7 @@ import Client.MainWindow;
 import Client.SendMessage;
 import Constants.*;
 import Module.PerDataWindow;
+import Property.Property;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -87,7 +88,7 @@ public class PerDataWindowCtrl implements Initializable{
 		}
 		MessageBlob message = new MessageBlob();
 		message.type = MessageBlobType.SELF_PROFILE_UPDATE;
-		message.senderIP = Property.Property.NATIVE_IP;
+		message.senderIP = Property.NATIVE_IP;
 		message.senderID = MainWindow.ID;
 		message.nickname = nickName;
 		message.key = null;
@@ -96,9 +97,8 @@ public class PerDataWindowCtrl implements Initializable{
 		message.birth = year+"-"+month+"-"+day;
 		message.gender = sex;
 		message.style = signature.getText();
-		new SendMessage(Property.Property.SERVER_IP
-				,SocketConstants.GENERAL_PORT
-				,MessageBlobOperator.pack(message));
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 		
 		MainWindow.nicknameLabel = new JLabel(nickName);
 		MainWindow.styleWord = new JLabel(signature.getText());

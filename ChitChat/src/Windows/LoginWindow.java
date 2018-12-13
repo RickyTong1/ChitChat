@@ -28,6 +28,7 @@ import CComponents.MessageReceive;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.*;
+import Property.Property;
 import Restores.KeyKeep;
 import Restores.KeyKeepOperate;
 import utils.Window;
@@ -53,10 +54,9 @@ public class LoginWindow extends JFrame {
 	File user_info;
 	Vector<KeyKeep> keys = new Vector<KeyKeep>();
 	public LoginWindow() {
-		MessageReceive s = MessageReceive.getInstance();
 		
 		try {
-			user_info = new File(Property.Property.USER_INFO_URL);
+			user_info = new File(Property.USER_INFO_URL);
 			IP_address = InetAddress.getLocalHost().getHostAddress();
 			System.out.println(IP_address);
 		} catch (UnknownHostException e) {
@@ -215,14 +215,13 @@ public class LoginWindow extends JFrame {
 				userID = Integer.parseInt(ID.getText());
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.LOGIN;
-				message.senderIP = Property.Property.NATIVE_IP;
+				message.senderIP = Property.NATIVE_IP;
 				message.senderID = Integer.parseInt(ID.getText());
 				message.key = key.getText();
 				message.onlineState = 0;
 				
-				new SendMessage(Property.Property.SERVER_IP
-						,SocketConstants.GENERAL_PORT
-						,MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 				
 				dispose();//该方法释放资源.
 

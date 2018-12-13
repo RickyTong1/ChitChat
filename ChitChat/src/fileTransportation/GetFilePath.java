@@ -12,6 +12,7 @@ import CComponents.MessageBlobType;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.SocketConstants;
+import Property.Property;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -41,25 +42,23 @@ public class GetFilePath {
 			fileName = jfc.getSelectedFile().getName();
 			MessageBlob message = new MessageBlob();
 			message.type = MessageBlobType.RECEIVE_FILE;//让服务器接收消息
-			message.senderIP = Property.Property.NATIVE_IP;
+			message.senderIP = Property.NATIVE_IP;
 			message.senderID = MainWindow.ID;
 			message.targetID = contactID;
 			//message.fileName = filePath.
 			message.fileName = GetFilePath.fileName;
-			new SendMessage(Property.Property.SERVER_IP
-					,SocketConstants.GENERAL_PORT
-					,MessageBlobOperator.pack(message));
-			
-			System.out.println("文件:" + file.getAbsolutePath());
-			System.out.println(jfc.getSelectedFile().getName());
+			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 		}
+		System.out.println("文件:" + file.getAbsolutePath());
+		System.out.println(jfc.getSelectedFile().getName());
 	}
 
 	public static void send() {
 		if (filePath == null) {
 			JOptionPane.showMessageDialog(null, "发送文件不能为空");
 		} else {
-			SendFile se = new SendFile(filePath, Property.Property.SERVER_IP, SocketConstants.FILE_GRN_PORT);
+			SendFile se = new SendFile(filePath, Property.SERVER_IP, SocketConstants.FILE_GRN_PORT);
 			se.start();// 启动线程
 		}
 	}

@@ -12,6 +12,7 @@ import CComponents.MessageBlobType;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.SocketConstants;
+import Property.Property;
 
 /*该类用于保存设备存储空间，并将接收到的文件保存到该位置*/
 /*目前有个问题，就是弹出文件浏览器时如果直接点关闭窗口会报错，因为无法获得路径*/
@@ -28,13 +29,12 @@ public class ChooseFolder {
 			savePath = file.getAbsolutePath();
 			MessageBlob message = new MessageBlob();
 			message.type = MessageBlobType.SEND_FILE;//让服务器接收消息
-			message.senderIP = Property.Property.NATIVE_IP;
+			message.senderIP = Property.NATIVE_IP;
 			message.senderID = MainWindow.ID;
 			message.fileName = fileName;
 		//	message.fileName = GetFilePath.fileName;
-			new SendMessage(Property.Property.SERVER_IP
-					,SocketConstants.GENERAL_PORT
-					,MessageBlobOperator.pack(message));
+			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 			System.out.println("文件:" + file.getAbsolutePath());
 			System.out.println(jfc.getSelectedFile().getName());
 		}

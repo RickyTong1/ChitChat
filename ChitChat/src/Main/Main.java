@@ -1,5 +1,6 @@
 package Main;
 
+import CComponents.MessageReceive;
 import Windows.ChatWindow;
 import Windows.LoginWindow;
 import javafx.application.Application;
@@ -9,10 +10,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 /*登陆界面（程序最开始运行的类）*/
 public class Main  {
+	public static LoginWindow loginwindow= null;
     
     public static void main(String[] args) {
 
-    	new LoginWindow();
+    	loginwindow = new LoginWindow();
+    	MessageReceive.getInstance();//启动后台接收信息线程.
     	//launch();
     	//new ChatWindow(1,1);
     }

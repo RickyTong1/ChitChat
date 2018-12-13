@@ -17,9 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 
 import CComponents.Convasation;
+import CComponents.MessageAnswerType;
 import CComponents.MessageBlob;
+import CComponents.MessageBlobOperator;
 import CComponents.MessageBlobType;
 import Constants.*;
+import Property.Property;
 import Windows.ChatWindow;
 
 public class Message extends Convasation {// 消息 主窗口左边的基本元素
@@ -29,7 +32,8 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		super(id, online, time, isread, spoke, nick, remark, style, gender);
 		// TODO Auto-generated constructor stub
 	}
-	int mode  = 0;//1 加好友 ;2文件;3拒絕提示
+
+	int mode = 0;// 1 加好友 ;2文件;3拒絕提示
 
 	long spokeTime = super.lastTimeSpeak;
 	JLabel timeStick = null;// 送达的時間戳
@@ -129,9 +133,22 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		});
 		readThis.addActionListener(e -> {
-//			if (mode == 1 || mode == 2||mode ==3) {
-//				new ServerNoteView(ID,spoke,mode);
-//			}
+			if (mode == Constants.MSG_MODE_ADDFD) {
+				MessageBlob message = new MessageBlob();
+
+				if (mode == Constants.MSG_MODE_ADDFD)
+					message.type = MessageBlobType.ADD_CONTACT_ANSWER;
+				else if (mode == Constants.MSG_MODE_FILE)
+					message.type = MessageBlobType.SEND_FILE;
+
+				message.answer = MessageAnswerType.NEGATIVE;
+				message.senderID = MainWindow.ID;
+				message.targetID = ID;
+				message.senderIP = Property.NATIVE_IP;
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
+			}
+
 			isRead = Internet.READ;
 			lastSpoke.setForeground(Colors.MESSAGE_READ);
 			MainWindow.readMessage(ID, elem);
@@ -147,8 +164,8 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					isRead = Internet.READ;
 					lastSpoke.setForeground(Colors.MESSAGE_READ);
 					MainWindow.readMessage(ID, elem);
-					if(mode == 1||mode ==2||mode == 3) {
-						new ServerNoteView(ID,spoke,mode);
+					if (mode == 1 || mode == 2 || mode == 3) {
+						new ServerNoteView(ID, spoke, mode);
 						return;
 					}
 					if (!hasChatWin) {

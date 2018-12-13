@@ -161,8 +161,8 @@ public class FriendWindow extends JFrame implements ActionListener {
 			message.senderID = MainWindow.ID;
 			message.targetID = contactsID;
 			message.remark = remark.getText();
-			new SendMessage(Property.SERVER_IP, SocketConstants.GENERAL_PORT,
-					MessageBlobOperator.pack(message));
+			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 			JOptionPane.showMessageDialog(null, "修改备注成功");
 			MainWindow.ctsList.get(contactsID).remark = remark.getText();
 			dispose();
@@ -176,9 +176,8 @@ public class FriendWindow extends JFrame implements ActionListener {
 			quest_for_friend_list.type = MessageBlobType.FRIEND_LIST_QUEST;
 			quest_for_friend_list.senderIP = Property.NATIVE_IP;
 			quest_for_friend_list.senderID = MainWindow.ID;
-			new SendMessage(Property.SERVER_IP
-					, SocketConstants.GENERAL_PORT
-					, MessageBlobOperator.pack(quest_for_friend_list));
+			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 		}
 	}
 

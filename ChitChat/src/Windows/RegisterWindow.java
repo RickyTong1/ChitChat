@@ -9,6 +9,7 @@ import CComponents.MessageBlobOperator;
 import CComponents.MessageBlobType;
 import Client.SendMessage;
 import Constants.SocketConstants;
+import Property.Property;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -225,7 +226,7 @@ public class RegisterWindow extends JFrame{
 				String birth=tempYear+"-"+tempMonth+"-"+tempDay;
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.REGISTER;
-				message.senderIP = Property.Property.NATIVE_IP;
+				message.senderIP = Property.NATIVE_IP;
 				message.nickname = tempUserName;
 				message.key = tempPassword;
 				message.email = tempEmail;
@@ -234,10 +235,8 @@ public class RegisterWindow extends JFrame{
 				message.gender = tempUserSex;
 				message.style = null;
 				System.out.println(message.senderIP);
-				new SendMessage(
-						Property.Property.SERVER_IP
-						,SocketConstants.GENERAL_PORT
-						,MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 			}			
 		}	
 	}

@@ -19,4 +19,9 @@ public interface Constants {
 	public static final int CONVLIST_CONTACTS = 1;//联系人标识
 	public static final int CONVLIST_MESSAGE = 2;//消息标识
 	
+	//Message类中的mode:
+	public static final int MSG_MODE_ADDFD = 1;//添加好友
+	public static final int MSG_MODE_FILE = 2;//文件
+	public static final int MSG_MODE_REFUSE = 3;//拒绝提示
+	
 }

@@ -1,5 +1,6 @@
 package controller;
 import Constants.*;
+import Property.Property;
 
 import java.io.IOException;
 import java.net.URL;
@@ -123,7 +124,7 @@ public class RegisterWindowCtrl implements Initializable {
 		}
 		MessageBlob message = new MessageBlob();
 		message.type = MessageBlobType.REGISTER;
-		message.senderIP = Property.Property.NATIVE_IP;
+		message.senderIP = Property.NATIVE_IP;
 		message.nickname = nickName;
 		message.key = password;
 		message.email = email;
@@ -133,10 +134,8 @@ public class RegisterWindowCtrl implements Initializable {
 		message.gender = sex;
 		message.style = null;
 		System.out.println(message.senderIP+"in SendMessage");
-		new SendMessage(
-				Property.Property.SERVER_IP
-				,SocketConstants.GENERAL_PORT
-				,MessageBlobOperator.pack(message));
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 	}
 	/*ÍË³ö°´Å¥¼àÊÓÆ÷*/
 	public void exitListener(ActionEvent exit) {

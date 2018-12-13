@@ -18,7 +18,7 @@ public class MessageReceive extends Thread {// 单例
 
 	private MessageReceive() {
 		this.start();
-	}// 禁用构造方法
+	}// 禁止外部使用构造方法
 
 	public static MessageReceive getInstance() {
 		if (instance == null) {
@@ -40,7 +40,7 @@ public class MessageReceive extends Thread {// 单例
 		DatagramSocket recvSocket = null;
 
 		try {
-			recvSocket = new DatagramSocket(SocketConstants.GENERAL_PORT);
+			recvSocket = new DatagramSocket(SocketConstants.CLIENT_PORT);
 			System.out.println("信息接受线程启动成功!");
 			while (true) {
 				try {

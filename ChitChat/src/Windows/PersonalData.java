@@ -249,9 +249,8 @@ public class PersonalData extends JFrame{
 				message.birth = birth;
 				message.gender = tempUserSex;
 				message.style = signature.getText();
-				new SendMessage(Property.SERVER_IP
-						,SocketConstants.GENERAL_PORT
-						,MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
 				MainWindow.hasPersonalWindow = false;
 				
 //				try {

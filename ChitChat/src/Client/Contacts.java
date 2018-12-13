@@ -111,7 +111,7 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			
 			new SendMessage(
 					Property.SERVER_IP
-					,SocketConstants.GENERAL_PORT
+					,SocketConstants.SERVER_PORT
 					,MessageBlobOperator.pack(message));
 			
 		});
@@ -124,7 +124,7 @@ public class Contacts extends Convasation {// 联系人 主窗口右侧的 元素
 			
 			new SendMessage(
 					Property.SERVER_IP
-					,SocketConstants.GENERAL_PORT
+					,SocketConstants.SERVER_PORT
 					,MessageBlobOperator.pack(message));
 			
 		});

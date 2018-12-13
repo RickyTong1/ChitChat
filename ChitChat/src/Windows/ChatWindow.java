@@ -20,6 +20,7 @@ import CComponents.MessageBlobType;
 import Client.MainWindow;
 import Client.SendMessage;
 import Constants.*;
+import Property.Property;
 import fileTransportation.GetFilePath;
 import fileTransportation.SendFile;
 import javafx.application.Application;
@@ -53,8 +54,8 @@ public class ChatWindow extends JFrame {
 		message.senderID = MainWindow.ID;
 		message.totalCounts = 5;//初始默認長度
 		message.targetID = ContactID;
-		message.senderIP = Property.Property.NATIVE_IP;
-		new SendMessage(Property.Property.SERVER_IP, SocketConstants.GENERAL_PORT, MessageBlobOperator.pack(message));
+		message.senderIP = Property.NATIVE_IP;
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 		// 请求聊天记录.
 
 		init();
@@ -170,12 +171,11 @@ public class ChatWindow extends JFrame {
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.CHAT_TEXT;
 				message.senderID = MainWindow.ID;
-				message.senderIP = Property.Property.NATIVE_IP;
+				message.senderIP = Property.NATIVE_IP;
 				message.targetID = contactID;
 				message.text = sendField.getText();
 
-				new SendMessage(Property.Property.SERVER_IP, SocketConstants.GENERAL_PORT,
-						MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
 				/* 设置滚动条一直在最下方 */
 				JScrollBar vertical = sp.getVerticalScrollBar();
