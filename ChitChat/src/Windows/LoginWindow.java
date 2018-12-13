@@ -216,6 +216,7 @@ public class LoginWindow extends JFrame {
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.LOGIN;
 				message.senderIP = Property.NATIVE_IP;
+				System.out.println("LoW_senderIP: "+message.senderIP);
 				message.senderID = Integer.parseInt(ID.getText());
 				message.key = key.getText();
 				message.onlineState = 0;
