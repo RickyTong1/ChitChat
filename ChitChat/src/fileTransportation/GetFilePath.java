@@ -49,9 +49,10 @@ public class GetFilePath {
 			message.fileName = GetFilePath.fileName;
 			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
+			System.out.println("文件:" + file.getAbsolutePath());
+			System.out.println(jfc.getSelectedFile().getName());
 		}
-		System.out.println("文件:" + file.getAbsolutePath());
-		System.out.println(jfc.getSelectedFile().getName());
+		
 	}
 
 	public static void send() {

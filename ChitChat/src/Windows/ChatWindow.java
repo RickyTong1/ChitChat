@@ -186,6 +186,7 @@ public class ChatWindow extends JFrame {
 				
 			}
 			if(e.getSource() == file) {//ÎÄ¼þ´«Êä
+				
 				filesend = new GetFilePath(contactID);
 			}
 		}
