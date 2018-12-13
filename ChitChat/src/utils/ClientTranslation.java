@@ -39,6 +39,7 @@ public class ClientTranslation {// 解析接收到的Blob
 				MainWindow.ctsList.get(e.senderID).message.refreshMsg(e.text);
 			} else {
 				MainWindow.addNewMessage(e);
+				
 			}
 		}
 			break;
@@ -182,7 +183,7 @@ public class ClientTranslation {// 解析接收到的Blob
 
 		case CHAT_CONTENT_ANSWER: {
 			if (e.answer == MessageAnswerType.POSITIVE) {
-				System.out.println(e.messageslist[0]);
+				//System.out.println(e.messageslist[0]);
 
 				for (int i = e.totalCounts - 1; i >= 0; i--) {
 					System.out.println("ChatContent loaded!");
@@ -196,8 +197,9 @@ public class ClientTranslation {// 解析接收到的Blob
 			break;
 
 		case FRIEND_LIST_ANSWER: {
-			if (e.answer == MessageAnswerType.POSITIVE)
+			if (e.answer == MessageAnswerType.POSITIVE) {
 				MainWindow.ContactsInit(e);
+			}
 		}
 			break;
 		case SELF_VERIFY: {

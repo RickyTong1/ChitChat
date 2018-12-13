@@ -52,8 +52,8 @@ public class MainWindow extends JFrame {
 	Image image;// 用户头像
 	public static JLabel nicknameLabel = new JLabel("");
 	public static JLabel styleWord = new JLabel("");
-	public static  boolean hasPersonalWindow = false;
-	
+	public static boolean hasPersonalWindow = false;
+
 	JSplitPane split;// 切分窗格,左边为联系人,右边是消息
 	JMenuBar operats;// 左上角菜单栏
 	JMenu menu;// 菜单
@@ -74,7 +74,7 @@ public class MainWindow extends JFrame {
 	public MainWindow(int id) {
 		ID = id;
 		MessageReceive getMsg = MessageReceive.getInstance();
-		
+
 		try {
 			msgList = new ConvList(Constants.CONVLIST_MESSAGE);
 			ctsList = new ConvList(Constants.CONVLIST_CONTACTS);
@@ -88,53 +88,46 @@ public class MainWindow extends JFrame {
 				Constants.MAIN_WINDOW_HEIGHT);
 		setVisible(true);
 
-		
 		// Refresh rfs = new Refresh();
 		// new Thread(rfs).start();
 	}
 
 	public void init() {
+		// 联系人列表初始化
+		MessageBlob quest_for_friend_list = new MessageBlob();
+		quest_for_friend_list.type = MessageBlobType.FRIEND_LIST_QUEST;
+		quest_for_friend_list.senderIP = Property.NATIVE_IP;
+		quest_for_friend_list.senderID = ID;
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT,
+				MessageBlobOperator.pack(quest_for_friend_list));
+
 		MessageBlob quest_for_profile = new MessageBlob();
 		quest_for_profile.type = MessageBlobType.SELF_PROFILE_QUEST;
 		quest_for_profile.senderID = ID;
 		quest_for_profile.senderIP = Property.NATIVE_IP;
-		
-		new SendMessage(Property.SERVER_IP
-				,SocketConstants.SERVER_PORT
-				,MessageBlobOperator.pack(quest_for_profile));
-		
+
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(quest_for_profile));
+
 		messageInit();// 聊天消息初始化
 		// 在messageInit()方法中已經設置過bottomComponrnt.
 
-		//请求添加好友的待处理事务
+		// 请求添加好友的待处理事务
 		MessageBlob message = new MessageBlob();
 		message.type = MessageBlobType.SELF_VERIFY;
 		message.senderID = ID;
 		message.senderIP = Property.NATIVE_IP;
-		new SendMessage(Property.SERVER_IP
-				,SocketConstants.SERVER_PORT
-				,MessageBlobOperator.pack(message));
-		
-		//id和ip没变,请求待处理的文件接收事务.
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
+		// id和ip没变,请求待处理的文件接收事务.
 		message.type = MessageBlobType.SELF_FILE;
-		new SendMessage(Property.SERVER_IP
-				,SocketConstants.SERVER_PORT
-				,MessageBlobOperator.pack(message));
-		
-		//TODO 资源回收测试.
-		
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
+		// TODO 资源回收测试.
+
 		left.setDividerLocation(Constants.MAIN_WINDOW_USER_BLOCK_HEIGHT);// 设置个人信息框离顶部的距离
 		left.setDividerSize(2);// 设置分隔线宽度
 		left.setEnabled(false);// 分隔线不可移动
 
-		MessageBlob quest_for_friend_list = new MessageBlob();// 联系人列表初始化
-		quest_for_friend_list.type = MessageBlobType.FRIEND_LIST_QUEST;
-		quest_for_friend_list.senderIP = Property.NATIVE_IP;
-		quest_for_friend_list.senderID = ID;
-		new SendMessage(Property.SERVER_IP
-				,SocketConstants.SERVER_PORT
-				, MessageBlobOperator.pack(quest_for_friend_list));
-		
 		right = new JScrollPane();
 		JLabel ctsHead = new JLabel("所有联系人");
 		searchContacts = new JMenuItem("搜索联系人");
@@ -155,7 +148,7 @@ public class MainWindow extends JFrame {
 				message.targetID = id;
 				message.senderID = ID;
 				message.senderIP = Property.NATIVE_IP;
-				new SendMessage(Property.SERVER_IP,SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
 			} else {
 				JOptionPane.showMessageDialog(null, "请输入账号!", "", JOptionPane.PLAIN_MESSAGE);
@@ -195,50 +188,10 @@ public class MainWindow extends JFrame {
 				message.senderIP = Property.NATIVE_IP;
 				message.senderID = ID;
 				message.key = null;
-				new SendMessage(Property.SERVER_IP
-						,SocketConstants.SERVER_PORT
-						,MessageBlobOperator.pack(message));
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 				System.exit(0);
 			}
 		});
-
-	}
-
-	public static void persInfoInit(MessageBlob msg) {
-		prof.removeAll();
-		left.setTopComponent(null);
-		String nickname = msg.nickname;
-		String style = msg.style;
-		
-		Icon onlineImage;
-		JLabel onlineState = null;
-		try {
-			onlineImage = new ImageIcon(ImageIO.read(new File(Property.IMAGE_ONLINE_URL)));
-			onlineState = new JLabel(onlineImage);
-			onlineState.setPreferredSize(
-					new Dimension(Constants.CONTACTS_ONLINESTATE_WIDTH, Constants.CONTACTS_ONLINESTATE_WIDTH));
-		} catch (IOException e) {
-			System.out.println("文件不存在.persInfoInit");
-		}
-
-
-		nicknameLabel.setText(nickname);
-		nicknameLabel.setFont(Fonts.USER_NICKNAME);
-		styleWord.setText(style);
-		styleWord.setFont(Fonts.USER_STYLEWORD);
-
-		Box labels = Box.createVerticalBox();
-		labels.removeAll();
-		labels.add(nicknameLabel);
-		labels.add(Box.createVerticalStrut(5));
-		labels.add(styleWord);
-
-		prof.removeAll();
-		prof.add(labels);
-		prof.add(onlineState);
-		left.setTopComponent(prof);
-		left.revalidate();
-		
 		prof.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -248,11 +201,9 @@ public class MainWindow extends JFrame {
 					message.type = MessageBlobType.SELF_PROFILE_QUEST;
 					message.senderIP = Property.NATIVE_IP;
 					message.senderID = ID;
-					new SendMessage(Property.SERVER_IP
-							,SocketConstants.SERVER_PORT
-							,MessageBlobOperator.pack(message));
-					
-					return ;
+					new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+
+					return;
 				}
 			}
 
@@ -266,14 +217,51 @@ public class MainWindow extends JFrame {
 				prof.setBorder(BorderFactory.createLineBorder(null));
 			}
 		});
+
+	}
+
+	public static void persInfoInit(MessageBlob msg) {
+		prof.removeAll();
+		left.setTopComponent(null);
+		String nickname = msg.nickname;
+		String style = msg.style;
+
+		Icon onlineImage;
+		JLabel onlineState = null;
+		try {
+			onlineImage = new ImageIcon(ImageIO.read(new File(Property.IMAGE_ONLINE_URL)));
+			onlineState = new JLabel(onlineImage);
+			onlineState.setPreferredSize(
+					new Dimension(Constants.CONTACTS_ONLINESTATE_WIDTH, Constants.CONTACTS_ONLINESTATE_WIDTH));
+		} catch (IOException e) {
+			System.out.println("文件不存在.persInfoInit");
+		}
+
+		nicknameLabel.setText(nickname);
+		nicknameLabel.setFont(Fonts.USER_NICKNAME);
+		styleWord.setText(style);
+		styleWord.setFont(Fonts.USER_STYLEWORD);
+
+		Box labels = Box.createVerticalBox();
+		labels.removeAll();
+		labels.add(nicknameLabel);
+		labels.add(Box.createVerticalStrut(5));
+		labels.add(styleWord);
+
+		prof.add(labels);
+		prof.add(onlineState);
+		left.setTopComponent(prof);
+	//	left.repaint();
+		left.revalidate();
+
+		
 		prof.repaint();
 		prof.validate();
-		
+
 	}
 
 	public void messageInit() {// TODO: 消息初始化
 
-	
 		boolean hasMessage = false;
 
 		if (!hasMessage) {
@@ -380,7 +368,7 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void deleteContacts(int ID, int userID, Box elem) {// TODO:删除联系人
-		
+
 		ctsList.remove(ID);
 		ctsList.sort();
 		MainWindow.ctsPanel.remove(elem);
@@ -390,23 +378,13 @@ public class MainWindow extends JFrame {
 		message.type = MessageBlobType.DELETE_CONTACT;
 		message.senderID = userID;
 		message.targetID = ID;
-		new SendMessage(Property.SERVER_IP
-				,SocketConstants.SERVER_PORT
-				,MessageBlobOperator.pack(message));
+		new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 	}
 
 	public static boolean addContacts(MessageBlob e) {// TODO: 添加联系人
-		
-		Contacts newContact = 
-				new Contacts(e.senderID
-				,Internet.ONLINE
-				,0
-				,Internet.READ
-				,""
-				,e.nickname
-				,e.targetRemark
-				,""
-				,"");
+
+		Contacts newContact = new Contacts(e.senderID, Internet.ONLINE, 0, Internet.READ, "", e.nickname,
+				e.targetRemark, "", "");
 		ctsList.add(newContact);
 		ctsList.sort();
 		reloadContacts();
@@ -417,23 +395,17 @@ public class MainWindow extends JFrame {
 
 		String nickname = ctsList.get(e.senderID).nickname;
 		String remark = ctsList.get(e.senderID).remark;
-		
-		Message newMessage = new Message(
-				e.senderID
-				,Internet.ONLINE
-				,new Date().getTime()
-				,Internet.UNREAD
-				,e.text
-				,nickname
-				,remark
-				,""
-				,"");
+
+		Message newMessage = new Message(e.senderID, Internet.ONLINE, new Date().getTime(), Internet.UNREAD, e.text,
+				nickname, remark, "", "");
 		msgList.add(0, newMessage);// 置顶
+		msgList.get(e.senderID).hasMessage = true;
 		msgList.sort();
 		reloadMessages();
 	}
+
 	public static void addNewMessage(Message e) {
-		msgList.add(0,e);
+		msgList.add(0, e);
 		msgList.sort();
 		reloadMessages();
 	}
@@ -480,5 +452,5 @@ public class MainWindow extends JFrame {
 		MainWindow.ctsPanel.revalidate();// 重新显示
 
 	}
-	
+
 }

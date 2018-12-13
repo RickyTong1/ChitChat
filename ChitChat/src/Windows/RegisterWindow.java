@@ -234,7 +234,7 @@ public class RegisterWindow extends JFrame{
 				message.birth = birth;
 				message.gender = tempUserSex;
 				message.style = null;
-				System.out.println(message.senderIP);
+				System.out.println("RgW_senderIP: "+message.senderIP);
 				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
 			}			

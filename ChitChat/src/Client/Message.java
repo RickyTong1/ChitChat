@@ -133,7 +133,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		});
 		readThis.addActionListener(e -> {
-			if (mode == Constants.MSG_MODE_ADDFD) {
+			if (mode == Constants.MSG_MODE_ADDFD&&isRead == Internet.UNREAD) {
 				MessageBlob message = new MessageBlob();
 
 				if (mode == Constants.MSG_MODE_ADDFD)

@@ -1,14 +1,13 @@
 /CComponents/
 /Client/
 /Constants/
-/Exceptions/
 /Main/
-/Module/
 /Property/
 /Restores/
 /Windows/
 /controller/
 /fileTransportation/
 /utils/
-/View/
 /z_Tests/
+/Exceptions/
+/Module/

@@ -253,24 +253,23 @@ public class PersonalData extends JFrame{
 
 				MainWindow.hasPersonalWindow = false;
 				
-//				try {
-//					Thread.sleep(50);
-//				} catch (InterruptedException e1) {
-//					// TODO 实时刷新
-//					e1.printStackTrace();
-//				}
-//				MessageBlob quest_for_profile = new MessageBlob();
-//				quest_for_profile.type = MessageBlobType.SELF_PROFILE_QUEST;
-//				quest_for_profile.senderID = MainWindow.ID;
-//				quest_for_profile.senderIP = Property.NATIVE_IP;
-//				
-//				new SendMessage(Property.SERVER_IP
-//						,SocketConstants.GENERAL_PORT
-//						,MessageBlobOperator.pack(quest_for_profile));
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e1) {
+					// TODO 实时刷新
+					e1.printStackTrace();
+				}
+				MessageBlob quest_for_profile = new MessageBlob();
+				quest_for_profile.type = MessageBlobType.SELF_PROFILE_QUEST;
+				quest_for_profile.senderID = MainWindow.ID;
+				quest_for_profile.senderIP = Property.NATIVE_IP;
 				
-//				
-//				MainWindow.nicknameLabel = new JLabel(tempUserName);
-//				MainWindow.styleWord = new JLabel(signature.getText());
+				new SendMessage(Property.SERVER_IP
+						,SocketConstants.SERVER_PORT
+						,MessageBlobOperator.pack(quest_for_profile));		
+				
+				MainWindow.nicknameLabel = new JLabel(tempUserName);
+				MainWindow.styleWord = new JLabel(signature.getText());
 				dispose();
 			}
 		}	

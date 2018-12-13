@@ -146,6 +146,8 @@ public class StrangerWindow extends JFrame implements ActionListener {
 			message.roomName = "";
 			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
+			JOptionPane.showMessageDialog(null, "添加请求已发送!", "", JOptionPane.PLAIN_MESSAGE);
+			dispose();
 
 		}
 	}
