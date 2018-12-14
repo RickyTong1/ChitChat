@@ -161,9 +161,7 @@ public class ClientTranslation {// 解析接收到的Blob
 					new PersonalData(e);
 					// MainWindow.hasPersonalWindow = true;
 				}
-
 			}
-
 			else
 				JOptionPane.showMessageDialog(null, "个人信息拉取异常.请检查网络连接" + ".\n错误码: CLN_CLNTRNS_SPAR", "",
 						JOptionPane.PLAIN_MESSAGE);

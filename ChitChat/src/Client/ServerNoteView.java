@@ -1,5 +1,7 @@
 package Client;
 
+import java.awt.Component;
+
 import javax.swing.Box;
 import Constants.Constants;
 import javax.swing.JButton;
@@ -20,10 +22,12 @@ public class ServerNoteView extends JFrame {
 
 	public ServerNoteView(int senderID, String Note, int mode) {
 		this.mode = mode;
+		setTitle("系统通知");
 		Box head = Box.createVerticalBox();
 		Box note = Box.createHorizontalBox();
 		Box button = Box.createHorizontalBox();
-		head.add(new JLabel("系统提示"));
+		head.setAlignmentX(Component.LEFT_ALIGNMENT);//靠中对齐
+		
 		note.add(new JLabel(Note));
 		JButton ojbk = new JButton("好");
 		JButton nope;
@@ -46,7 +50,7 @@ public class ServerNoteView extends JFrame {
 				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 				this.dispose();
 			});
-			button.add(Box.createHorizontalStrut(6));
+			button.add(Box.createHorizontalStrut(40));
 			button.add(nope);
 		}
 
@@ -65,6 +69,7 @@ public class ServerNoteView extends JFrame {
 				message.senderIP = Property.NATIVE_IP;
 				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
+				
 				try {
 					Thread.sleep(20);
 				} catch (InterruptedException e1) {
@@ -85,6 +90,7 @@ public class ServerNoteView extends JFrame {
 				message.type = MessageBlobType.SEND_FILE;
 				message.senderIP = Property.NATIVE_IP;
 				new SendMessage(Property.SERVER_IP, SocketConstants.FILE_GRN_PORT, MessageBlobOperator.pack(message));
+				this.dispose();
 			}
 		});
 

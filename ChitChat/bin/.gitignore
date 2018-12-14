@@ -1,7 +1,9 @@
 /CComponents/
 /Client/
 /Constants/
+/Exceptions/
 /Main/
+/Module/
 /Property/
 /Restores/
 /Windows/
@@ -9,5 +11,3 @@
 /fileTransportation/
 /utils/
 /z_Tests/
-/Exceptions/
-/Module/

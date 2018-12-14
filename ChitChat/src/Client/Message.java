@@ -52,7 +52,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		if (elem != null)
 			return elem;
-		Box elem = Box.createVerticalBox();
+		elem = Box.createVerticalBox();
 		/*
 		 * 以上解决了MainWindow.addNewMessage() 中thisBx重复装载的问题.
 		 */
@@ -71,7 +71,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 						sleep(60000);// 一分钟一次
 					} catch (InterruptedException e) {
 					}
-					// spokeTime -= 60000*60*24;//时间加速大法
+					// spokeTime -= 60000*60*24;//时间加速大法,for testing.
 					setTime(spokeTime);
 				}
 			}
@@ -111,7 +111,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		elem.add(all);
 		elem.add(lastSpoke);
-		elem.setAlignmentX(Component.LEFT_ALIGNMENT);
+		elem.setAlignmentX(Component.CENTER_ALIGNMENT);//靠中对齐
 		elem.setPreferredSize(new Dimension(Constants.MESSAGE_PANEL_WIDTH, Constants.MESSAGE_PANEL_HEIGHT));
 		elem.setBorder(BorderFactory.createLineBorder(Colors.MESSAGE_BORDER_COLOR));
 		elem.validate();
@@ -133,7 +133,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 
 		});
 		readThis.addActionListener(e -> {
-			if (mode == Constants.MSG_MODE_ADDFD&&isRead == Internet.UNREAD) {
+			if (mode == Constants.MSG_MODE_ADDFD||mode == Constants.MSG_MODE_FILE&&isRead == Internet.UNREAD) {
 				MessageBlob message = new MessageBlob();
 
 				if (mode == Constants.MSG_MODE_ADDFD)

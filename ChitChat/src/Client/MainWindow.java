@@ -64,7 +64,7 @@ public class MainWindow extends JFrame {
 	JScrollPane right;// 主页面右侧框
 	static JSplitPane left;// 主页面左侧的框
 	JScrollPane messages;// 消息列表容器
-	static Box prof = Box.createHorizontalBox();
+	static Box prof = Box.createHorizontalBox();//个人信息卡(左上))
 
 	public static JPanel msgPanel = new JPanel();
 	public static JPanel ctsPanel = new JPanel();
@@ -83,6 +83,8 @@ public class MainWindow extends JFrame {
 		}
 		setLayout(new FlowLayout());
 		init();
+		msgPanel.setAlignmentY(TOP_ALIGNMENT);
+		ctsPanel.setAlignmentY(TOP_ALIGNMENT);
 		setBounds(Window.getMiddleWidth(Constants.MAIN_WINDOW_WIDTH),
 				Window.getMiddleHeight(Constants.MAIN_WINDOW_HEIGHT), Constants.MAIN_WINDOW_WIDTH,
 				Constants.MAIN_WINDOW_HEIGHT);
@@ -127,7 +129,8 @@ public class MainWindow extends JFrame {
 		left.setDividerLocation(Constants.MAIN_WINDOW_USER_BLOCK_HEIGHT);// 设置个人信息框离顶部的距离
 		left.setDividerSize(2);// 设置分隔线宽度
 		left.setEnabled(false);// 分隔线不可移动
-
+		left.setAlignmentY(TOP_ALIGNMENT);
+		
 		right = new JScrollPane();
 		JLabel ctsHead = new JLabel("所有联系人");
 		searchContacts = new JMenuItem("搜索联系人");
@@ -176,7 +179,7 @@ public class MainWindow extends JFrame {
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true/* 是否可以连续重绘 */, left, right);
 		split.setDividerLocation(Constants.MESSAGE_PANEL_WIDTH);
 		split.setDividerSize(2);
-		split.setEnabled(false);// 与left(JSplitPane)相同.
+		split.setEnabled(true);// 与left(JSplitPane)相同.
 
 		setContentPane(split);
 		this.setResizable(false);
@@ -262,6 +265,7 @@ public class MainWindow extends JFrame {
 
 	public void messageInit() {// TODO: 消息初始化
 
+		
 		boolean hasMessage = false;
 
 		if (!hasMessage) {
@@ -341,22 +345,27 @@ public class MainWindow extends JFrame {
 	}
 
 	public static void deleteMessage(int ID, Box elem) {
+		
 		msgList.remove(ID);
 		msgList.sort();
 		msgPanel.remove(elem);
+		
 		MainWindow.msgPanel.repaint();
 		MainWindow.msgPanel.revalidate();// 重新显示
 	}
 
 	public static void readMessage(int ID, Box elem) {
 		MainWindow.msgList.get(ID).isRead = Internet.READ;
-		MainWindow.msgList.add(MainWindow.msgList.remove(ID));// 已讀后將該消息抽出並插入到末尾.
+		Message message = (Message)msgList.remove(ID);
+		msgList.sort();
+		msgList.add(message);// 已讀后將該消息抽出並插入到末尾.
+		
 		// MainWindow.msgList.sort();
-		MainWindow.msgPanel.remove(elem);
-		MainWindow.msgPanel.add(elem);
-		MainWindow.msgPanel.repaint();
-		MainWindow.msgPanel.revalidate();
-		// TODO 數據庫
+//		MainWindow.msgPanel.remove(elem);
+//		MainWindow.msgPanel.add(elem);
+//		MainWindow.msgPanel.repaint();
+//		MainWindow.msgPanel.revalidate();
+		reloadMessages();
 	}
 
 	public static void repaintContact(int ID) {
@@ -406,7 +415,7 @@ public class MainWindow extends JFrame {
 
 	public static void addNewMessage(Message e) {
 		msgList.add(0, e);
-		msgList.sort();
+	//	msgList.sort();
 		reloadMessages();
 	}
 
@@ -417,6 +426,7 @@ public class MainWindow extends JFrame {
 		mSCstrs.fill = GridBagConstraints.HORIZONTAL;// GirdBag布局
 		mSCstrs.anchor = GridBagConstraints.NORTH;
 		mSCstrs.gridwidth = GridBagConstraints.REMAINDER;
+		msgList.sort();
 
 		for (Convasation i : msgList) {
 			Box m = (Box) i.create();
@@ -435,7 +445,8 @@ public class MainWindow extends JFrame {
 	public static void reloadContacts() {
 
 		ctsPanel.removeAll();
-
+		ctsList.sort();
+		
 		GridBagLayout LS = new GridBagLayout();
 		GridBagConstraints LSCstrs = new GridBagConstraints();
 		LSCstrs.gridheight = GridBagConstraints.PAGE_START;
