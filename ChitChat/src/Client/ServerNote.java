@@ -20,9 +20,10 @@ public class ServerNote extends Message{
 		super(id, online, time, isread, spoke, nick, remark, style, gender);
 		// TODO Auto-generated constructor stub
 	}
-	public ServerNote(int senderID,String Note,int mode) {
+	public ServerNote(int senderID,String Note,int mode,String fileName) {
 		super(senderID, 0, new Date().getTime(), Internet.UNREAD, Note, "ϵͳ֪ͨ", "ϵͳ֪ͨ", "", "ϵͳ֪ͨ");
 		super.mode = mode;
+		super.fileName = fileName;
 		MainWindow.addNewMessage(this);
 	}
 }

@@ -34,6 +34,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 	}
 
 	int mode = 0;// 1 加好友 ;2文件;3拒絕提示
+	String fileName = null;
 
 	long spokeTime = super.lastTimeSpeak;
 	JLabel timeStick = null;// 送达的時間戳
@@ -165,7 +166,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					lastSpoke.setForeground(Colors.MESSAGE_READ);
 					MainWindow.readMessage(ID, elem);
 					if (mode == 1 || mode == 2 || mode == 3) {
-						new ServerNoteView(ID, spoke, mode);
+						new ServerNoteView(ID, spoke, mode,fileName);
 						return;
 					}
 					if (!hasChatWin) {

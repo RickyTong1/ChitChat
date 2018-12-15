@@ -27,13 +27,13 @@ public class ChooseFolder {
 
 		if (file != null) {
 			savePath = file.getAbsolutePath();
-			MessageBlob message = new MessageBlob();
-			message.type = MessageBlobType.SEND_FILE;//让服务器接收消息
-			message.senderIP = Property.NATIVE_IP;
-			message.senderID = MainWindow.ID;
-			message.fileName = fileName;
-		//	message.fileName = GetFilePath.fileName;
-			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
+//			MessageBlob message = new MessageBlob();
+//			message.type = MessageBlobType.SEND_FILE;//让服务器接收消息
+//			message.senderIP = Property.NATIVE_IP;
+//			message.senderID = MainWindow.ID;
+//			message.fileName = fileName;
+//		//	message.fileName = GetFilePath.fileName;
+//			new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
 			System.out.println("文件:" + file.getAbsolutePath());
 			System.out.println(jfc.getSelectedFile().getName());

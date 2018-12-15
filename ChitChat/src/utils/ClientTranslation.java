@@ -23,6 +23,7 @@ import javafx.application.Application;
 
 public class ClientTranslation {// 解析接收到的Blob
 	public static MainWindow mainWindow;
+	public static MessageBlob files;
 
 	public static synchronized void typeTrans(MessageBlob e) {// lock
 		System.out.println("Type: " + e.type + "\nAnswer: " + e.answer + "\n");
@@ -117,7 +118,8 @@ public class ClientTranslation {// 解析接收到的Blob
 			}
 
 			if (e.answer == MessageAnswerType.NEGATIVE)
-				new ServerNote(e.senderID, "用户" + e.senderID + "拒绝了您的请求.", Constants.Constants.MSG_MODE_REFUSE);
+				new ServerNote(e.senderID, "用户" + e.senderID 
+						+ "拒绝了您的请求.", Constants.Constants.MSG_MODE_REFUSE,null);
 		}
 			break;
 
@@ -207,17 +209,19 @@ public class ClientTranslation {// 解析接收到的Blob
 				for (int i = 0; i < e.verifylist.length; i++)
 					if (e.verifylist[i].status.equals("WAITING"))
 						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.",
-								Constants.Constants.MSG_MODE_ADDFD);
+								Constants.Constants.MSG_MODE_ADDFD,null);
 			} else
 				JOptionPane.showMessageDialog(null, "个人验证事务获取失败!请检查网络连接.");
 		}
 			break;
 		case SELF_FILE: {
-			if (e.answer == MessageAnswerType.POSITIVE)
+			if (e.answer == MessageAnswerType.POSITIVE) {
+				files = e;
 				for (int i = 0; i < e.filelist.length; i++)
 					if (e.filelist[i].fileState == 0)//
 						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.",
-								Constants.Constants.MSG_MODE_FILE);
+								Constants.Constants.MSG_MODE_FILE,e.filelist[i].fileName);
+			}
 					else
 						JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
 		}

@@ -1,6 +1,7 @@
 package Client;
 
 import java.awt.Component;
+import java.nio.file.Files;
 
 import javax.swing.Box;
 import Constants.Constants;
@@ -14,13 +15,14 @@ import CComponents.MessageBlobOperator;
 import CComponents.MessageBlobType;
 import Constants.SocketConstants;
 import Property.Property;
+import utils.ClientTranslation;
 import utils.Window;
 
 public class ServerNoteView extends JFrame {
 
 	int mode;// 1 加好友;2 文件
 
-	public ServerNoteView(int senderID, String Note, int mode) {
+	public ServerNoteView(int senderID, String Note, int mode,String fileName) {
 		this.mode = mode;
 		setTitle("系统通知");
 		Box head = Box.createVerticalBox();
@@ -88,8 +90,13 @@ public class ServerNoteView extends JFrame {
 			if (mode == Constants.MSG_MODE_FILE) {
 				MessageBlob message = new MessageBlob();
 				message.type = MessageBlobType.SEND_FILE;
+				
+				message.fileName = fileName;
+				message.senderID = MainWindow.ID;
 				message.senderIP = Property.NATIVE_IP;
-				new SendMessage(Property.SERVER_IP, SocketConstants.FILE_GRN_PORT, MessageBlobOperator.pack(message));
+				System.out.println("SND_SvrNote "+message.fileName);
+				
+				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 				this.dispose();
 			}
 		});
