@@ -14,8 +14,9 @@ public class Main  {
     
     public static void main(String[] args) {
 
-    	loginwindow = new LoginWindow();
     	MessageReceive.getInstance();//启动后台接收信息线程.
+    	loginwindow = new LoginWindow();
+    	
     	//launch();
     	//new ChatWindow(1,1);
     }

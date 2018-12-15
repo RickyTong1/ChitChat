@@ -39,7 +39,7 @@ public class ClientTranslation {// 解析接收到的Blob
 				MainWindow.ctsList.get(e.senderID).message.refreshMsg(e.text);
 			} else {
 				MainWindow.addNewMessage(e);
-				
+
 			}
 		}
 			break;
@@ -50,7 +50,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			break;
 
 		case LOGIN: {
-			switch (e.onlineState) {
+			switch (e.onlineState) {// onlineState指示登录是否成功.
 			case Internet.LOGIN_SUCCESS: {
 				if (e.senderID == LoginWindow.userID) {
 					mainWindow = new MainWindow(e.senderID);
@@ -87,10 +87,13 @@ public class ClientTranslation {// 解析接收到的Blob
 					mainWindow.dispose();// 窗口关闭
 				new LoginWindow();
 			}
+				break;
+
 			case Internet.SERVER_ERR: {
 				JOptionPane.showMessageDialog(null, "服务端异常!", "", JOptionPane.PLAIN_MESSAGE);
 				new LoginWindow();
 			}
+				break;
 			}
 		}
 			break;
@@ -161,8 +164,7 @@ public class ClientTranslation {// 解析接收到的Blob
 					new PersonalData(e);
 					// MainWindow.hasPersonalWindow = true;
 				}
-			}
-			else
+			} else
 				JOptionPane.showMessageDialog(null, "个人信息拉取异常.请检查网络连接" + ".\n错误码: CLN_CLNTRNS_SPAR", "",
 						JOptionPane.PLAIN_MESSAGE);
 
@@ -181,7 +183,7 @@ public class ClientTranslation {// 解析接收到的Blob
 
 		case CHAT_CONTENT_ANSWER: {
 			if (e.answer == MessageAnswerType.POSITIVE) {
-				//System.out.println(e.messageslist[0]);
+				// System.out.println(e.messageslist[0]);
 
 				for (int i = e.totalCounts - 1; i >= 0; i--) {
 					System.out.println("ChatContent loaded!");
