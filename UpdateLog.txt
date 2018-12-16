@@ -1,26 +1,102 @@
 日期	内容提要
-11/6	现在可进行聊天内容测试.测试时注意修改Windows.ChatWindow Line:150的IP地址.服务器传输待完成.
-11/12	俊生访问了。
-11/12	奎德访问了。
-11/13	1)修改了Constants.Window下图片和用户信息的URL, 增加通用性; 2)删除了Windows.test.
-11/19	提交到分支dev that 正在用JavaFX重写前端.
-11/21	增加了MessageBlob,MessageBlobOperator,更改客户端与服务端通信模式.详见MessageBlob.
-11/27	修改了Enum MessageBlobType&Enum MessageAnswerType.@王奎德
-12/4	完善中,删除了客户端部分.
-12/8	删除了Server的包,客户端和服务器端代码分离;弃用之前的swing组件,但保留源码.
-12/8	增加utils包,包含Popup类,以及原先在Constants包中的LocalData和Window类,以及正在写的ClientTrans类.
-12/10	增加了Properties配置文件
-12/10	使用Swing组件中,FX组件待开发.文件传输工作待完善.
-12/11	集成完成.
-12/11	文件在线传输测试完成.
-12/13	扩增了端口数量,接收使用客户端端口,发送使用服务器端口.
+12/16	完成了	后台合并同一人的多次文件传输提示
+	待修复	本账号在异地登录时的下线问题
+		后台线程的回收问题.
+	待完成	个人待接收文件夹
+		若同一个人发送了多个文件,则默认打开文件接收栏.
+	Bug:	在测试类Files_Onaji_Test中测试MainWindow及SELF_FILE在解析类中的解析时,
+		有29%的概率报错,  错误堆栈跟踪如下:
+Exception in thread "AWT-EventQueue-0" java.lang.ClassCastException
+	at javax.swing.LayoutComparator.compare(LayoutComparator.java:75)
+	at javax.swing.LayoutComparator.compare(LayoutComparator.java:42)
+	at java.util.TimSort.countRunAndMakeAscending(TimSort.java:360)
+	at java.util.TimSort.sort(TimSort.java:220)
+	at java.util.Arrays.sort(Arrays.java:1512)
+	at java.util.ArrayList.sort(ArrayList.java:1462)
+	at java.util.Collections.sort(Collections.java:175)
+	at javax.swing.SortingFocusTraversalPolicy.enumerateAndSortCycle(SortingFocusTraversalPolicy.java:172)
+	at javax.swing.SortingFocusTraversalPolicy.getFocusTraversalCycle(SortingFocusTraversalPolicy.java:143)
+	at javax.swing.SortingFocusTraversalPolicy.getFirstComponent(SortingFocusTraversalPolicy.java:500)
+	at javax.swing.LayoutFocusTraversalPolicy.getFirstComponent(LayoutFocusTraversalPolicy.java:166)
+	at javax.swing.SortingFocusTraversalPolicy.getDefaultComponent(SortingFocusTraversalPolicy.java:593)
+	at java.awt.FocusTraversalPolicy.getInitialComponent(FocusTraversalPolicy.java:169)
+	at java.awt.DefaultKeyboardFocusManager.dispatchEvent(DefaultKeyboardFocusManager.java:444)
+	at java.awt.Component.dispatchEventImpl(Component.java:4760)
+	at java.awt.Container.dispatchEventImpl(Container.java:2297)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:760)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.SequencedEvent.dispatch(SequencedEvent.java:128)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:84)
+	at java.awt.EventQueue$4.run(EventQueue.java:733)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:74)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:730)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:205)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+12/15	修复了	离线传输文件时的一些错误.
+	待完成	个人待接收文件夹
+		若同一个人发送了多个文件,则默认打开文件接收栏.
 12/14	修复了	a)双击个人资料卡重复弹出个人资料窗口的bug
 		b)消息栏的显示和操作时的bug
 	待修复	本账号在异地登录时的下线问题
 		后台线程的回收问题.
 	测试	在线、离线的聊天和传输文件无误.
-12/15	修复了	离线传输文件时的一些错误.
-	待完成	个人待接收文件夹
-		若同一个人发送了多个文件,则默认打开文件接收栏.
+12/13	扩增了端口数量,接收使用客户端端口,发送使用服务器端口.
+12/11	文件在线传输测试完成.
+12/11	集成完成.
+12/10	增加了Properties配置文件
+12/10	使用Swing组件中,FX组件待开发.文件传输工作待完善.
+12/8	删除了Server的包,客户端和服务器端代码分离;弃用之前的swing组件,但保留源码.
+12/8	增加utils包,包含Popup类,以及原先在Constants包中的LocalData和Window类,以及正在写的ClientTrans类.
+12/4	完善中,删除了客户端部分.
+11/27	修改了Enum MessageBlobType&Enum MessageAnswerType.@王奎德
+11/21	增加了MessageBlob,MessageBlobOperator,更改客户端与服务端通信模式.详见MessageBlob.
+11/19	提交到分支dev that 正在用JavaFX重写前端.
+11/13	1)修改了Constants.Window下图片和用户信息的URL, 增加通用性; 2)删除了Windows.test.
+11/12	俊生访问了。
+11/12	奎德访问了。
+11/6	现在可进行聊天内容测试.测试时注意修改Windows.ChatWindow Line:150的IP地址.服务器传输待完成.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
 		
 	

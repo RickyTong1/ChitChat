@@ -62,7 +62,6 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		// 判断并给出时间戳
 		timeStick = new JLabel();
 
-		// TODO 时间戳测试
 		setTime(spokeTime);
 		new Thread() {
 			@Override
@@ -102,7 +101,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		lastSpoke.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		/*
-		 * all装第一行的文字 elem为总成的大盒子.
+		 * all装第一行的文字  elem为总成的大盒子.
 		 */
 		all.setAlignmentX(Component.LEFT_ALIGNMENT);
 		all.add(nicknameLabel);
@@ -165,7 +164,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 					isRead = Internet.READ;
 					lastSpoke.setForeground(Colors.MESSAGE_READ);
 					MainWindow.readMessage(ID, elem);
-					if (mode == 1 || mode == 2 || mode == 3) {
+					if (mode == 1 || mode == 2 || mode == 3) {			
 						new ServerNoteView(ID, spoke, mode,fileName);
 						return;
 					}

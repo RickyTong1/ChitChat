@@ -1,9 +1,14 @@
 package utils;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+
 import javax.swing.JOptionPane;
 import CComponents.Convasation;
 import CComponents.MessageAnswerType;
 import CComponents.MessageBlob;
+import CComponents.MessageBlob.File;
 import CComponents.MessageBlobOperator;
 import CComponents.MessageBlobType;
 import Client.MainWindow;
@@ -25,7 +30,7 @@ public class ClientTranslation {// 解析接收到的Blob
 	public static MainWindow mainWindow;
 	public static MessageBlob files;
 
-	public static synchronized void typeTrans(MessageBlob e) {// lock
+	public static synchronized <T> void typeTrans(MessageBlob e) {// lock
 		System.out.println("Type: " + e.type + "\nAnswer: " + e.answer + "\n");
 		switch (e.type) {
 
@@ -118,8 +123,7 @@ public class ClientTranslation {// 解析接收到的Blob
 			}
 
 			if (e.answer == MessageAnswerType.NEGATIVE)
-				new ServerNote(e.senderID, "用户" + e.senderID 
-						+ "拒绝了您的请求.", Constants.Constants.MSG_MODE_REFUSE,null);
+				new ServerNote(e.senderID, "用户" + e.senderID + "拒绝了您的请求.", Constants.Constants.MSG_MODE_REFUSE, null);
 		}
 			break;
 
@@ -209,7 +213,7 @@ public class ClientTranslation {// 解析接收到的Blob
 				for (int i = 0; i < e.verifylist.length; i++)
 					if (e.verifylist[i].status.equals("WAITING"))
 						new ServerNote(e.verifylist[i].id, "用户" + e.verifylist[i].nickname + "请求添加您为好友.",
-								Constants.Constants.MSG_MODE_ADDFD,null);
+								Constants.Constants.MSG_MODE_ADDFD, null);
 			} else
 				JOptionPane.showMessageDialog(null, "个人验证事务获取失败!请检查网络连接.");
 		}
@@ -217,13 +221,52 @@ public class ClientTranslation {// 解析接收到的Blob
 		case SELF_FILE: {
 			if (e.answer == MessageAnswerType.POSITIVE) {
 				files = e;
-				for (int i = 0; i < e.filelist.length; i++)
-					if (e.filelist[i].fileState == 0)//
-						new ServerNote(e.filelist[i].id, "用户" + e.filelist[i].nickname + "想要给你发送文件.",
-								Constants.Constants.MSG_MODE_FILE,e.filelist[i].fileName);
-			}
-					else
-						JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
+				/*
+				 * 创建一个哈希表,,存放已经出现过的ID,list中的id与出现过的匹配,没出现过就放入其中. 有效避免重复.
+				 * 创建一个Vector,把filelist转化为vector,便于查找.
+				 */
+				HashMap<Integer, Integer> ID_served = new HashMap<>();// 第一个是出现的id,第二个是出现的次数.
+//				Vector<File>/*MessageBlob中的File.*/ filelistVtr = new Vector<File>() {
+//					@Override
+//					public File get(int index) {
+//						int i = 0;
+//						while(((File)this.elementData[i++]).id != index)//当元素中的id不等于index时继续执行
+//						if (i < this.elementCount)return this.get(i);
+//						return null;
+//					}//重写get()方法
+//				};
+//				
+//				for(int i = 0; i < e.filelist.length; i++) {
+//					filelistVtr.add(e.filelist[i]);
+//				}
+
+				for (int i = 0; i < e.filelist.length; i++) {
+					if (e.filelist[i].fileState == 0) {// 0表示未被下载过, 1表示被下载过.
+						if (ID_served.containsKey(e.filelist[i].id)) {
+							int count = ID_served.get(e.filelist[i].id);// 次数
+							count++;// 加一
+							//ID_served.put(e.filelist[i].id, count++);// 放回去
+						} else
+							ID_served.put(e.filelist[i].id, 1);
+					}
+				}
+				// 以上完成出现过的ID的统计查重.
+				
+				Iterator<Integer> iter = ID_served.keySet().iterator();
+				while (iter.hasNext()) {
+					int i = iter.next();
+					int j = 0;
+					for(j = 0 ; j < e.filelist.length; j++) {
+						if(e.filelist[j].id == i)
+							break;
+					}
+						new ServerNote(i
+								,"用户"+ e.filelist[j].nickname+ "想要给你发送" + ID_served.get(i) + "个文件."
+								,Constants.Constants.MSG_MODE_FILE, e.filelist[j].fileName);
+					
+				}
+			} else
+				JOptionPane.showMessageDialog(null, "文件事务获取失败!请检查网络连接.");
 		}
 			break;
 		case SEND_FILE: {
