@@ -56,7 +56,6 @@ public class MessageReceive extends Thread {// µ¥Àý
 
 				recvMessage = MessageBlobOperator.unpack(obj);
 				
-	//				System.out.println("MR_EXCEPTION_E.");
 				try{
 					ClientTranslation.typeTrans(recvMessage);
 				}catch(Exception e) {
