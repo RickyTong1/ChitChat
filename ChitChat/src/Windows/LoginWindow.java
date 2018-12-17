@@ -224,6 +224,8 @@ public class LoginWindow extends JFrame {
 				new SendMessage(Property.SERVER_IP, SocketConstants.SERVER_PORT, MessageBlobOperator.pack(message));
 
 				
+
+				
 				dispose();//该方法释放资源.
 
 			}break;

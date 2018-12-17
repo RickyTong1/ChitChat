@@ -222,7 +222,7 @@ public class Message extends Convasation {// 消息 主窗口左边的基本元素
 		timeStick.setText(latestSpeak);
 	}
 
-	public void refreshMsg(String msg) {
+	public synchronized void refreshMsg(String msg) {
 		// TODO 联系人状态刷新方法
 		super.isRead = Internet.UNREAD;
 		lastSpoke.setText(msg);

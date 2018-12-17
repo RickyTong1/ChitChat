@@ -59,7 +59,9 @@ public class ClientTranslation {// 解析接收到的Blob
 			switch (e.onlineState) {// onlineState指示登录是否成功.
 			case Internet.LOGIN_SUCCESS: {
 				if (e.senderID == LoginWindow.userID) {
-					mainWindow = new MainWindow(e.senderID);
+					
+					if(mainWindow == null)
+						mainWindow = new MainWindow(e.senderID);
 					return;// TODO
 				}
 				if (MainWindow.ctsList.get(e.senderID) == null)
@@ -245,7 +247,7 @@ public class ClientTranslation {// 解析接收到的Blob
 						if (ID_served.containsKey(e.filelist[i].id)) {
 							int count = ID_served.get(e.filelist[i].id);// 次数
 							count++;// 加一
-							//ID_served.put(e.filelist[i].id, count++);// 放回去
+							ID_served.put(e.filelist[i].id, count++);// 放回去
 						} else
 							ID_served.put(e.filelist[i].id, 1);
 					}
@@ -274,10 +276,18 @@ public class ClientTranslation {// 解析接收到的Blob
 		}
 			break;
 		case RECEIVE_FILE: {
+			
 			new ChooseFolder(e.fileName);
 			ChooseFolder.save();
 		}
 			break;
+		case EDIT_MY_KEY:{
+			if(e.answer == MessageAnswerType.POSITIVE)
+				JOptionPane.showMessageDialog(null, "修改密码成功!");
+			else
+				JOptionPane.showMessageDialog(null, "修改密码失败.请检查网络连接或稍后重试.");
+
+		}break;
 
 		default:
 			break;

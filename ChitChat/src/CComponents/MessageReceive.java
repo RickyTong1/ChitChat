@@ -66,6 +66,7 @@ public class MessageReceive extends Thread {// 单例
 			}
 		} catch (SocketException e1) {
 			System.out.println("信息接受线程启动失败.");
+			
 		}catch(Exception ee ) {
 			System.out.println("其他地方错误 MR_EXCEPTION_EE.");
 		}

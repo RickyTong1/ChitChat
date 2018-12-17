@@ -7,6 +7,11 @@ import java.sql.SQLException;
 
 import javax.swing.*;
 
+import CComponents.MessageBlob;
+import CComponents.MessageBlobType;
+import Client.SendMessage;
+import Constants.Constants;
+import Constants.SocketConstants;
 import utils.Window;
 /*修改密码界面*/
 public class PasswordEdit extends JFrame {
@@ -122,27 +127,18 @@ public class PasswordEdit extends JFrame {
 			switch(turnTo(arg0)) {
 				case OK:{//OK键
 					if(warning())return;//检查输入合法性
-//					OperateSQLServer oss = new OperateSQLServer();
-//					oss.connectToDatabase();
-//					ResultSet rs = oss.getPersonalInformation(Integer.parseInt(tempID));
-//					try {
-//						if(rs.next()) {
-//							if(rs.getString(3).equals(tempOriginalPswd)) {
-//								oss.updateUserPassword(Integer.parseInt(tempID), tempNewPswd);
-//							}
-//							else{
-//								originalPswd.requestFocus();
-//								JOptionPane.showMessageDialog(null,"原密码错误,请重新输入!");
-//							}
-//						}
-//						else {
-//							userID.requestFocus();
-//							JOptionPane.showMessageDialog(null,"用户不存在,请重新输入!");
-//						}
-//					} catch (SQLException e1) {
-//						e1.printStackTrace();
-//					}
-//					oss.closeDatabase();TODO Server rebuild.				
+					MessageBlob message = new MessageBlob();
+					message.type = MessageBlobType.EDIT_MY_KEY;
+					message.senderIP = Property.Property.NATIVE_IP;
+					message.senderID = Integer.parseInt(userID.getText());
+					message.key = originalPswd.getText();
+					message.newKey = newPswd.getText();
+					
+					new SendMessage(Property.Property.SERVER_IP
+							,SocketConstants.SERVER_PORT
+							,message);
+					
+							
 				}break;
 				case EXIT:{//退出键
 					dispose();
