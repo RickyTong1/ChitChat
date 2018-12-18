@@ -313,12 +313,15 @@ public class MainWindow extends JFrame {
 
 	public static void ContactsInit(MessageBlob e) {// TODO:联系人列表初始化
 		ctsList.clear();
+		ctsPanel.removeAll();
 		boolean hasFriend = false;
 		if (e.contactslist.length > 0)
 			hasFriend = true;
 		for (int i = 0; i < e.contactslist.length; i++) {
 			ctsList.add(new Contacts(e.contactslist[i].id, e.contactslist[i].status, 0, 0, "",
 					e.contactslist[i].nickname, e.contactslist[i].remark, e.contactslist[i].style, ""));
+			System.out.println(e.contactslist[i].id);
+			System.out.println(e.contactslist.length);
 		}
 
 		if (!hasFriend) {

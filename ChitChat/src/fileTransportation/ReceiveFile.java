@@ -2,6 +2,7 @@ package fileTransportation;
 import java.net.*;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
 import java.awt.Color;
@@ -92,8 +93,10 @@ public class ReceiveFile extends Thread {
 				progressBar.setValue(percent);
 				fileOut.write(buf, 0, read);
 			}
-			if (donelen == filelen)
+			if (donelen == filelen) {
 				System.out.println("接收完成，文件存为" + file + "\n");
+				JOptionPane.showMessageDialog(null, "文件传输完成.");
+			}
 			else {//传输失败时删除文件
 				System.out.printf("IP:%s发来的%s传输过程中失去连接\n", socket.getInetAddress(), fileName);
 				file.delete();

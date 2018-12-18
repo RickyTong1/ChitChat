@@ -22,15 +22,13 @@ public class ChooseFolder {
 	public static String savePath;// 保存路径
 
 	public ChooseFolder(String fileName) {
-		JFileChooser jfc = new JFileChooser();
-		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		jfc.showDialog(new JLabel(), "选择");
-		File file = jfc.getSelectedFile();
+		
+		File file = new File("data\\");
 
 		if (file != null) {
 			savePath = file.getAbsolutePath();
 			System.out.println("文件:" + file.getAbsolutePath());
-			System.out.println(jfc.getSelectedFile().getName());
+		//	System.out.println(jfc.getSelectedFile().getName());
 		}
 
 	}

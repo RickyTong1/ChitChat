@@ -206,6 +206,7 @@ public class ClientTranslation {// 解析接收到的Blob
 
 		case FRIEND_LIST_ANSWER: {
 			if (e.answer == MessageAnswerType.POSITIVE) {
+				//for(int i = 0; i < e.cone.contactslist)
 				MainWindow.ContactsInit(e);
 			}
 		}
