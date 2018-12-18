@@ -93,6 +93,7 @@ public class SendFile extends Thread {
             socket.close();
             getAck.close();
             System.out.println("文件传输完成");
+            GetFilePath.filePath = null;
 			
 		}catch (Exception e) {
 			System.out.println("SendFile Error!");

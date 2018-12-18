@@ -2,15 +2,7 @@ package fileTransportation;
 
 import java.io.File;
 
-import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import CComponents.MessageBlob;
-import CComponents.MessageBlobOperator;
-import CComponents.MessageBlobType;
-import Client.MainWindow;
-import Client.SendMessage;
 import Constants.SocketConstants;
 import Property.Property;
 

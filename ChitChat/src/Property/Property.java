@@ -17,20 +17,33 @@ public class Property {
 	public static String IMAGE_ONLINE_URL = "image\\Online.png";
 	public static String IMAGE_OFFLINE_URL = "image\\Offline.png";
 	public static String USER_INFO_URL = "data\\user_info.bat";
-	static {// 提取property
-		Properties props = new Properties();
-
-		FileInputStream fis;
+	static {
 		try {
+			props = new Properties();
+			FileInputStream fis;
+			try {
 
-			fis = new FileInputStream("property\\properties.properties");
-			props.load(fis);
-			fis.close();// 关闭流
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+				fis = new FileInputStream("property\\properties.properties");
+				props.load(fis);
+				fis.close();// 关闭流
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			props.setProperty( InetAddress.getLocalHost().getHostAddress(),"OPP");
+			FileOutputStream fos = new FileOutputStream("property\\properties.properties");   
+         // 将Properties集合保存到流中   
+         props.store(fos, "Copyright (c) ChitChat Team@RickyTong @MattWong @Junsheng Wong @Zhiwei Li");   
+         fos.close();// 关闭流 
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}   
+	}
+	        // 文件输出流  
+	static {// 提取property
+		
 		try {
 			String tail = props.getProperty(InetAddress.getLocalHost().getHostAddress());
 			System.out.println(tail);
@@ -41,18 +54,7 @@ public class Property {
 			e.printStackTrace();
 		}
 
-//		 props.setProperty("SERVER_IP", "");   
-//		 try {
-//			props.setProperty("NATIVE_IP", InetAddress.getLocalHost().getHostAddress());
-//			FileOutputStream fos = new FileOutputStream("property\\properties.properties");   
-//            // 将Properties集合保存到流中   
-//            props.store(fos, "Copyright (c) ChitChat Team@RickyTong @MattWong @Junsheng Wong @Zhiwei Li");   
-//            fos.close();// 关闭流 
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}   
-//	        // 文件输出流   
+		 
 
 	}
 }

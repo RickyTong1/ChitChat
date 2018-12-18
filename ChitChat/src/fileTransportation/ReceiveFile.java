@@ -43,9 +43,11 @@ public class ReceiveFile extends Thread {
 		byte[] buf = new byte[bufferSize];// 数据存储
 		long donelen = 0;// 传输完成的数据长度
 		long filelen = 0;// 文件长度
+		Socket socket = null;
+		ServerSocket listen = null;
 		try {
-			ServerSocket listen = new ServerSocket(port);// 设置端口监听器
-			Socket socket = listen.accept();// 开始监听，在监听到客户端之前，一直堵塞
+			listen = new ServerSocket(port);// 设置端口监听器
+			socket = listen.accept();// 开始监听，在监听到客户端之前，一直堵塞
 			// 将socket数据作为数据输入流
 			input = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 			// 以客户端的IP地址作为存储路径
@@ -105,9 +107,23 @@ public class ReceiveFile extends Thread {
 			input.close();
 			fileOut.close();
 			socket.close();
+			listen.close();
 		} 
 		catch (Exception e) {
 			System.out.println("ReceiveFile Error!");
+		
+			try {
+				input.close();
+				fileOut.close();
+				ack.close();
+				
+				socket.close();
+				listen.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			e.printStackTrace();
 			return;
 		}
