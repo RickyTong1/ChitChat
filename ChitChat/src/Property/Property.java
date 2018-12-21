@@ -47,7 +47,13 @@ public class Property {
 		try {
 			String tail = props.getProperty(InetAddress.getLocalHost().getHostAddress());
 			System.out.println(tail);
+			
 			NATIVE_IP = InetAddress.getLocalHost().getHostAddress();
+			if(NATIVE_IP.split(".", 2)[0].equals("172")) {//切分出本地IP的第一段
+				tail = "AHNU";
+			} else {
+				tail = "OPP";
+			}
 			SERVER_IP = props.getProperty("SERVER_IP_" + tail);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
