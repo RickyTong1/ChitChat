@@ -1,6 +1,8 @@
-<<<<<<< HEAD
-/Property/
-=======
+/CComponents/
+/Client/
+/Constants/
+/Exceptions/
+/Main/
 /Module/
 /Property/
 /Restores/
@@ -8,4 +10,3 @@
 /controller/
 /fileTransportation/
 /utils/
->>>>>>> master
